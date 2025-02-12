@@ -9,7 +9,7 @@ const Home = () => {
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="text-center mb-6">
         <h2 className="font-extrabold text-3xl text-gray-800">Dashboard</h2>
-        <h3 className="text-gray-600 text-lg mt-2">Create and start your AI MockUp Interview</h3>
+        <h3 className="text-gray-600 text-lg mt-2">Create and start your AI Mock Interview</h3>
       </div>
 
       <div className="flex flex-col md:flex-row gap-8 justify-center items-start">
