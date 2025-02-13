@@ -19,7 +19,7 @@ const TakeInterview = () => {
   const navigate = useNavigate();
   const { interviewId } = useSelector((state: RootState) => state.takeInterview);
   const [getUserQuestions] = useLazyQuery(GET_QUESTION);
-  const { user } = useAuth0();
+  const { user , isAuthenticated} = useAuth0();
 
   useEffect(() => {
     if (interviewId) {
@@ -65,14 +65,20 @@ const TakeInterview = () => {
       setLoading(false);
     }
   };
-
+  const handleStartInterview = () => {
+    if (!isAuthenticated) {
+      alert('Please login to start an interview.');
+      return;
+    }
+    setOpenDialog(true);
+  };
   return (
     <>
       {!openDialog ? (
         <div
-          className="p-6 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all"
-          onClick={() => setOpenDialog(true)}
-        >
+        className="p-6 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all"
+        onClick={handleStartInterview}
+      >
           <h2 className="font-bold text-lg text-center">+ Take new Interview</h2>
         </div>
       ) : (

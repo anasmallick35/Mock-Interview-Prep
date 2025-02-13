@@ -8,7 +8,7 @@ import { Upload } from 'lucide-react';
 import Button from './Button';
 
 const UploadQuestion = () => {
-  const { user } = useAuth0();
+  const { user,isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state: RootState) => state.uploadQuestion);
   const [question, setQuestion] = useState('');
@@ -37,12 +37,20 @@ const UploadQuestion = () => {
     setIsFormOpen(false); 
   };
 
+  const handleStartInterview = () => {
+    if (!isAuthenticated) {
+      alert('Please login to start an interview.');
+      return;
+    }
+    setIsFormOpen(true);
+  };
+
   return (
     <>
       
       {!isFormOpen && (
         <Button
-          onClick={() => setIsFormOpen(true)}
+          onClick={handleStartInterview}
           className="flex items-center space-x-2 p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
         >
           <Upload className="w-5 h-5" />

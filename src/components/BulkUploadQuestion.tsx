@@ -7,7 +7,7 @@ import { BULK_QUESTION_UPLOAD } from '@/services/InterviewMutation';
 
 
 const BulkUplaod = ()=>{
-    const {user} = useAuth0();
+    const {user, isAuthenticated} = useAuth0();
     const [file , setFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [loading , setLoading] = useState(false)
@@ -21,7 +21,11 @@ const BulkUplaod = ()=>{
     };
 
     const handleSubmit = async ()=>{
-        if(!file || !user?.sub) return alert('Please select a file and login');
+      if(!isAuthenticated){
+        alert("Please Login to continue")
+        return
+      }
+      if(!file || !user?.sub) return alert('Please select a file and login');
         setLoading(true)
         const reader = new FileReader();
         reader.onload = async (event) => {
@@ -60,6 +64,10 @@ const BulkUplaod = ()=>{
     reader.readAsBinaryString(file);
     
 }
+
+
+
+
 return (
 <div>
     <input type = 'file' accept = "xlsx" onChange = {handleFileUpload}  ref={fileInputRef}/>

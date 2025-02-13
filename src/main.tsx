@@ -9,6 +9,7 @@ import client from './utils/apolloClient.ts'
 import store from './store/store.ts'
 
 
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Auth0Provider
@@ -20,9 +21,9 @@ createRoot(document.getElementById('root')!).render(
   >
     <Provider store={store}>
     <ApolloProvider client={client}>
-    
+
     <App />
-   
+
     </ApolloProvider>
     </Provider>
     </Auth0Provider>
