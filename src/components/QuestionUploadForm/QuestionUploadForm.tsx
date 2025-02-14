@@ -5,7 +5,7 @@ import { uploadQuestionStart } from '@/store/slices/QuestionUploadSlice';
 import { RootState } from '@/store/store';
 import { useNavigate } from 'react-router-dom';
 import { Upload } from 'lucide-react';
-import Button from './Button';
+import Button from '../Button/Button';
 
 const UploadQuestion = () => {
   const { user,isAuthenticated } = useAuth0();
@@ -132,5 +132,6 @@ const UploadQuestion = () => {
     </>
   );
 };
+
 
 export default UploadQuestion;

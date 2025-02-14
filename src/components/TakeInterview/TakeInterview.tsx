@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createInterviewStart } from "../store/slices/TakeInterviewSlices";
-import { RootState } from "../store/store";
+import { createInterviewStart } from "../../store/slices/TakeInterviewSlices";
+import { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
+import Button from "../Button/Button";
 import { LoaderCircle } from "lucide-react";
 import { useLazyQuery } from "@apollo/client";
 import { chatSession } from "@/utils/gemini";

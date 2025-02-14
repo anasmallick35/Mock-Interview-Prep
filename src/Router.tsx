@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { lazy } from "react";
-import Layout from "./components/Layout";
+import Layout from "./components/Layout/Layout";
 
 const Home = lazy(() => import("./pages/Home"));
 const Profile = lazy(() => import("./pages/Profile"));
@@ -10,7 +10,7 @@ const StartInterview = lazy(() => import("./pages/StartInterviewPage"));
 const Feedback = lazy(() => import("./pages/InterviewFeedback"));
 const Login = lazy(() => import("./auth/Login"));
 const Logout = lazy(() => import("./auth/Logout"));
-const GuestLogin = lazy(() => import("./auth/guestLogin"));
+const GuestLogin = lazy(() => import("./auth/GuestLogin"));
 
 const router = createBrowserRouter([
   {

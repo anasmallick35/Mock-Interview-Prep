@@ -2,7 +2,7 @@
 import { RouterProvider } from 'react-router-dom';
 import router from './Router';
 import { Suspense } from 'react';
-import { Spinner } from './components/Spinner';
+import { Spinner } from './components/Spinner/Spinner';
 
 const App = () => {
   return (

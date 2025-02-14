@@ -1,14 +1,16 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import Login from '../auth/Login';
-import Logout from '../auth/Logout';
-import GuestLogin from '@/auth/guestLogin';
+import Login from '../../auth/Login';
+import Logout from '../../auth/Logout';
 import { GET_USER_ROLE } from '@/services/InterviewQuery';
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import GuestLogin from '@/auth/GuestLogin';
+import { Spinner } from '../Spinner/Spinner';
+
 
 export default function Header() {
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const { data, loading, error } = useQuery(GET_USER_ROLE, {
     variables: { userId: user?.sub },
     skip: !isAuthenticated,
@@ -22,6 +24,10 @@ export default function Header() {
   const handleLogin = () => {
     localStorage.removeItem('guestUser'); 
   };
+
+  if(isLoading){
+    return <div><Spinner/></div>
+  }
 
   return (
     <header className="sticky top-0 bg-white shadow-md dark:bg-gray-900 dark:text-white z-50">
@@ -54,9 +60,9 @@ export default function Header() {
               </div>
             </div>
           ) : isGuest ? (
-            <button onClick={handleLogin} className="bg-blue-500 px-4 py-2 rounded">
+            <div onClick={handleLogin} className="bg-blue-500 px-4 py-2 rounded">
               <Login/>
-            </button>
+            </div>
           ) : (
             <div className="flex gap-2">
               <div className="bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">

@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import Button from '@/components/Button';
-import QuestionSection from '../components/questionSection'
-import RecordAnswerSection from '../components/RecordAnswerSection';
+import Button from '@/components/Button/Button';
+import QuestionSection from '../components/QuestionSection/questionSection'
+import RecordAnswerSection from '../components/RecordAnswerSection/RecordAnswerSection';
 import { useQuery } from '@apollo/client';
 
 import { Link, useParams } from 'react-router-dom';  

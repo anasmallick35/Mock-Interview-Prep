@@ -1,6 +1,7 @@
 import React from 'react';
-import Button from './Button';
+import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
+
 
 interface Interview {
   id: string;
