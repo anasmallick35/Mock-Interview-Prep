@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { auth, createUserWithEmailAndPassword } from "../utils/firebase";
+import { auth, createUserWithEmailAndPassword } from "../../utils/firebase";
 import { toast } from "sonner";
 import { gql, useMutation } from "@apollo/client";
-import client from "../utils/apolloClient";
-import { auth as firebaseAuth } from '../utils/firebase';
+import client from "../../utils/apolloClient";
+import { auth as firebaseAuth } from '../../utils/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from "react-router-dom";
 

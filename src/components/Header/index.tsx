@@ -1,34 +1,29 @@
-import { Link,useNavigate } from "react-router-dom";
-import useAuth from "@/hooks/useAuth";
-import Login from "@/auth/Login";
-import Logout from "@/auth/Logout";
-import FirebaseLogout from "@/firebase-auth/Logout";
-import { GET_USER } from "@/services/InterviewQuery";
-import { useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
+import Login from "@/Auth/O-Auth/Login";
+import Logout from "@/Auth/O-Auth/Logout";
+import FirebaseLogout from "@/Auth/firebase-auth/Logout";
 import { Spinner } from "../Spinner";
 
-const Header = () => {
-  const {
-    user,
-    isAuthenticated,
-    isLoading,
-    isGuest,
-    isFirebaseAuthenticated,
-    isOAuthAuthenticated,
-  } = useAuth();
 
-  const { data } = useQuery(GET_USER, {
-    variables: { userId: isFirebaseAuthenticated ? user?.uid : user?.sub },
-    skip: !isAuthenticated,
-  });
-  const navigate = useNavigate();
-  if (isLoading) {
-    return <div><Spinner/></div>;
+interface HeaderProps {
+    data : any;
+    handleGuestLoginClick:any;
+    isLoading : boolean
+    isAuthenticated : boolean
+    isFirebaseAuthenticated:boolean
+    isOAuthAuthenticated:boolean
+    isGuest : boolean
   }
 
-  const handleGuestLoginClick = () => {
-    navigate("/");
-  };
+const Header:React.FC<HeaderProps> = ({data,handleGuestLoginClick,isLoading, isAuthenticated,isFirebaseAuthenticated, isOAuthAuthenticated,isGuest}) => {
+ 
+  if (isLoading) {
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <header className="sticky top-0 bg-white shadow-md dark:bg-gray-900 dark:text-white z-50">

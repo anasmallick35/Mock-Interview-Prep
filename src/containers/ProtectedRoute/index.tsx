@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_USER } from '@/services/InterviewQuery';
 import useAuth from '@/hooks/useAuth';
-import { Spinner } from '../Spinner';
+import { Spinner } from '../../components/Spinner';
 
 const ProtectedRoute: React.FC<{ adminOnly?: string }> = ({ adminOnly }) => {
   const { user, isAuthenticated, isLoading, isGuest } = useAuth();
