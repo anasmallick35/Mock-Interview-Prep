@@ -7,7 +7,7 @@ import {
   GithubAuthProvider,
   signInWithPhoneNumber,
   ConfirmationResult,
-} from "../utils/firebase";
+} from "../../utils/firebase";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { RecaptchaVerifier } from "firebase/auth";
