@@ -3,23 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { createInterviewStart } from "../../store/slices/TakeInterviewSlices";
 import { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-import Button from "../Button/Button";
+import Button from "../Button";
 import { LoaderCircle } from "lucide-react";
 import { useLazyQuery } from "@apollo/client";
 import { chatSession } from "@/utils/gemini";
 import { useAuth0 } from "@auth0/auth0-react";
 import { GET_QUESTION } from "@/services/InterviewQuery";
+import { toast } from "sonner";
+import { auth } from '../../utils/firebase'; 
+import { useAuthState } from 'react-firebase-hooks/auth'; 
 
 const TakeInterview = () => {
-  const [jobTitle, setJobTitle] = useState("");
-  const [topic, setTopic] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [jobTitle, setJobTitle] = useState<string>("");
+  const [topic, setTopic] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { interviewId } = useSelector((state: RootState) => state.takeInterview);
   const [getUserQuestions] = useLazyQuery(GET_QUESTION);
-  const { user , isAuthenticated} = useAuth0();
+  const { user: auth0User, isAuthenticated: auth0IsAuthenticated } = useAuth0();
+  const [firebaseUser] = useAuthState(auth);
 
   useEffect(() => {
     if (interviewId) {
@@ -30,6 +34,11 @@ const TakeInterview = () => {
   const handleGenerateQuestions = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (!auth0IsAuthenticated && !firebaseUser) {
+      toast.error("Please log in to continue.");
+      return;
+    }
 
     try {
       const prompt = `Job position: ${jobTitle}, job responsibility: ${topic}. Depend on this information, give me 5 questions with answers in JSON format. Remember give only question and answer and not unnecessary text`;
@@ -42,8 +51,6 @@ const TakeInterview = () => {
         variables: { jobTitle: `%${jobTitle}%`, topic: `%${topic}%` },
       });
 
-      console.log("Fetched Data:", data);
-
       let dbQuestion = null;
       if (data && data.questions.length > 0) {
         dbQuestion = {
@@ -51,34 +58,37 @@ const TakeInterview = () => {
           answer: "",
         };
       }
-      console.log("db", dbQuestion);
 
       const combinedQuestions = dbQuestion ? [...geminiQuestions, dbQuestion] : geminiQuestions;
-      const userId = user?.sub;
-      console.log("cq", combinedQuestions);
+      const userId = firebaseUser?.uid || auth0User?.sub;
 
-      if (user?.sub) {
+      if (userId) {
         dispatch(createInterviewStart({ combinedQuestions, jobTitle, topic, userId }));
+        toast.success("Interview created successfully");
       }
     } catch (error) {
       console.error("Error generating questions:", error);
+      toast.error("Error in generating questions");
+    } finally {
       setLoading(false);
     }
   };
+
   const handleStartInterview = () => {
-    if (!isAuthenticated) {
-      alert('Please login to start an interview.');
+    if (!auth0IsAuthenticated && !firebaseUser) {
+      toast.error('Please login to start an interview.');
       return;
     }
     setOpenDialog(true);
   };
+
   return (
     <>
       {!openDialog ? (
         <div
-        className="p-6 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all"
-        onClick={handleStartInterview}
-      >
+          className="p-6 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all"
+          onClick={handleStartInterview}
+        >
           <h2 className="font-bold text-lg text-center">+ Take new Interview</h2>
         </div>
       ) : (
@@ -136,7 +146,7 @@ const TakeInterview = () => {
           </form>
         </div>
       )}
-   </>
+    </>
   );
 };
 

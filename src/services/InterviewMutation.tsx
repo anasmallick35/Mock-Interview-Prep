@@ -46,7 +46,7 @@ export const INSERT_FEEDBACK_RESP = gql`
     $question : String! 
     $correctAnswer : String! 
     $userAnswer : String
-    $feedback : String!
+    $feedback : String
     $rating : float8!,
     $userEmail : String!
     $mockId : uuid!
@@ -76,3 +76,13 @@ export const BULK_QUESTION_UPLOAD = gql`
   }
 `;
 
+
+export const UPDATE_USER = gql`
+mutation UpdateUser($userId: String!, $name: String!, $picture:String!){
+  update_users_by_pk(pk_columns:{id:$userId}  _set:{name : $name, picture:$picture}){
+  id,
+  name,
+  picture,
+  }
+}
+`

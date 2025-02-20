@@ -1,5 +1,6 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { toast } from 'sonner';
 
 interface Interview {
   id: string;
@@ -55,9 +56,10 @@ const interviewsSlice = createSlice({
         state.loading = false;
       },
 
-    deleteInterviewFailure(state , _action:PayloadAction<string>){
+    deleteInterviewFailure(state , action:PayloadAction<string>){
         state.loading = false,
-        alert('First delete the feedback history of the interview, then try deleting again');
+        state.error = action.payload
+        toast('First delete the feedback')
     }
 
   },

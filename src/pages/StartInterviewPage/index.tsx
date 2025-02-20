@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import Button from '@/components/Button/Button';
-import QuestionSection from '../components/QuestionSection/questionSection'
-import RecordAnswerSection from '../components/RecordAnswerSection/RecordAnswerSection';
+import Button from '@/components/Button';
+import QuestionSection from '@/components/QuestionSection';
+import RecordAnswerSection from '@/components/RecordAnswerSection';
 import { useQuery } from '@apollo/client';
 
 import { Link, useParams } from 'react-router-dom';  
@@ -30,7 +30,7 @@ const StartInterview = () => {
     }
   }, [data]);
   
-
+  console.log(interviewDetails)
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading interview details</div>;
 
@@ -63,7 +63,7 @@ const StartInterview = () => {
             Next Question
           </Button>
         )}
-        {activeQuestionIndex === mockInterviewQuestion?.length - 1 && interviewDetails && (
+        {interviewDetails && (
           <Link to={'/start-interview/'+interviewDetails?.id+"/feedback"} >
             <Button>End Interview</Button>
           </Link>

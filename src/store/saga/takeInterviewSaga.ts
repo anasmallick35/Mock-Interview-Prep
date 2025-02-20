@@ -1,4 +1,4 @@
-// store/sagas/takeInterviewSaga.ts
+
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { createInterviewStart, createInterviewSuccess, createInterviewFailure } from '../slices/TakeInterviewSlices';
 import { gql } from '@apollo/client';
@@ -44,7 +44,6 @@ function* createInterviewSaga(action: ReturnType<typeof createInterviewStart>) {
       },
     });
 
-   
     yield put(createInterviewSuccess(interviewId));
   } catch (error) {
     yield put(createInterviewFailure("error in creating interview"));

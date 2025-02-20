@@ -2,8 +2,9 @@
   import  {
     GoogleGenerativeAI,
   } from "@google/generative-ai";
-  
-  const genAI = new GoogleGenerativeAI('AIzaSyDy4FRHac5CAhZBRt2G5JVx64Oet2AQ3hE');
+
+  const geminiKey = import.meta.env.VITE_GEMINI_API;
+  const genAI = new GoogleGenerativeAI(geminiKey);
   
   const model = genAI.getGenerativeModel({
     model: "gemini-2.0-flash-exp",

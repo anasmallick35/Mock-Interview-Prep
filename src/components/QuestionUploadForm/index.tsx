@@ -5,16 +5,20 @@ import { uploadQuestionStart } from '@/store/slices/QuestionUploadSlice';
 import { RootState } from '@/store/store';
 import { useNavigate } from 'react-router-dom';
 import { Upload } from 'lucide-react';
-import Button from '../Button/Button';
+import Button from '../Button';
+import { toast } from 'sonner';
+import { auth } from '../../utils/firebase'; 
+import { useAuthState } from 'react-firebase-hooks/auth'; 
 
-const UploadQuestion = () => {
-  const { user,isAuthenticated } = useAuth0();
+const UploadQuestion: React.FC = () => {
+  const { user: auth0User, isAuthenticated: auth0IsAuthenticated } = useAuth0();
+  const [firebaseUser, firebaseLoading, firebaseError] = useAuthState(auth);
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state: RootState) => state.uploadQuestion);
-  const [question, setQuestion] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
-  const [topic, setTopic] = useState('');
-  const [isFormOpen, setIsFormOpen] = useState(false); 
+  const [question, setQuestion] = useState<string>('');
+  const [jobTitle, setJobTitle] = useState<string>('');
+  const [topic, setTopic] = useState<string>('');
+  const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -24,22 +28,50 @@ const UploadQuestion = () => {
     }
   }, [loading, error, navigate]);
 
-  const userId = user?.sub || '';
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (firebaseLoading) {
+      toast.info("Firebase authentication loading.");
+      return;
+    }
+    if (firebaseError) {
+      toast.error(`Firebase authentication error: ${firebaseError.message}`);
+      return;
+    }
+
+    if (!auth0IsAuthenticated && !firebaseUser) {
+      toast.error("Please log in to continue.");
+      return;
+    }
+
+    const userId = firebaseUser?.uid || auth0User?.sub || ''; 
+
+    if (!userId) {
+      toast.error("User ID not found. Please log in.");
+      return;
+    }
+
     dispatch(uploadQuestionStart({ question, jobTitle, topic, userId }));
 
-    alert('Questions submitted successfully');
+    toast.success('Questions submitted successfully');
     setQuestion('');
     setJobTitle('');
     setTopic('');
-    setIsFormOpen(false); 
+    setIsFormOpen(false);
   };
 
   const handleStartInterview = () => {
-    if (!isAuthenticated) {
-      alert('Please login to start an interview.');
+    if (firebaseLoading) {
+      toast.info("Firebase authentication loading.");
+      return;
+    }
+    if (firebaseError) {
+      toast.error(`Firebase authentication error: ${firebaseError.message}`);
+      return;
+    }
+    if (!auth0IsAuthenticated && !firebaseUser) {
+      toast.error('Please login to start an interview.');
       return;
     }
     setIsFormOpen(true);
@@ -47,7 +79,6 @@ const UploadQuestion = () => {
 
   return (
     <>
-      
       {!isFormOpen && (
         <Button
           onClick={handleStartInterview}
@@ -58,11 +89,9 @@ const UploadQuestion = () => {
         </Button>
       )}
 
-     
       {isFormOpen && (
         <div className="fixed inset-0 bg-white z-50 p-6 overflow-y-auto">
           <div className="max-w-4xl mx-auto">
-         
             <div className="border-b pb-4">
               <h2 className="text-2xl font-bold text-gray-800">Contribute by Uploading Question</h2>
               <p className="text-sm text-gray-600 mt-1">
@@ -70,7 +99,6 @@ const UploadQuestion = () => {
               </p>
             </div>
 
-    
             <form onSubmit={handleSubmit} className="space-y-4 mt-4">
               <textarea
                 placeholder="Question"
@@ -105,10 +133,9 @@ const UploadQuestion = () => {
               </Button>
             </form>
 
-           
             <Button
               onClick={() => setIsFormOpen(false)}
-              className="mt-4 text-gray-500  bg-red-500 hover:text-gray-700 flex items-center space-x-2"
+              className="mt-4 text-gray-500 bg-red-500 hover:text-gray-700 flex items-center space-x-2"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -132,6 +159,5 @@ const UploadQuestion = () => {
     </>
   );
 };
-
 
 export default UploadQuestion;

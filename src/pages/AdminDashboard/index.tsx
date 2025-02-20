@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_PENDING_QUESTIONS } from "@/services/InterviewQuery";
 import { APPROVE_QUESTION, DELETE_REJECTED_QUESTIONS, REJECT_QUESTION } from "@/services/InterviewMutation";
 
-const AdminDashboard: React.FC = () => {
+const AdminDashboard = () => {
   const { loading: queryLoading, error, data, refetch } = useQuery(GET_PENDING_QUESTIONS, {
     fetchPolicy: "network-only",
   });

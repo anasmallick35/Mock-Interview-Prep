@@ -1,16 +1,14 @@
 
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { fetchInterviewsStart, fetchInterviewsSuccess, fetchInterviewsFailure, deleteInterviewFailure, deleteInterviewStart, deleteInterviewSuccess  } from '../slices/interviewSlices';
-import { fetchQuestionsStart, fetchQuestionsSuccess, fetchQuestionsFailure} from '../slices/questionSlice';
+import { fetchInterviewsStart, fetchInterviewsSuccess, fetchInterviewsFailure, deleteInterviewFailure, deleteInterviewStart, deleteInterviewSuccess  } from '../../slices/PastInterviewSlices/interviewSlices'
+import { fetchQuestionsStart, fetchQuestionsSuccess, fetchQuestionsFailure} from '../../slices/questionSlice';
 import { gql } from '@apollo/client';
-import client from '../../utils/apolloClient';
+import client from '@/utils/apolloClient';
 
 import { PayloadAction } from '@reduxjs/toolkit';
 
 
-
-
-function* fetchInterviewsSaga(action:PayloadAction<string>) {
+export function* fetchInterviewsSaga(action:PayloadAction<string>) {
   try {
 
     const GET_USER_INTERVIEWS = gql`
@@ -44,7 +42,7 @@ query GetUserInterviews(
   }
 }
 
-function* deleteInterviewSaga(action:any){
+export function* deleteInterviewSaga(action:any){
 
     try{
         const DELETE_INTERVIEW = gql`
@@ -69,7 +67,7 @@ yield call(client.mutate,{
 
 }
 
-function* fetchQuestionsSaga() {
+export function* fetchQuestionsSaga() {
     try {
       const GET_PENDING_QUESTIONS = gql`
         query GetPendingQuestions {
@@ -105,5 +103,3 @@ export function* watchDeleteInterview(){
 export function* watchFetchQuestions() {
     yield takeLatest(fetchQuestionsStart.type, fetchQuestionsSaga);
   }
-
-

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
-import PastInterviews from './PastInterview';
+import PastInterviews from '.';
 import '@testing-library/jest-dom';
 
 
@@ -10,7 +10,6 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
 }));
-
 
 jest.mock('@auth0/auth0-react', () => ({
   useAuth0: jest.fn(),

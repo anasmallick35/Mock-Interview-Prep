@@ -2,9 +2,9 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8080/v1/graphql', 
+  uri: 'https://many-bull-70.hasura.app/v1/graphql', 
   headers: {
-    'x-hasura-admin-secret': 'anas', 
+    'x-hasura-admin-secret': import.meta.env.VITE_HASURA_ADMIN, 
   },
 });
 

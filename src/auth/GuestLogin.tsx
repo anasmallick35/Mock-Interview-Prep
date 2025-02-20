@@ -1,24 +1,14 @@
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const GuestLogin = () => {
   const navigate = useNavigate();
+  const { setIsGuest } = useAuth();
 
-  const handleGuestLogin = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/guest-login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const guestUser = await response.json();
-      localStorage.setItem('guestUser', JSON.stringify(guestUser));
-
-      navigate('/'); 
-    } catch (error) {
-      console.error('Guest login failed:', error);
-    }
+  const handleGuestLogin = () => {
+    setIsGuest(true);
+    localStorage.setItem("isGuest", "true"); 
+    navigate('/');
   };
 
   return (

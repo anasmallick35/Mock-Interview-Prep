@@ -1,0 +1,38 @@
+import { initializeApp, FirebaseOptions } from "firebase/app";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
+  signInWithPhoneNumber,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  Auth,
+  ConfirmationResult,
+} from "firebase/auth";
+import { redirect } from "react-router-dom";
+
+const firebaseConfig: FirebaseOptions = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+};
+redirect(window.location.origin)
+
+const app = initializeApp(firebaseConfig);
+const auth: Auth = getAuth(app);
+
+export {
+  auth,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
+  signInWithPhoneNumber,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+};
+export type { ConfirmationResult };

@@ -14,7 +14,7 @@ export const GET_INTERVIEW = gql`
 `;
 
 
-export const GET_USER_ROLE = gql`
+export const GET_USER = gql`
   query GetUserRole($userId: String!) {
     users_by_pk(id: $userId) {
       role,

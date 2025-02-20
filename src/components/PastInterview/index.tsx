@@ -1,23 +1,22 @@
-import React, { useEffect, Suspense } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteInterviewStart, fetchInterviewsStart } from '../../store/slices/interviewSlices';
+import { deleteInterviewStart, fetchInterviewsStart } from '../../store/slices/PastInterviewSlices/interviewSlices';
 import { RootState } from '../../store/store';
-import { Spinner } from '../Spinner/Spinner';
+import { Spinner } from '../Spinner';
+import useAuth from '../../hooks/useAuth'; 
 
-
-const PrevInterviewCard = React.lazy(() => import('../PrevInterviewCard/PrevInterviewCard'));
+const PrevInterviewCard = React.lazy(() => import('../PrevInterviewCard'));
 
 const PastInterviews = () => {
-  const { user } = useAuth0();
+  const { user } = useAuth(); 
   const dispatch = useDispatch();
   const { interviews, loading, error } = useSelector((state: RootState) => state.interviews);
 
   useEffect(() => {
-    if (user?.sub) {
-      dispatch(fetchInterviewsStart(user.sub));
+    if (user?.uid || user?.sub) { 
+      dispatch(fetchInterviewsStart(user.uid || user.sub));
     }
-  }, [dispatch, user?.sub]);
+  }, [dispatch, user]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
