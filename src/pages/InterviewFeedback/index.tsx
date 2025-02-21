@@ -1,39 +1,20 @@
-"use client";
-import { useEffect, useState } from "react";
 import { ChevronsUpDown } from "lucide-react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_FEEDBACK_FROM_USER_ANSWERS } from "@/services/InterviewQuery";
-import { DELETE_FEEDBACK } from "@/services/InterviewMutation";
 
-const Feedback = () => {
-  const { interviewId } = useParams<{ interviewId: string }>();
-  const [feedbackList, setFeedbackList] = useState<any[]>([]);
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+interface FeedbackProps {
+  feedbackList: any[];
+  openIndex: number | null;
+  handleToggle: (index: number) => void;
+  handleDelete: () => void;
+  navigate: (path: string) => void;
+}
 
-  const navigate = useNavigate();
-  const { data } = useQuery(GET_FEEDBACK_FROM_USER_ANSWERS, {
-    variables: { interviewId },
-  });
-
-  useEffect(() => {
-    if (data && data.userAnswer) {
-      setFeedbackList(data.userAnswer);
-    }
-  }, [data]);
-
-  const [deleteFeedback] = useMutation(DELETE_FEEDBACK, {
-    variables: { mockId: interviewId },
-    onCompleted: () => {
-      alert("Feedback Deleted successfully");
-      setFeedbackList([]);
-    },
-  });
-
-  const handleDelete = () => {
-    deleteFeedback();
-  };
-
+const FeedbackComponent: React.FC<FeedbackProps> = ({
+  feedbackList,
+  openIndex,
+  handleToggle,
+  handleDelete,
+  navigate,
+}) => {
   return (
     <div className="p-10 ml-6">
       <button
@@ -49,9 +30,7 @@ const Feedback = () => {
       <h2 className="font-bold text-2xl">Here is your interview feedback</h2>
 
       {feedbackList.length === 0 ? (
-        <h2 className="font-bold text-lg text-green-500">
-          No interview Feedback
-        </h2>
+        <h2 className="font-bold text-lg text-green-500">No interview Feedback</h2>
       ) : (
         <>
           <h2 className="text-primary text-lg my-2">
@@ -65,7 +44,7 @@ const Feedback = () => {
           {feedbackList.map((item, index) => (
             <div key={index} className="mt-4 border rounded-lg overflow-hidden">
               <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                onClick={() => handleToggle(index)}
                 className="w-full p-3 flex justify-between items-center bg-gray-100 hover:bg-gray-200 transition"
               >
                 {item.question}
@@ -103,4 +82,4 @@ const Feedback = () => {
   );
 };
 
-export default Feedback;
+export default FeedbackComponent;

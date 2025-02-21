@@ -1,18 +1,18 @@
 
 import { createBrowserRouter } from "react-router-dom";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./containers/ProtectedRoute";
 import { lazy } from "react";
 import Layout from "./components/Layout";
-import GuestLogin from "./auth/GuestLogin";
+import GuestLogin from "./Auth/O-Auth/GuestLogin";
 
-const Home = lazy(() => import("./pages/Home"));
-const Profile = lazy(() => import("./pages/Profile"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const StartInterview = lazy(() => import("./pages/StartInterviewPage"));
-const Feedback = lazy(() => import("./pages/InterviewFeedback"));
+const Home = lazy(() => import("./containers/Home"));
+const Profile = lazy(() => import("./containers/Profile"));
+const AdminDashboard = lazy(() => import("./containers/AdminDashboard"));
+const StartInterview = lazy(() => import("./containers/StartInterview"));
+const Feedback = lazy(() => import("./containers/Feedback"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
-const FirebaseLogin = lazy(() => import('./firebase-auth/Login'));
-const FirebaseSignup = lazy(() => import('./firebase-auth/Signup'));
+const FirebaseLogin = lazy(() => import('./Auth/firebase-auth/Login'));
+const FirebaseSignup = lazy(() => import('./Auth/firebase-auth/Signup'));
 
 const router = createBrowserRouter([
   {
