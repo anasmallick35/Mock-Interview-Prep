@@ -1,4 +1,4 @@
-import { Lightbulb, Volume2 } from 'lucide-react';
+import { FaLightbulb, FaVolumeUp } from "react-icons/fa";
 import React from 'react'
 
 interface Question {
@@ -53,14 +53,14 @@ const QuestionSection: React.FC<QuestionSectionProps> = ({
             {questions && questions[activeQuestionIndex]?.question}
           </h2>
     
-          <Volume2
+          <FaVolumeUp
             className="cursor-pointer"
             onClick={() => textToSpeech(questions[activeQuestionIndex]?.question || '')}
           /> 
     
           <div className="border rounded-lg p-5 bg-blue-300 mt-20">
             <h2 className="flex gap-2 items-center text-blue-700">
-              <Lightbulb />
+            <FaLightbulb />
               <strong>Note:</strong>
             </h2>
             <h2 className="text-sm my-2 text-blue-700">

@@ -6,15 +6,15 @@ import { APPROVE_QUESTION, DELETE_REJECTED_QUESTIONS, REJECT_QUESTION } from "@/
 
 
 const AdminDashboardContainer = () => {
-  const { loading: queryLoading, error, data, refetch } = useQuery(GET_PENDING_QUESTIONS, {
+  const { loading: queryLoading ,error, data, refetch } = useQuery(GET_PENDING_QUESTIONS, {
     fetchPolicy: "network-only",
   });
 
-  const [approveQuestion, { loading: approveLoading }] = useMutation(APPROVE_QUESTION, {
+  const [approveQuestion] = useMutation(APPROVE_QUESTION, {
     onCompleted: () => refetch(),
   });
 
-  const [rejectQuestion, { loading: rejectLoading }] = useMutation(REJECT_QUESTION, {
+  const [rejectQuestion] = useMutation(REJECT_QUESTION, {
     onCompleted: () => refetch(),
   });
 
@@ -26,13 +26,11 @@ const AdminDashboardContainer = () => {
 
   return (
     <AdminDashboard
-      queryLoading={queryLoading}
+    queryLoading = {queryLoading}
       error={error}
       data={data ?? null} 
       approveQuestion={approveQuestion}
       rejectQuestion={rejectQuestion}
-      approveLoading={approveLoading}
-      rejectLoading={rejectLoading}
     />
   );
 };

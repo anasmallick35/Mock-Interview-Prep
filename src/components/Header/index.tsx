@@ -39,13 +39,13 @@ const Header:React.FC<HeaderProps> = ({data,handleGuestLoginClick,isLoading, isA
             <>
               {isFirebaseAuthenticated && <FirebaseLogout />}
               {isOAuthAuthenticated && <Logout />}
+              {data?.users_by_pk?.role === 'admin' && <Link to = '/admin' className="bg-slate-500 text-white p-2 rounded">Admin Dashboard</Link>}
               <Link to="/profile">
                 <img
                   className="w-10 h-10 rounded-full object-cover border-2 border-white"
                   src={data?.users_by_pk?.picture}
                 />
               </Link>
-              {data?.users_by_pk.role === 'admin' && <Link to = '/admin'>Admin Dashboard</Link>}
             </>
           ) : isGuest ? (
             <button onClick={handleGuestLoginClick}>Login</button>

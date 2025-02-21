@@ -13,10 +13,12 @@ const Feedback = lazy(() => import("./containers/Feedback"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
 const FirebaseLogin = lazy(() => import('./Auth/firebase-auth/Login'));
 const FirebaseSignup = lazy(() => import('./Auth/firebase-auth/Signup'));
+const Error = lazy(()=> import('./pages/Error'))
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <Error/>,
     children: [
       {
         path: "/",

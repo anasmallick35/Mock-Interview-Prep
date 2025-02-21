@@ -16,7 +16,9 @@ const BulkUpload: React.FC<BulkUploadProps> = ({
 }) => {
   return (
     <div>
+      <label htmlFor="file-upload">Upload File</label>
       <input
+        id="file-upload"
         type="file"
         accept=".xlsx"
         onChange={handleFileUpload}

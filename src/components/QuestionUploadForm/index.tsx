@@ -1,4 +1,4 @@
-import { Upload } from "lucide-react";
+import { FaCloudUploadAlt } from "react-icons/fa";
 import Button from "../Button";
 
 interface UploadQuestionProps {
@@ -33,7 +33,7 @@ const QuestionUpload: React.FC<UploadQuestionProps> = ({
           onClick={handleStartInterview}
           className="flex items-center space-x-2 p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
         >
-          <Upload className="w-5 h-5" />
+          <FaCloudUploadAlt className="cursor-pointer" />
           <span>Upload Question</span>
         </Button>
       )}
