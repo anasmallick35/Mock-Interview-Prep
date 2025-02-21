@@ -6,10 +6,10 @@ import Layout from "./components/Layout";
 import GuestLogin from "./Auth/O-Auth/GuestLogin";
 
 const Home = lazy(() => import("./containers/Home"));
-const Profile = lazy(() => import("./pages/Profile"));
+const Profile = lazy(() => import("./containers/Profile"));
 const AdminDashboard = lazy(() => import("./containers/AdminDashboard"));
-const StartInterview = lazy(() => import("./pages/StartInterviewPage"));
-const Feedback = lazy(() => import("./pages/InterviewFeedback"));
+const StartInterview = lazy(() => import("./containers/StartInterview"));
+const Feedback = lazy(() => import("./containers/Feedback"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
 const FirebaseLogin = lazy(() => import('./Auth/firebase-auth/Login'));
 const FirebaseSignup = lazy(() => import('./Auth/firebase-auth/Signup'));

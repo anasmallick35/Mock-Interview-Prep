@@ -1,51 +1,41 @@
-'use client'
-import { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import QuestionSection from '@/components/QuestionSection';
-import RecordAnswerSection from '@/components/RecordAnswerSection';
-import { useQuery } from '@apollo/client';
+import RecordSection from '@/containers/RecordAnswerSection';
+import { Link } from 'react-router-dom';
 
-import { Link, useParams } from 'react-router-dom';  
-import { GET_INTERVIEW } from '@/services/InterviewQuery';
+interface StartInterviewProps {
+  loading: boolean;
+  error: any;
+  mockInterviewQuestions: any[];
+  activeQuestionIndex: number;
+  setActiveQuestionIndex: React.Dispatch<React.SetStateAction<number>>
+  interviewDetails: any | null;
+}
 
-const StartInterview = () => {
-  const { interviewId } = useParams<{ interviewId: string }>(); 
-
-  const { data, loading, error } = useQuery(GET_INTERVIEW, {
-    variables: { interviewId },
-  });
-
-
-  const [mockInterviewQuestion, setMockInterviewQuestion] = useState<any[]>([]);
-  const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(0);
-  const [interviewDetails, setInterviewDetails] = useState<any | null>(null);
-
-  useEffect(() => {
-    if (data && data.interviews.length > 0) {
-      const interview = data.interviews[0];
-      const jsonMock = JSON.parse(interview.jsonMockResp);
-      setMockInterviewQuestion(jsonMock.questions);
-      setInterviewDetails(interview);
-    }
-  }, [data]);
-  
-  console.log(interviewDetails)
+const StartInterviewComponent: React.FC<StartInterviewProps> = ({
+  loading,
+  error,
+  mockInterviewQuestions,
+  activeQuestionIndex,
+  setActiveQuestionIndex,
+  interviewDetails,
+}) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading interview details</div>;
 
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Questions */}
+        {/* Questions Section */}
         <QuestionSection
-          mockInterviewQuestions={ { questions: mockInterviewQuestion }}
+          mockInterviewQuestions={{ questions: mockInterviewQuestions }}
           activeQuestionIndex={activeQuestionIndex}
           setActiveQuestionIndex={setActiveQuestionIndex}
         />
 
-        {/* Video, audio recording */}
-        <RecordAnswerSection
-          mockInterviewQuestions={{ questions: mockInterviewQuestion }}
+        {/* Video, Audio Recording */}
+        <RecordSection
+          mockInterviewQuestions={{ questions: mockInterviewQuestions }}
           activeQuestionIndex={activeQuestionIndex}
           interviewDetails={interviewDetails}
         />
@@ -57,13 +47,13 @@ const StartInterview = () => {
             Previous Question
           </Button>
         )}
-        {activeQuestionIndex !== mockInterviewQuestion?.length - 1 && (
+        {activeQuestionIndex !== mockInterviewQuestions?.length - 1 && (
           <Button onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)}>
             Next Question
           </Button>
         )}
         {interviewDetails && (
-          <Link to={'/start-interview/'+interviewDetails?.id+"/feedback"} >
+          <Link to={`/start-interview/${interviewDetails?.id}/feedback`}>
             <Button>End Interview</Button>
           </Link>
         )}
@@ -72,4 +62,4 @@ const StartInterview = () => {
   );
 };
 
-export default StartInterview;
+export default StartInterviewComponent;

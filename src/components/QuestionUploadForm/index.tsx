@@ -1,20 +1,31 @@
 import { Upload } from "lucide-react";
 import Button from "../Button";
-import useUploadQuestion from "@/containers/QuestionUploadForm";
 
-const QuestionUpload = () => {
-  const {
-    handleStartInterview,
-    handleSubmit,
-    isFormOpen,
-    setIsFormOpen,
-    setQuestion,
-    setJobTitle,
-    jobTitle,
-    topic,
-    setTopic,
-    question,
-  } = useUploadQuestion();
+interface UploadQuestionProps {
+  handleStartInterview: () => void;
+  handleSubmit: (e: React.FormEvent) => void;
+  isFormOpen: boolean;
+  setIsFormOpen: (isOpen: boolean) => void;
+  setQuestion: (value: string) => void;
+  setJobTitle: (value: string) => void;
+  jobTitle: string;
+  topic: string;
+  setTopic: (value: string) => void;
+  question: string;
+}
+
+const QuestionUpload: React.FC<UploadQuestionProps> = ({
+  handleStartInterview,
+  handleSubmit,
+  isFormOpen,
+  setIsFormOpen,
+  setQuestion,
+  setJobTitle,
+  jobTitle,
+  topic,
+  setTopic,
+  question,
+}) => {
   return (
     <>
       {!isFormOpen && (

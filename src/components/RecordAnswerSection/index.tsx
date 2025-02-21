@@ -4,31 +4,16 @@ import Button from "../Button";
 import Webcam from "react-webcam";
 import { Mic, StopCircle } from "lucide-react";
 import webCam from "@/assets/webcam.png";
-import { useRecordContainer } from "@/containers/RecordAnswerSection";
 
-interface Question {
-  question: string;
-  answer: string;
-}
-
-interface InterviewDetails {
-  mockId: string;
-}
 
 interface RecordProps {
-  mockInterviewQuestions: {
-    questions: Question[];
-  };
-  activeQuestionIndex: number;
-  interviewDetails: InterviewDetails;
+  isRecording: boolean;
+  loading:boolean;
+  startStopRecording:any;
 }
 
-const Record: React.FC<RecordProps> = ({ mockInterviewQuestions, activeQuestionIndex, interviewDetails }) => {
-  const {  isRecording, loading, startStopRecording } = useRecordContainer({
-    mockInterviewQuestions,
-    activeQuestionIndex,
-    interviewDetails,
-  });
+const Record: React.FC<RecordProps> = ({isRecording,loading,startStopRecording }) => {
+  
 
   return (
     <div className="flex items-center justify-center flex-col">

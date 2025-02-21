@@ -1,19 +1,26 @@
+import React from "react";
 import Button from "../Button";
 import { LoaderCircle } from "lucide-react";
-import useTakeInterview from "@/containers/TakeInterview";
 
-const TakeInterview = ()=>{
+interface TakeInterviewProps {
+  openDialog: boolean;
+  handleStartInterview: () => void;
+  handleGenerateQuestions: (e: React.FormEvent) => void;
+  setJobTitle: React.Dispatch<React.SetStateAction<string>>;
+  setTopic: React.Dispatch<React.SetStateAction<string>>;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
+}
 
-  const {
-    openDialog,
-    handleStartInterview,
-    handleGenerateQuestions,
-    setJobTitle,
-    setTopic,
-    setOpenDialog,
-    loading
-  } = useTakeInterview()
-
+const TakeInterviewComponent: React.FC<TakeInterviewProps> = ({
+  openDialog,
+  handleStartInterview,
+  handleGenerateQuestions,
+  setJobTitle,
+  setTopic,
+  setOpenDialog,
+  loading,
+}) => {
   return (
     <>
       {!openDialog ? (
@@ -80,7 +87,6 @@ const TakeInterview = ()=>{
       )}
     </>
   );
-}
-  
+};
 
-export default TakeInterview;
+export default TakeInterviewComponent;

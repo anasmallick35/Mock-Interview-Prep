@@ -1,6 +1,6 @@
-import TakeInterview from "@/components/TakeInterview";
-import PrevInterview from "@/components/PastInterview";
-import QuestionUploadForm from "@/components/QuestionUploadForm";
+import TakeInterviewContainer from "@/containers/TakeInterview";
+import PastInterviews from "@/containers/PastInterview";
+import UploadQuestionContainer from "@/containers/QuestionUploadForm";
 import BulkUpload from "@/containers/BulkUploadQuestion";
 import { Spinner } from "@/components/Spinner";
 
@@ -35,13 +35,13 @@ const Home: React.FC<HomeProps> = ({ firebaseLoading, firebaseError, isGuestMode
 
       <div className="flex flex-col md:flex-row gap-8 justify-center items-start">
         <div className="flex flex-col md:w-2/5 gap-6">
-          <TakeInterview />
-          <PrevInterview />
+         <TakeInterviewContainer/>
+          <PastInterviews/>
         </div>
 
         <div className="flex flex-wrap justify-center gap-6 md:w-3/5">
           <div className="shadow-xl rounded-xl border border-gray-300 bg-white p-6 w-80 h-64 flex flex-col justify-center items-center transform transition-all hover:scale-105 hover:shadow-2xl">
-            <QuestionUploadForm />
+            <UploadQuestionContainer />
           </div>
           <div className="shadow-xl rounded-xl border border-gray-300 bg-white p-6 w-80 h-64 flex flex-col justify-center items-center transform transition-all hover:scale-105 hover:shadow-2xl">
           <BulkUpload/>

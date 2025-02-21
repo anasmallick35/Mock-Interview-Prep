@@ -1,13 +1,21 @@
 import { lazy, Suspense } from "react";
-import usePastInterviews from "@/containers/PastInterview";
 import { Spinner } from "../Spinner";
 
 const PrevInterviewCard = lazy(() => import("../PrevInterviewCard"));
 
-const PastInterviews = () => {
-  const { interviews, loading, error, handleDeleteInterview } =
-    usePastInterviews();
+interface PastInterviewsProps {
+  interviews: any[];
+  loading: boolean;
+  error: string | null;
+  handleDeleteInterview: (id: string) => void;
+}
 
+const PastInterviews: React.FC<PastInterviewsProps> = ({
+  interviews,
+  loading,
+  error,
+  handleDeleteInterview,
+}) => {
   if (loading) return <Spinner />;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 

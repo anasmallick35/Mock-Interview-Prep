@@ -10,6 +10,7 @@ import { GET_QUESTION } from "@/services/InterviewQuery";
 import { toast } from "sonner";
 import { auth } from '../../utils/firebase'; 
 import { useAuthState } from 'react-firebase-hooks/auth'; 
+import TakeInterviewComponent from "@/components/TakeInterview";
 
 const useTakeInterview = () => {
   const [jobTitle, setJobTitle] = useState<string>("");
@@ -79,18 +80,19 @@ const useTakeInterview = () => {
     }
     setOpenDialog(true);
   };
-  return{
-    jobTitle, 
-    setJobTitle,
-    handleStartInterview,
-    handleGenerateQuestions,
-    openDialog,
-    loading,
-    setTopic,
-    topic,
-    setOpenDialog
-  }
 
-}
 
-export default useTakeInterview
+  return (
+    <TakeInterviewComponent
+      openDialog={openDialog}
+      handleStartInterview={handleStartInterview}
+      handleGenerateQuestions={handleGenerateQuestions}
+      setJobTitle={setJobTitle}
+      setTopic={setTopic}
+      setOpenDialog={setOpenDialog}
+      loading={loading}
+    />
+  );
+};
+
+export default useTakeInterview;

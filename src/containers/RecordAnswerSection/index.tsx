@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { INSERT_FEEDBACK_RESP } from "@/services/InterviewMutation";
 import useAuth from "@/hooks/useAuth";
+import Record from "@/components/RecordAnswerSection";
 
 interface Question {
   question: string;
@@ -29,7 +30,7 @@ interface ResultType {
   transcript: string;
 }
 
-export const useRecordContainer = ({
+ const useRecordContainer = ({
   mockInterviewQuestions,
   activeQuestionIndex,
   interviewDetails,
@@ -107,9 +108,12 @@ export const useRecordContainer = ({
     setLoading(false);
   };
 
-  return {
-    isRecording,
-    loading,
-    startStopRecording,
-  };
+  return (
+    <Record isRecording={isRecording}
+    loading={loading}
+    startStopRecording={startStopRecording}  />
+  )
 };
+
+
+export default useRecordContainer

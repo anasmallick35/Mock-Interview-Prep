@@ -6,6 +6,8 @@ import {
 } from "@/store/slices/PastInterviewSlices/interviewSlices";
 import { RootState } from "@/store/store";
 import useAuth from "@/hooks/useAuth";
+import PastInterviews from "@/components/PastInterview";
+
 const usePastInterviews = () => {
   const { user } = useAuth();
   const dispatch = useDispatch();
@@ -26,7 +28,14 @@ const usePastInterviews = () => {
     [dispatch]
   );
 
-  return { interviews, loading, error, handleDeleteInterview };
+  return (
+    <PastInterviews
+      interviews={interviews}
+      loading={loading}
+      error={error}
+      handleDeleteInterview={handleDeleteInterview}
+    />
+  );
 };
 
 export default usePastInterviews;

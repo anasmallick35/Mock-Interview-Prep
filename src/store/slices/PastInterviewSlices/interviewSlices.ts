@@ -1,6 +1,5 @@
-
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { toast } from 'sonner';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 
 interface Interview {
   id: string;
@@ -24,9 +23,8 @@ const initialState: InterviewsState = {
   error: null,
 };
 
-
 const interviewsSlice = createSlice({
-  name: 'interviews',
+  name: "interviews",
   initialState,
   reducers: {
     fetchInterviewsStart(state, _action: PayloadAction<string>) {
@@ -42,29 +40,33 @@ const interviewsSlice = createSlice({
       state.error = action.payload;
     },
 
-    deleteInterviewStart(state,_action:PayloadAction<string>){
-        state.loading = true;
-        state.error = null
+    deleteInterviewStart(state, _action: PayloadAction<string>) {
+      state.loading = true;
+      state.error = null;
     },
 
     deleteInterviewSuccess(state, action: PayloadAction<string>) {
-        state.interviews = state.interviews.filter(
-          (interview) => interview.id !== action.payload
-        );
+      state.interviews = state.interviews.filter(
+        (interview) => interview.id !== action.payload
+      );
 
-        
-        state.loading = false;
-      },
+      state.loading = false;
+    },
 
-    deleteInterviewFailure(state , action:PayloadAction<string>){
-        state.loading = false,
-        state.error = action.payload
-        toast('First delete the feedback')
-    }
-
+    deleteInterviewFailure(state, action: PayloadAction<string>) {
+      (state.loading = false), (state.error = action.payload);
+      toast("First delete the feedback");
+    },
   },
 });
 
-export const { fetchInterviewsStart, fetchInterviewsSuccess, fetchInterviewsFailure, deleteInterviewFailure, deleteInterviewStart, deleteInterviewSuccess} = interviewsSlice.actions;
+export const {
+  fetchInterviewsStart,
+  fetchInterviewsSuccess,
+  fetchInterviewsFailure,
+  deleteInterviewFailure,
+  deleteInterviewStart,
+  deleteInterviewSuccess,
+} = interviewsSlice.actions;
 
 export default interviewsSlice.reducer;
