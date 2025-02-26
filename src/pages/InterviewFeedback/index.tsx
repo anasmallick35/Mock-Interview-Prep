@@ -43,13 +43,13 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
 
           {feedbackList.map((item, index) => (
             <div key={index} className="mt-4 border rounded-lg overflow-hidden">
-              <Button
+              <button
                 onClick={() => handleToggle(index)}
-                className="w-full p-3 flex justify-between items-center text-black bg-gray-100 hover:bg-gray-200 transition"
+                className="w-full p-3 flex justify-between items-centertext-black bg-gray-500 hover:bg-gray-200 transition"
               >
                 {item.question}
                 <ChevronsUpDown className="h-4" />
-              </Button>
+              </button>
 
               {openIndex === index && (
                 <div className="p-4 space-y-2 bg-white border-t">
