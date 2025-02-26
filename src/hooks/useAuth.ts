@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { auth } from '../utils/firebase';
+import { auth } from '@/utils/firebase';
 import { User } from 'firebase/auth';
 
 type AuthState = {
@@ -25,11 +25,27 @@ const useAuth = (): AuthState => {
       setIsLoading(false);
     });
 
+    const guestState = localStorage.getItem("isGuest");
+    if (guestState === "true") {
+      setIsGuest(true);
+    }
+
+    const handleStorageChange = (event: StorageEvent | Event) => {
+      const guestState = localStorage.getItem("isGuest");
+      setIsGuest(guestState === "true");
+    };
+  
+    window.addEventListener("storage", handleStorageChange);
+  
+    window.addEventListener("localStorageChange", handleStorageChange);
+
     return () => unsubscribe();
+    window.removeEventListener("storage", handleStorageChange);
+    window.removeEventListener("localStorageChange", handleStorageChange);
   }, []);
 
   const user = auth0User || firebaseUser;
-  const isAuthenticated = auth0IsAuthenticated || !!firebaseUser;
+  const isAuthenticated = auth0IsAuthenticated || !!firebaseUser || isGuest;
  
   
 

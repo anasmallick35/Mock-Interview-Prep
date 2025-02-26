@@ -30,9 +30,9 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
         <Suspense fallback={<Spinner />}>
           {interviews?.map((interview) => (
             <PrevInterviewCard
-              key={interview.id}
+              key={interview?.id}
               interview={interview}
-              onDelete={() => handleDeleteInterview(interview.id)}
+              onDelete={() => handleDeleteInterview(interview?.id)}
             />
           ))}
         </Suspense>

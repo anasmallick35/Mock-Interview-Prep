@@ -9,19 +9,18 @@ import {
   createUserWithEmailAndPassword,
   Auth,
   ConfirmationResult,
+  RecaptchaVerifier
 } from "firebase/auth";
-import { redirect } from "react-router-dom";
 
 const firebaseConfig: FirebaseOptions = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  apiKey: 'AIzaSyBl3wdK3b7zBIMABQAS7vsZGusbe6DPlp8',
+  authDomain: 'ai-interview-b0856.firebaseapp.com',
+  projectId: 'ai-interview-b0856',
+  storageBucket: 'ai-interview-b0856.firebasestorage.app',
+  messagingSenderId: '334735891624',
+  appId: '1:334735891624:web:ba9e5906a12e0f5deeb69d',
+  measurementId: 'G-6ZJ3FQVZSH',
 };
-redirect(window.location.origin)
 
 const app = initializeApp(firebaseConfig);
 const auth: Auth = getAuth(app);
@@ -34,5 +33,6 @@ export {
   signInWithPhoneNumber,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  RecaptchaVerifier
 };
 export type { ConfirmationResult };

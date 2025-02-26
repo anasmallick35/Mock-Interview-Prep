@@ -17,6 +17,7 @@ export const GET_INTERVIEW = gql`
 export const GET_USER = gql`
   query GetUserRole($userId: String!) {
     users_by_pk(id: $userId) {
+    id,
       role,
       name,
       picture,
@@ -67,4 +68,23 @@ export const GET_QUESTION = gql`
       question
     }
   }
+`;
+
+export const GET_USER_INTERVIEWS = gql`
+query GetUserInterviews(
+  $userId: String!
+) {
+  interviews(
+    where: {
+      user_id: { _eq: $userId }
+    }
+    order_by: { created_at: desc }
+  ) {
+    id
+    jsonMockResp
+    jobTitle
+    topic
+    created_at
+  }
+}
 `;

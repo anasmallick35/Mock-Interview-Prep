@@ -31,7 +31,8 @@ const FeedbackContainer = () => {
   });
 
   const handleDelete = () => deleteFeedback();
-  const handleToggle = (index: number) => setOpenIndex(openIndex === index ? null : index);
+  const handleToggle = (index: number) =>
+    setOpenIndex(openIndex === index ? null : index);
 
   return (
     <FeedbackComponent

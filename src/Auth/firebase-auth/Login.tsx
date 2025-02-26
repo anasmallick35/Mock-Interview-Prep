@@ -8,17 +8,16 @@ import {
   signInWithPhoneNumber,
   ConfirmationResult,
 } from "../../utils/firebase";
+
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { RecaptchaVerifier } from "firebase/auth";
-import client from "@/utils/apolloClient";
-import { gql, useMutation } from "@apollo/client";
+import {  useMutation, useQuery } from "@apollo/client";
 import { CREATE_USER } from "./Signup";
+import { GET_USER } from "@/services/InterviewQuery";
 
 const FirebaseLogin = () => {
-  const [createUser] = useMutation(CREATE_USER, {
-    client: client,
-  });
+  const [createUser] = useMutation(CREATE_USER)
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -47,16 +46,9 @@ const FirebaseLogin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const { data } = await client.query({
-        query: gql`
-          query GetUser($id: String!) {
-            users_by_pk(id: $id) {
-              id
-            }
-          }
-        `,
-        variables: { id: user.uid },
-      });
+      const { data } = useQuery(GET_USER,{
+        variables: { userId: user.uid },
+      })
 
       if (!data.users_by_pk) {
         await createUser({
@@ -82,16 +74,9 @@ const FirebaseLogin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const { data } = await client.query({
-        query: gql`
-          query GetUser($id: String!) {
-            users_by_pk(id: $id) {
-              id
-            }
-          }
-        `,
-        variables: { id: user.uid },
-      });
+      const { data } = useQuery(GET_USER,{
+        variables: { userId: user.uid },
+      })
 
       if (!data.users_by_pk) {
         await createUser({
@@ -141,16 +126,9 @@ const FirebaseLogin = () => {
 
         if (auth.currentUser) {
           const user = auth.currentUser;
-          const { data } = await client.query({
-            query: gql`
-              query GetUser($id: String!) {
-                users_by_pk(id: $id) {
-                  id
-                }
-              }
-            `,
-            variables: { id: user.uid },
-          });
+          const { data } = useQuery(GET_USER,{
+            variables: { userId: user.uid },
+          })
 
           if (!data?.users_by_pk) {
             try {

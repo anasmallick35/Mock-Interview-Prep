@@ -6,34 +6,17 @@ import { gql } from '@apollo/client';
 import client from '@/utils/apolloClient';
 
 import { PayloadAction } from '@reduxjs/toolkit';
+import { DELETE_FEEDBACK, DELETE_INTERVIEW } from '@/services/InterviewMutation';
+import { GET_USER_INTERVIEWS } from '@/services/InterviewQuery';
 
 
 export function* fetchInterviewsSaga(action:PayloadAction<string>) {
   try {
 
-    const GET_USER_INTERVIEWS = gql`
-query GetUserInterviews(
-  $userId: String!
-) {
-  interviews(
-    where: {
-      user_id: { _eq: $userId }
-    }
-    order_by: { created_at: desc }
-  ) {
-    id
-    jsonMockResp
-    jobTitle
-    topic
-    created_at
-  }
-}
-`;
-
-    
     const { data } = yield call(client.query, {
       query: GET_USER_INTERVIEWS,
       variables: { userId: action.payload },
+      fetchPolicy: "network-only",
     });
 
     yield put(fetchInterviewsSuccess(data.interviews));
@@ -42,29 +25,24 @@ query GetUserInterviews(
   }
 }
 
-export function* deleteInterviewSaga(action:any){
-
-    try{
-        const DELETE_INTERVIEW = gql`
-  mutation deleteInterview($id: uuid!) {
-    delete_interviews(where: { id: { _eq: $id } }) {
-      affected_rows
-    }
-  }
-`;
-
-yield call(client.mutate,{
-    mutation : DELETE_INTERVIEW,
-    variables : {id : action.payload},
+export function* deleteInterviewSaga(action:any) {
+  try {
+     yield call(client.mutate, {
+      mutation: DELETE_FEEDBACK,
+      variables: { mockId: action.payload },
+      refetchQueries: [{ query:GET_USER_INTERVIEWS}],
+    });
     
-})
-    yield put(deleteInterviewSuccess(action.payload))
-    //window.location.reload();
-}catch(error){
-
-    yield put(deleteInterviewFailure("Error deleting interview"))
-}
-
+    yield call(client.mutate, {
+      mutation: DELETE_INTERVIEW,
+      variables: { id: action.payload },
+      refetchQueries: [{ query:GET_USER_INTERVIEWS}],
+    });
+    yield put(deleteInterviewSuccess(action.payload));
+   
+  } catch (error) {
+    yield put(deleteInterviewFailure("Error deleting interview and feedback"));
+  }
 }
 
 export function* fetchQuestionsSaga() {

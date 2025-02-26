@@ -1,14 +1,15 @@
 "use client";
+import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import useAuth from "@/hooks/useAuth";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_USER } from "@/services/InterviewQuery";
 import { UPDATE_USER } from "@/services/InterviewMutation";
-import { toast } from "sonner";
+
 import ProfileComponent from "@/pages/Profile";
 
 const ProfileContainer = () => {
-  const { user, isFirebaseAuthenticated } = useAuth();
+  const { user, isFirebaseAuthenticated, isGuest } = useAuth();
 
   const [name, setName] = useState<string>("user");
   const [picture, setPicture] = useState<string>("");
@@ -16,8 +17,16 @@ const ProfileContainer = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
+  const guestId = import.meta.env.VITE_GUEST_ID;
+
   const { data, loading, error } = useQuery(GET_USER, {
-    variables: { userId: isFirebaseAuthenticated ? user?.uid : user?.sub },
+    variables: {
+      userId: isFirebaseAuthenticated
+        ? user?.uid
+        : isGuest
+          ? guestId
+          : user?.sub,
+    },
   });
 
   const [updateUser, { loading: updateLoading, error: updateError }] =
@@ -67,6 +76,11 @@ const ProfileContainer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isGuest) {
+      toast.error("You are not eligible to update the profile.");
+      return;
+    }
 
     let imageUrl = picture;
 

@@ -8,7 +8,13 @@ export const DELETE_FEEDBACK = gql`
   }
   }
 `
-
+export const DELETE_INTERVIEW = gql`
+      mutation deleteInterview($id: uuid!) {
+        delete_interviews(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+    `;
 
 export const APPROVE_QUESTION = gql`
   mutation ApproveQuestion($id: uuid!) {
@@ -32,7 +38,7 @@ export const REJECT_QUESTION = gql`
 export const DELETE_REJECTED_QUESTIONS = gql`
  mutation DeleteOldRejectedQuestions {
   delete_questions(
-    where: { status: { _eq: "rejected" }, rejected_at: { _lt: "now() - interval '2 days'" } }
+    where: { status: { _eq: "rejected" }, rejected_at: { _lt: "now()" } }
   ) {
     affected_rows
   }

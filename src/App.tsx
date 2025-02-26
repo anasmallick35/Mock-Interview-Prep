@@ -1,17 +1,17 @@
-import { RouterProvider } from 'react-router-dom';
-import router from './router';
-import { Suspense } from 'react';
-import { Spinner } from './components/Spinner';
-import { Toaster } from 'sonner';
-import useAuth from './hooks/useAuth';
+import { RouterProvider } from "react-router-dom";
+import { Suspense } from "react";
+import { Toaster } from "sonner";
+import useAuth from "./hooks/useAuth";
+import router from "./router";
+import { Spinner } from "./components/Spinner";
 
 const App = () => {
-  useAuth()
+  useAuth();
   return (
     <>
       <Suspense fallback={<Spinner />}>
         <RouterProvider router={router} />
-        <Toaster position="bottom-right" />
+        <Toaster position="bottom-left" />
       </Suspense>
     </>
   );

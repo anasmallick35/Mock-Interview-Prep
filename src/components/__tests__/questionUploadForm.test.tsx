@@ -11,7 +11,7 @@ const mockSetJobTitle = jest.fn();
 const mockSetTopic = jest.fn();
 
 const defaultProps = {
-  handleStartInterview: mockHandleStartInterview,
+    handleUploadQuestion: mockHandleStartInterview,
   handleSubmit: mockHandleSubmit,
   isFormOpen: false,
   setIsFormOpen: mockSetIsFormOpen,

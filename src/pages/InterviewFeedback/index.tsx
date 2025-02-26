@@ -1,4 +1,5 @@
 import { ChevronsUpDown } from "lucide-react";
+import Button from "@/components/Button";
 
 interface FeedbackProps {
   feedbackList: any[];
@@ -17,12 +18,12 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
 }) => {
   return (
     <div className="p-10 ml-6">
-      <button
+      <Button
         className="mt-5 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
         onClick={handleDelete}
       >
         Delete
-      </button>
+      </Button>
 
       <h2 className="text-3xl font-bold text-green-600 mt-4">
         Congratulations!
@@ -30,12 +31,11 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
       <h2 className="font-bold text-2xl">Here is your interview feedback</h2>
 
       {feedbackList.length === 0 ? (
-        <h2 className="font-bold text-lg text-green-500">No interview Feedback</h2>
+        <h2 className="font-bold text-lg text-green-500">
+          No interview Feedback
+        </h2>
       ) : (
         <>
-          <h2 className="text-primary text-lg my-2">
-            Your overall interview rating: <strong>7/10</strong>
-          </h2>
           <p className="text-sm text-gray-500">
             Below are interview questions with correct answers, your answers,
             and feedback for improvement.
@@ -43,13 +43,13 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
 
           {feedbackList.map((item, index) => (
             <div key={index} className="mt-4 border rounded-lg overflow-hidden">
-              <button
+              <Button
                 onClick={() => handleToggle(index)}
-                className="w-full p-3 flex justify-between items-center bg-gray-100 hover:bg-gray-200 transition"
+                className="w-full p-3 flex justify-between items-center text-black bg-gray-100 hover:bg-gray-200 transition"
               >
                 {item.question}
                 <ChevronsUpDown className="h-4" />
-              </button>
+              </Button>
 
               {openIndex === index && (
                 <div className="p-4 space-y-2 bg-white border-t">
@@ -72,12 +72,12 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
         </>
       )}
 
-      <button
+      <Button
         className="mt-5 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
         onClick={() => navigate("/")}
       >
         Go Home
-      </button>
+      </Button>
     </div>
   );
 };

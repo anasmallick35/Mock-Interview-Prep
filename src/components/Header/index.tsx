@@ -3,20 +3,25 @@ import Login from "@/Auth/O-Auth/Login";
 import Logout from "@/Auth/O-Auth/Logout";
 import FirebaseLogout from "@/Auth/firebase-auth/Logout";
 import { Spinner } from "../Spinner";
-
+import Button from "../Button";
 
 interface HeaderProps {
-    data : any;
-    handleGuestLoginClick:any;
-    isLoading : boolean
-    isAuthenticated : boolean
-    isFirebaseAuthenticated:boolean
-    isOAuthAuthenticated:boolean
-    isGuest : boolean
-  }
+  data: any;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  isFirebaseAuthenticated: boolean;
+  isOAuthAuthenticated: boolean;
+  isGuest: boolean;
+}
 
-const Header:React.FC<HeaderProps> = ({data,handleGuestLoginClick,isLoading, isAuthenticated,isFirebaseAuthenticated, isOAuthAuthenticated,isGuest}) => {
- 
+const Header: React.FC<HeaderProps> = ({
+  data,
+  isLoading,
+  isAuthenticated,
+  isFirebaseAuthenticated,
+  isOAuthAuthenticated,
+  isGuest,
+}) => {
   if (isLoading) {
     return (
       <div>
@@ -38,8 +43,15 @@ const Header:React.FC<HeaderProps> = ({data,handleGuestLoginClick,isLoading, isA
           {isAuthenticated ? (
             <>
               {isFirebaseAuthenticated && <FirebaseLogout />}
-              {isOAuthAuthenticated && <Logout />}
-              {data?.users_by_pk?.role === 'admin' && <Link to = '/admin' className="bg-slate-500 text-white p-2 rounded">Admin Dashboard</Link>}
+              {(isOAuthAuthenticated || isGuest) && <Logout />}
+              {data?.users_by_pk?.role === "admin" && (
+                <Link
+                  to="/admin"
+                  className="bg-slate-500 text-white p-2 rounded"
+                >
+                  Admin Dashboard
+                </Link>
+              )}
               <Link to="/profile">
                 <img
                   className="w-10 h-10 rounded-full object-cover border-2 border-white"
@@ -47,18 +59,18 @@ const Header:React.FC<HeaderProps> = ({data,handleGuestLoginClick,isLoading, isA
                 />
               </Link>
             </>
-          ) : isGuest ? (
-            <button onClick={handleGuestLoginClick}>Login</button>
           ) : (
             <>
               <Login />
               <Link to="/firebase-login">
-                <button>Firebase Login</button>
+                <Button>Firebase Login</Button>
               </Link>
               <Link to="/firebase-signup">
-                <button>Firebase Signup</button>
+                <Button>Firebase Signup</Button>
               </Link>
-              <Link to = "/guest-login"><button>Guest Login</button></Link>
+              <Link to="/guest-login">
+                <Button>Guest Login</Button>
+              </Link>
             </>
           )}
         </div>

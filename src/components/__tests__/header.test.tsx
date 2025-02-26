@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Header from "../Header";
 
@@ -7,14 +7,12 @@ jest.mock("@/Auth/O-Auth/Login", () => () => <button>OAuth Login</button>);
 jest.mock("@/Auth/O-Auth/Logout", () => () => <button>OAuth Logout</button>);
 jest.mock("@/Auth/firebase-auth/Logout", () => () => <button>Firebase Logout</button>);
 
-const mockHandleGuestLoginClick = jest.fn();
 
 const renderHeader = (props: Partial<React.ComponentProps<typeof Header>> = {}) => {
   return render(
     <BrowserRouter>
       <Header
         data={props.data || {}}
-        handleGuestLoginClick={props.handleGuestLoginClick || mockHandleGuestLoginClick}
         isLoading={props.isLoading || false}
         isAuthenticated={props.isAuthenticated || false}
         isFirebaseAuthenticated={props.isFirebaseAuthenticated || false}
@@ -43,13 +41,6 @@ describe("Header Component", () => {
     expect(screen.getByText("Firebase Login")).toBeInTheDocument();
     expect(screen.getByText("Firebase Signup")).toBeInTheDocument();
     expect(screen.getByText("Guest Login")).toBeInTheDocument();
-  });
-
-  test("triggers guest login handler when clicked", () => {
-    renderHeader({ isGuest: true });
-    const guestLoginButton = screen.getByText("Login");
-    fireEvent.click(guestLoginButton);
-    expect(mockHandleGuestLoginClick).toHaveBeenCalledTimes(1);
   });
 
   test("renders FirebaseLogout and Logout when authenticated", () => {

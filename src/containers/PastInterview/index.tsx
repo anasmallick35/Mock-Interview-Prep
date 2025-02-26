@@ -1,32 +1,40 @@
-import { useEffect, useCallback } from "react";
+import { toast } from "sonner";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PastInterviews from "@/components/PastInterview";
 import {
   deleteInterviewStart,
   fetchInterviewsStart,
 } from "@/store/slices/PastInterviewSlices/interviewSlices";
 import { RootState } from "@/store/store";
 import useAuth from "@/hooks/useAuth";
-import PastInterviews from "@/components/PastInterview";
 
 const usePastInterviews = () => {
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
   const dispatch = useDispatch();
   const { interviews, loading, error } = useSelector(
     (state: RootState) => state.interviews
   );
 
-  useEffect(() => {
-    if (user?.uid || user?.sub) {
-      dispatch(fetchInterviewsStart(user.uid || user.sub));
-    }
-  }, [dispatch, user]);
+  const guestId = import.meta.env.VITE_GUEST_ID;
 
-  const handleDeleteInterview = useCallback(
-    (interviewId: string) => {
-      dispatch(deleteInterviewStart(interviewId));
-    },
-    [dispatch]
-  );
+  const userId = user?.sub || user?.uid || guestId;
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchInterviewsStart(userId));
+    }
+  }, [dispatch, userId]);
+
+  const handleDeleteInterview = (interviewId: string) => {
+    if (isGuest) {
+      toast.error("Please Login to access all features");
+      return;
+    }
+    dispatch(deleteInterviewStart(interviewId));
+
+    toast.success("Interview Deleted Successfully");
+  };
 
   return (
     <PastInterviews

@@ -7,13 +7,13 @@ const useHomeLogic = () => {
   const { isAuthenticated } = useAuth0();
   const [firebaseUser, firebaseLoading, firebaseError] = useAuthState(auth);
 
-  const isGuestMode = !isAuthenticated && !firebaseUser;
+  //const isGuestMode = !isAuthenticated && !firebaseUser;
 
   return (
     <Home
       firebaseLoading={firebaseLoading}
       firebaseError={firebaseError}
-      isGuestMode={isGuestMode}
+      //isGuestMode={isGuestMode}
     />
   );
 };

@@ -1,6 +1,8 @@
+import { LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
+import useAuth from "@/hooks/useAuth";
 import React from "react";
 import Button from "../Button";
-import { LoaderCircle } from "lucide-react";
 
 interface TakeInterviewProps {
   openDialog: boolean;
@@ -21,25 +23,36 @@ const TakeInterviewComponent: React.FC<TakeInterviewProps> = ({
   setOpenDialog,
   loading,
 }) => {
+  const { isGuest } = useAuth();
+  const handleGuestRestriction = () => {
+    toast.error("Please login or signup to start an interview.");
+  };
   return (
     <>
       {!openDialog ? (
         <div
           className="p-6 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all"
-          onClick={handleStartInterview}
+          onClick={isGuest ? handleGuestRestriction : handleStartInterview}
         >
-          <h2 className="font-bold text-lg text-center">+ Take new Interview</h2>
+          <h2 className="font-bold text-lg text-center">
+            + Take new Interview
+          </h2>
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg ">
-          <h1 className="text-2xl font-bold text-center mb-2">Tell us about the job role</h1>
+          <h1 className="text-2xl font-bold text-center mb-2">
+            Tell us about the job role
+          </h1>
           <p className="text-center text-gray-600 mb-6">
-            Add details about your job position, job role, description, and years of experience.
+            Add details about your job position, job role, description, and
+            years of experience.
           </p>
 
           <form onSubmit={handleGenerateQuestions} className="space-y-4">
             <div>
-              <label className="block font-medium text-gray-700 mb-1">Job Title</label>
+              <label className="block font-medium text-gray-700 mb-1">
+                Job Title
+              </label>
               <input
                 type="text"
                 placeholder="Enter Job Title"
@@ -50,7 +63,9 @@ const TakeInterviewComponent: React.FC<TakeInterviewProps> = ({
             </div>
 
             <div>
-              <label className="block font-medium text-gray-700 mb-1">Job Responsibilities</label>
+              <label className="block font-medium text-gray-700 mb-1">
+                Job Responsibilities
+              </label>
               <textarea
                 placeholder="E.g. React, Angular, Java"
                 required

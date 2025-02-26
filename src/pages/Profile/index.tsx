@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import { Spinner } from "@/components/Spinner";
 
 interface ProfileProps {
@@ -27,10 +28,6 @@ const ProfileComponent: React.FC<ProfileProps> = ({
   loading,
   error,
 }) => {
-  if (!user) {
-    return <div className="text-center text-red-500">Not authenticated</div>;
-  }
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -41,9 +38,7 @@ const ProfileComponent: React.FC<ProfileProps> = ({
 
   if (error) {
     return (
-      <div className="text-center text-red-500">
-        Error fetching user data
-      </div>
+      <div className="text-center text-red-500">Error fetching user data</div>
     );
   }
 
@@ -68,7 +63,9 @@ const ProfileComponent: React.FC<ProfileProps> = ({
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Name
+          </label>
           <input
             type="text"
             value={name}
@@ -93,13 +90,13 @@ const ProfileComponent: React.FC<ProfileProps> = ({
         </div>
 
         <div className="flex justify-end">
-          <button
+          <Button
             type="submit"
             disabled={updateLoading || uploading}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 disabled:bg-blue-300"
           >
             {updateLoading || uploading ? "Updating..." : "Update Profile"}
-          </button>
+          </Button>
         </div>
       </form>
 

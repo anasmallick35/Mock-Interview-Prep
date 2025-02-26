@@ -1,20 +1,26 @@
-import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
+import useAuth from "@/hooks/useAuth";
+import Button from "@/components/Button";
 
 const Logout: React.FC = () => {
   const { logout } = useAuth0();
+  const { setIsGuest } = useAuth();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isGuest");
+    setIsGuest(false);
+    window.dispatchEvent(new Event("localStorageChange"));
+    logout({ logoutParams: { returnTo: window.location.origin } });
+  };
 
   return (
-    <button
-      onClick={() =>
-        logout({
-          logoutParams: { returnTo: window.location.origin },
-        })
-      }
+    <Button
+      onClick={handleLogout}
       className="bg-red-500 text-white p-2 rounded"
     >
       Log Out
-    </button>
+    </Button>
   );
 };
 

@@ -2,7 +2,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import Button from "../Button";
 
 interface UploadQuestionProps {
-  handleStartInterview: () => void;
+  handleUploadQuestion: () => void;
   handleSubmit: (e: React.FormEvent) => void;
   isFormOpen: boolean;
   setIsFormOpen: (isOpen: boolean) => void;
@@ -15,7 +15,7 @@ interface UploadQuestionProps {
 }
 
 const QuestionUpload: React.FC<UploadQuestionProps> = ({
-  handleStartInterview,
+  handleUploadQuestion,
   handleSubmit,
   isFormOpen,
   setIsFormOpen,
@@ -30,7 +30,7 @@ const QuestionUpload: React.FC<UploadQuestionProps> = ({
     <>
       {!isFormOpen && (
         <Button
-          onClick={handleStartInterview}
+          onClick={handleUploadQuestion}
           className="flex items-center space-x-2 p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
         >
           <FaCloudUploadAlt className="cursor-pointer" />

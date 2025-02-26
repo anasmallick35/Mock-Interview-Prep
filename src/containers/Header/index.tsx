@@ -1,5 +1,4 @@
 import { useQuery } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import { GET_USER } from "@/services/InterviewQuery";
 import Header from "@/components/Header";
@@ -15,27 +14,33 @@ const useHeader = () => {
     isOAuthAuthenticated,
   } = useAuth();
 
+  const guestId = import.meta.env.VITE_GUEST_ID;
   const { data } = useQuery(GET_USER, {
-    variables: { userId: isFirebaseAuthenticated ? user?.uid : user?.sub },
+    variables: {
+      userId: isFirebaseAuthenticated
+        ? user?.uid
+        : isGuest
+          ? guestId
+          : user?.sub,
+    },
     skip: !isAuthenticated,
   });
-  const navigate = useNavigate();
   if (isLoading) {
-    return <div><Spinner/></div>;
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
   }
 
-  const handleGuestLoginClick = () => {
-    navigate("/");
-  };
-
   return (
-    <Header data={data ?? null} 
-    handleGuestLoginClick = {handleGuestLoginClick}
-    isLoading  = {isLoading}
-    isAuthenticated = {isAuthenticated}
-    isOAuthAuthenticated = {isOAuthAuthenticated}
-    isFirebaseAuthenticated = {isFirebaseAuthenticated}
-    isGuest = {isGuest}
+    <Header
+      data={data ?? null}
+      isLoading={isLoading}
+      isAuthenticated={isAuthenticated}
+      isOAuthAuthenticated={isOAuthAuthenticated}
+      isFirebaseAuthenticated={isFirebaseAuthenticated}
+      isGuest={isGuest}
     />
   );
 };

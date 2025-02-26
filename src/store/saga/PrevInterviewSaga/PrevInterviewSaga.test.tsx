@@ -86,6 +86,6 @@ describe("deleteInterviewSaga", () => {
       { payload: "1" }
     ).toPromise();
 
-    expect(dispatched).toContainEqual(deleteInterviewFailure("Error deleting interview"));
+    expect(dispatched).toContainEqual(deleteInterviewFailure("Error deleting interview and feedback"));
   });
 });

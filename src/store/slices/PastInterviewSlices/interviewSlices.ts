@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { toast } from "sonner";
 
 interface Interview {
   id: string;
@@ -34,6 +33,7 @@ const interviewsSlice = createSlice({
     fetchInterviewsSuccess(state, action: PayloadAction<Interview[]>) {
       state.interviews = action.payload;
       state.loading = false;
+      state.error = null;
     },
     fetchInterviewsFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -54,8 +54,8 @@ const interviewsSlice = createSlice({
     },
 
     deleteInterviewFailure(state, action: PayloadAction<string>) {
-      (state.loading = false), (state.error = action.payload);
-      toast("First delete the feedback");
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });

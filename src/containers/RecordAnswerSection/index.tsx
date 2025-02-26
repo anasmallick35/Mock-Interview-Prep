@@ -1,12 +1,12 @@
 "use client";
+import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import useSpeechToText from "react-hook-speech-to-text";
-import { toast } from "sonner";
+import useAuth from "@/hooks/useAuth";
+import { useParams } from "react-router-dom";
 import { chatSession } from "@/utils/gemini";
 import { useMutation } from "@apollo/client";
-import { useParams } from "react-router-dom";
 import { INSERT_FEEDBACK_RESP } from "@/services/InterviewMutation";
-import useAuth from "@/hooks/useAuth";
 import Record from "@/components/RecordAnswerSection";
 
 interface Question {
@@ -30,17 +30,17 @@ interface ResultType {
   transcript: string;
 }
 
- const useRecordContainer = ({
+const useRecordContainer = ({
   mockInterviewQuestions,
   activeQuestionIndex,
   interviewDetails,
 }: RecordContainerProps) => {
   const { interviewId } = useParams<{ interviewId: string }>();
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
   const [userAnswer, setUserAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [insertFeedback] = useMutation(INSERT_FEEDBACK_RESP);
-
+ 
   const {
     isRecording,
     results,
@@ -60,7 +60,9 @@ interface ResultType {
 
   const questions = mockInterviewQuestions?.questions || mockInterviewQuestions;
 
+  
   const startStopRecording = async () => {
+    if (isGuest) return toast.error("Please login to continue");
     if (isRecording) {
       stopSpeechToText();
       updateUserAnswer();
@@ -91,7 +93,7 @@ interface ResultType {
           feedback: jsonFeedbackResp.feedback,
           rating: jsonFeedbackResp.rating,
           userEmail: user?.email || "crackTogether@gmail.com",
-          mockId: interviewDetails.mockId || interviewId, 
+          mockId: interviewDetails.mockId || interviewId,
         },
       });
 
@@ -104,16 +106,17 @@ interface ResultType {
       console.error("Error updating answer:", error);
       toast.error("Failed to record answer");
     }
-    
+
     setLoading(false);
   };
 
   return (
-    <Record isRecording={isRecording}
-    loading={loading}
-    startStopRecording={startStopRecording}  />
-  )
+    <Record
+      isRecording={isRecording}
+      loading={loading}
+      startStopRecording={startStopRecording}
+    />
+  );
 };
 
-
-export default useRecordContainer
+export default useRecordContainer;

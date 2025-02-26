@@ -1,36 +1,47 @@
 import { useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import AdminDashboard from "@/pages/AdminDashboard"; 
-import { GET_PENDING_QUESTIONS } from "@/services/InterviewQuery";
-import { APPROVE_QUESTION, DELETE_REJECTED_QUESTIONS, REJECT_QUESTION } from "@/services/InterviewMutation";
-
+import AdminDashboard from "@/pages/AdminDashboard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchPendingQuestionsStart,
+  approveQuestionStart,
+  rejectQuestionStart,
+  deleteRejectedQuestionsStart,
+} from "@/store/slices/AdminSlice";
+import { RootState } from "@/store/store";
 
 const AdminDashboardContainer = () => {
-  const { loading: queryLoading ,error, data, refetch } = useQuery(GET_PENDING_QUESTIONS, {
-    fetchPolicy: "network-only",
-  });
+  const dispatch = useDispatch();
 
-  const [approveQuestion] = useMutation(APPROVE_QUESTION, {
-    onCompleted: () => refetch(),
-  });
-
-  const [rejectQuestion] = useMutation(REJECT_QUESTION, {
-    onCompleted: () => refetch(),
-  });
-
-  const [deleteOldRejectedQuestions] = useMutation(DELETE_REJECTED_QUESTIONS);
+  const { pendingQuestions, loading, error } = useSelector(
+    (state: RootState) => state.admin
+  );
 
   useEffect(() => {
-    deleteOldRejectedQuestions();
-  }, [deleteOldRejectedQuestions]);
+    if(pendingQuestions)
+    dispatch(fetchPendingQuestionsStart());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(deleteRejectedQuestionsStart());
+  }, [dispatch]);
+
+  const handleApproveQuestion = (questionId: string) => {
+    if(questionId)
+    dispatch(approveQuestionStart(questionId));
+  };
+  const handleRejectQuestion = (questionId: string) => {
+    if(questionId)
+    dispatch(rejectQuestionStart(questionId));
+  };
+ 
 
   return (
     <AdminDashboard
-    queryLoading = {queryLoading}
+      queryLoading={loading}
       error={error}
-      data={data ?? null} 
-      approveQuestion={approveQuestion}
-      rejectQuestion={rejectQuestion}
+      data={{ questions: pendingQuestions }} 
+      approveQuestion={handleApproveQuestion}
+      rejectQuestion={handleRejectQuestion} 
     />
   );
 };

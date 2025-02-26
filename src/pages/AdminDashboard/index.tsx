@@ -1,3 +1,6 @@
+import React from "react";
+import Button from "@/components/Button"; 
+
 interface Question {
   id: string;
   question: string;
@@ -8,8 +11,8 @@ interface AdminDashboardProps {
   queryLoading: boolean;
   error: any;
   data: { questions: Question[] } | null;
-  approveQuestion: (options: { variables: { id: string } }) => void;
-  rejectQuestion: (options: { variables: { id: string } }) => void;
+  approveQuestion: (id: string) => void;  
+  rejectQuestion: (id: string) => void;
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({
@@ -19,7 +22,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   approveQuestion,
   rejectQuestion,
 }) => {
-  
   if (queryLoading) return <div>Loading...</div>;
   if (error) {
     console.error("GraphQL Error:", error);
@@ -38,20 +40,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <p className="font-semibold">{question.question}</p>
             <p className="text-gray-600">Topic: {question.topic}</p>
 
-            <button
+            <Button
               onClick={() =>
-                approveQuestion({ variables: { id: question.id } })
+                approveQuestion(question?.id)  
               }
               className="bg-green-500 text-white p-2 rounded mr-2 disabled:bg-green-300"
             >
               Approve
-            </button>
-            <button
-              onClick={() => rejectQuestion({ variables: { id: question.id } })}
+            </Button>
+            <Button
+              onClick={() => rejectQuestion(question?.id)}
               className="bg-red-500 text-white p-2 rounded disabled:bg-red-300"
             >
               Reject
-            </button>
+            </Button>
           </div>
         ))}
       </div>

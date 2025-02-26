@@ -1,14 +1,14 @@
-import Button from '@/components/Button';
-import QuestionSection from '@/components/QuestionSection';
-import RecordSection from '@/containers/RecordAnswerSection';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import Button from "@/components/Button";
+import QuestionSection from "@/components/QuestionSection";
+import RecordSection from "@/containers/RecordAnswerSection";
 
 interface StartInterviewProps {
   loading: boolean;
   error: any;
   mockInterviewQuestions: any[];
   activeQuestionIndex: number;
-  setActiveQuestionIndex: React.Dispatch<React.SetStateAction<number>>
+  setActiveQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
   interviewDetails: any | null;
 }
 
@@ -43,12 +43,16 @@ const StartInterviewComponent: React.FC<StartInterviewProps> = ({
 
       <div className="flex justify-end gap-6">
         {activeQuestionIndex > 0 && (
-          <Button onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)}>
+          <Button
+            onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)}
+          >
             Previous Question
           </Button>
         )}
         {activeQuestionIndex !== mockInterviewQuestions?.length - 1 && (
-          <Button onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)}>
+          <Button
+            onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)}
+          >
             Next Question
           </Button>
         )}
