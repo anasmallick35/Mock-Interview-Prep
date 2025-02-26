@@ -39,20 +39,16 @@ const interviewsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-
     deleteInterviewStart(state, _action: PayloadAction<string>) {
       state.loading = true;
       state.error = null;
     },
-
     deleteInterviewSuccess(state, action: PayloadAction<string>) {
       state.interviews = state.interviews.filter(
         (interview) => interview.id !== action.payload
       );
-
       state.loading = false;
     },
-
     deleteInterviewFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
