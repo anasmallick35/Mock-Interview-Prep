@@ -16,6 +16,14 @@ export const DELETE_INTERVIEW = gql`
       }
     `;
 
+export const DELETE_USER_QUESTION = gql`
+    mutation deleteUserQuestions($id: uuid!){
+    delete_questions(where: {id : {_eq: $id}}){
+    affected_rows
+    }
+    }
+`
+
 export const APPROVE_QUESTION = gql`
   mutation ApproveQuestion($id: uuid!) {
     update_questions_by_pk(pk_columns: { id: $id }, _set: { status: "approved" }) {
@@ -92,3 +100,12 @@ mutation UpdateUser($userId: String!, $name: String!, $picture:String!){
   }
 }
 `
+export const UPLOAD_QUESTION = gql`
+      mutation UploadQuestion($question: String!, $jobTitle: String!, $topic: String!, $userId: String!) {
+        insert_questions_one(object: { question: $question, jobTitle: $jobTitle, topic: $topic, status: "pending", user_id: $userId }) {
+          id,
+          question,
+          jobTitle
+        }
+      }
+    `;

@@ -58,6 +58,7 @@ const Header: React.FC<HeaderProps> = ({
                   src={data?.users_by_pk?.picture}
                 />
               </Link>
+              <Link to = "/user-contributions"><Button>Your Contribution</Button></Link>
             </>
           ) : (
             <>

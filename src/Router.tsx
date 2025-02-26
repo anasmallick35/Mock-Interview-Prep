@@ -14,6 +14,7 @@ const AuthPage = lazy(() => import("./pages/AuthPage"));
 const FirebaseLogin = lazy(() => import("./Auth/firebase-auth/Login"));
 const FirebaseSignup = lazy(() => import("./Auth/firebase-auth/Signup"));
 const Error = lazy(() => import("./pages/Error"));
+const UserContributions = lazy(()=> import("./pages/UserContribution"))
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
             path: "start-interview/:interviewId/feedback",
             element: <Feedback />,
           },
+          {path: "user-contributions" ,element: <UserContributions/>}
         ],
       },
       {

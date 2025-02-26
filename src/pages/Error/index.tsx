@@ -11,10 +11,10 @@ const ErrorPage = () => {
         <img src={ErrorLogo} alt="404" className="w-40 h-40" />
         <h1 className="text-4xl font-bold">Oops!</h1>
         <p>THE PAGE YOU WERE LOOKING FOR DOESN'T EXIST</p>
-        <p className="text-sm bg-red-300 rounded-sm">
+        <p className="text-slate-400" >
           You may have mistyped the address or the page may have moved
         </p>
-        <p className="text-slate-400">
+        <p className="text-sm bg-red-300 rounded-sm">
           <i>
             {(error as Error)?.message ||
               (error as { statusText?: string })?.statusText}

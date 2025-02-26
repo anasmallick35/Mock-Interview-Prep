@@ -11,6 +11,7 @@ import {
   watchDeleteRejectedQuestions,
   watchRejectQuestions,
 } from "./AdminSaga";
+import { watchFetchUserQuestions,watchDeleteQuestions } from "./UserQuestionsSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -22,5 +23,7 @@ export default function* rootSaga() {
     watchApproveQuestion(),
     watchDeleteRejectedQuestions(),
     watchRejectQuestions(),
+    watchFetchUserQuestions(),
+    watchDeleteQuestions()
   ]);
 }

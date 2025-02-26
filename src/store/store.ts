@@ -8,6 +8,7 @@ import uploadQuestionReducer from './slices/QuestionUploadSlice'
 //import storage from 'redux-persist/lib/storage';
 //import { persistReducer, persistStore } from 'redux-persist';
 import adminQuestionReducer from './slices/AdminSlice'
+import userQuestionReducer from './slices/UserQuestionsSlice'
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -32,6 +33,7 @@ const store = configureStore({
     takeInterview: takeInterviewReducer,
     uploadQuestion: uploadQuestionReducer,
     admin: adminQuestionReducer,
+    userQuestions : userQuestionReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(sagaMiddleware),

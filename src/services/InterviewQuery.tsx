@@ -12,6 +12,17 @@ export const GET_INTERVIEW = gql`
     }
   }
 `;
+export const FETCH_USER_QUESTIONS = gql`
+query FetchUserQuestions($userId: String!) {
+  questions(where: { user_id: { _eq: $userId } }) {
+    id
+    question
+    jobTitle
+    topic
+    status
+  }
+}
+`
 
 
 export const GET_USER = gql`

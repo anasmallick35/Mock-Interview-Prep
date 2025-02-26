@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
-interface Question{
+export interface Question{
   question : string;
   jobTitle : string;
   topic : string
