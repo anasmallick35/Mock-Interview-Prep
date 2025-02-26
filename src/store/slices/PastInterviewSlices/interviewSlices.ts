@@ -64,9 +64,7 @@ export const {
   fetchInterviewsStart,
   fetchInterviewsSuccess,
   fetchInterviewsFailure,
-  deleteInterviewFailure,
-  deleteInterviewStart,
-  deleteInterviewSuccess,
+  d
 } = interviewsSlice.actions;
 
 export default interviewsSlice.reducer;
