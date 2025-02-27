@@ -75,6 +75,8 @@ export function* deleteRejectedQuestions() {
   }
 }
 
+// remove this
+
 export function* watchFetchPendingQuestion() {
   yield takeLatest(fetchPendingQuestionsStart.type, fetchPendingQuestions);
 }

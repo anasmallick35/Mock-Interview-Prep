@@ -14,7 +14,7 @@ const AuthPage = lazy(() => import("./pages/AuthPage"));
 const FirebaseLogin = lazy(() => import("./Auth/firebase-auth/Login"));
 const FirebaseSignup = lazy(() => import("./Auth/firebase-auth/Signup"));
 const Error = lazy(() => import("./pages/Error"));
-const UserContributions = lazy(()=> import("./pages/UserContribution"))
+const UserContributions = lazy(()=> import("./containers/UserContribution"))
 
 const router = createBrowserRouter([
   {

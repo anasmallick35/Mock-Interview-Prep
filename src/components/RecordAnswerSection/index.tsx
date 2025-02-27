@@ -7,6 +7,8 @@ import webCam from "@/assets/webcam.png";
 import { width, height } from "@/utils/constant";
 import * as faceapi from "face-api.js";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface RecordProps {
   isRecording: boolean;
@@ -22,6 +24,9 @@ const Record: React.FC<RecordProps> = ({
   const webcamRef = useRef<Webcam>(null);
   const [isMultipleFacesDetected, setIsMultipleFacesDetected] = useState(false);
   const [isFaceDetectionReady, setIsFaceDetectionReady] = useState(false);
+  const [totalSession, setTotalSession] = useState(5);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadModels = async () => {
@@ -63,10 +68,22 @@ const Record: React.FC<RecordProps> = ({
         console.error("Error detecting faces:", error);
       }
     };
-
     const interval = setInterval(detectFaces, 1000);
     return () => clearInterval(interval);
   }, [isFaceDetectionReady]);
+
+  useEffect(() => {
+    if (isMultipleFacesDetected) {
+      setTotalSession((prev) => prev - 1);
+    }
+  }, [isMultipleFacesDetected]);
+
+  useEffect(() => {
+    if (totalSession <= 0) {
+      navigate("/");
+      toast.error("You cheated!");
+    }
+  }, [totalSession]);
 
   return (
     <div className="flex items-center justify-center flex-col relative">
@@ -81,6 +98,7 @@ const Record: React.FC<RecordProps> = ({
               More than one face detected. Please ensure only one person is in
               the frame.
             </p>
+            <i>You have {totalSession} session left</i>
           </div>
         </div>
       )}
