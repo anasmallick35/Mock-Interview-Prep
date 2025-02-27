@@ -58,6 +58,7 @@ const Record: React.FC<RecordProps> = ({
           .detectAllFaces(video)
           .withFaceLandmarks()
           .withFaceDescriptors();
+          
 
         if (detections.length > 1) {
           setIsMultipleFacesDetected(true);

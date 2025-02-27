@@ -1,19 +1,7 @@
 import Button from "@/components/Button";
 import { Spinner } from "@/components/Spinner";
+import { ProfileProps } from "./types";
 
-interface ProfileProps {
-  user: any;
-  name: string;
-  setName: (value: string) => void;
-  picture: string;
-  setImageFile: (file: File | null) => void;
-  uploading: boolean;
-  updateLoading: boolean;
-  updateError: any;
-  handleSubmit: (e: React.FormEvent) => void;
-  loading: boolean;
-  error: any;
-}
 
 const ProfileComponent: React.FC<ProfileProps> = ({
   user,

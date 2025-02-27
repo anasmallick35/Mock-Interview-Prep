@@ -1,19 +1,7 @@
 import React from "react";
 import Button from "@/components/Button"; 
+import { AdminDashboardProps } from "./types";
 
-interface Question {
-  id: string;
-  question: string;
-  topic: string;
-}
-
-interface AdminDashboardProps {
-  queryLoading: boolean;
-  error: any;
-  data: { questions: Question[] } | null;
-  approveQuestion: (id: string) => void;  
-  rejectQuestion: (id: string) => void;
-}
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({
   queryLoading,

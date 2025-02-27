@@ -3,16 +3,9 @@ import { toast } from "sonner";
 import useAuth from "@/hooks/useAuth";
 import React from "react";
 import Button from "../Button";
+import { TakeInterviewProps } from "./types";
 
-interface TakeInterviewProps {
-  openDialog: boolean;
-  handleStartInterview: () => void;
-  handleGenerateQuestions: (e: React.FormEvent) => void;
-  setJobTitle: React.Dispatch<React.SetStateAction<string>>;
-  setTopic: React.Dispatch<React.SetStateAction<string>>;
-  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
-  loading: boolean;
-}
+
 
 const TakeInterviewComponent: React.FC<TakeInterviewProps> = ({
   openDialog,

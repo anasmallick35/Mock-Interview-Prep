@@ -2,15 +2,8 @@ import { Link } from "react-router-dom";
 import Button from "@/components/Button";
 import QuestionSection from "@/components/QuestionSection";
 import RecordSection from "@/containers/RecordAnswerSection";
+import { StartInterviewProps } from "./types";
 
-interface StartInterviewProps {
-  loading: boolean;
-  error: any;
-  mockInterviewQuestions: any[];
-  activeQuestionIndex: number;
-  setActiveQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
-  interviewDetails: any | null;
-}
 
 const StartInterviewComponent: React.FC<StartInterviewProps> = ({
   loading,
