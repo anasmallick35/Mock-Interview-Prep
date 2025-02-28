@@ -4,6 +4,7 @@ import {
   APPROVE_QUESTION,
   REJECT_QUESTION,
   DELETE_REJECTED_QUESTIONS,
+  INC_POINTS,
 } from "@/services/InterviewMutation";
 import {
   fetchPendingQuestionsSuccess,
@@ -19,6 +20,7 @@ import {
 
 import { PayloadAction } from "@reduxjs/toolkit";
 import client from "@/utils/apolloClient";
+import { SagaIterator } from 'redux-saga';
 
 /*interface Question {
   id: string;
@@ -38,13 +40,23 @@ export function* fetchPendingQuestions() {
   }
 }
 
-export function* approveQuestion(action: PayloadAction<string>) {
+
+
+export function* approveQuestion(action: PayloadAction<string>): SagaIterator {
   try {
-    yield call(client.mutate, {
+    const res=yield call(client.mutate, {
       mutation: APPROVE_QUESTION,
       variables: { id: action.payload },
       refetchQueries: [{ query: GET_PENDING_QUESTIONS }],
     });
+
+    console.log(res?.data?.update_questions_by_pk?.user_id);
+    yield call(client.mutate, {
+      mutation: INC_POINTS,
+      variables: { userId: res?.data?.update_questions_by_pk?.user_id },
+     // refetchQueries: [{ query: GET_PENDING_QUESTIONS }],
+    });
+
     yield put(approveQuestionSuccess(action.payload));
   } catch (error) {
     console.error("Error approving question:", error);

@@ -12,12 +12,13 @@ interface UserQuestionsState {
   questions: Question[];
   loading: boolean;
   error: string | null;
+  points: number;
 }
-
 const initialState: UserQuestionsState = {
   questions: [],
   loading: false,
   error: null,
+  points: 0
 };
 
 const userQuestionsSlice = createSlice({
@@ -64,7 +65,7 @@ export const {
   fetchUserQuestionsFailure,
   deleteQuestionFailure,
   deleteQuestionStart,
-  deleteQuestionSuccess
+  deleteQuestionSuccess,
 } = userQuestionsSlice.actions;
 
 export default userQuestionsSlice.reducer;

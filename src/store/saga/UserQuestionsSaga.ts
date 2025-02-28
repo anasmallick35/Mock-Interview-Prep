@@ -5,7 +5,7 @@ import {
   fetchUserQuestionsFailure,
   deleteQuestionSuccess,
   deleteQuestionFailure,
-  deleteQuestionStart,
+  deleteQuestionStart
 } from "../slices/UserQuestionsSlice";
 import client from "../../utils/apolloClient";
 import { FETCH_USER_QUESTIONS } from "@/services/InterviewQuery";
@@ -44,6 +44,7 @@ export function* deleteQuestionSaga(action:any) {
       yield put(deleteQuestionFailure("Error deleting question"));
     }
   }
+  
 
 export function* watchFetchUserQuestions() {
   yield takeLatest(fetchUserQuestionsStart.type, fetchUserQuestionsSaga);

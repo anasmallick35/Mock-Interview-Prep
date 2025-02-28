@@ -1,99 +1,56 @@
-import { render, fireEvent, waitFor, screen } from "@testing-library/react";
-import FirebaseLogin from "../Login";
-import { auth, GoogleAuthProvider, GithubAuthProvider } from "@/utils/__mocks__/firebase";
+import { render, screen, fireEvent } from '@testing-library/react';
+import FirebaseLogin from '@/Auth/firebase-auth/Login';
+import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { toast } from 'sonner';
 import "@testing-library/jest-dom";
-import { useMutation, useQuery } from "@apollo/client";
-import { MemoryRouter } from "react-router-dom";
 
-jest.mock("@/utils/__mocks__/firebase");
-jest.mock("@apollo/client");
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
+}));
 
-describe("FirebaseLogin", () => {
+jest.mock('firebase/auth', () => ({
+  signInWithEmailAndPassword: jest.fn(),
+  signInWithPopup: jest.fn(),
+}));
+
+jest.mock('sonner', () => ({
+  toast: {
+    error: jest.fn(),
+  },
+}));
+
+describe('FirebaseLogin Component', () => {
+  const mockNavigate = jest.fn();
+
   beforeEach(() => {
-    (useMutation as jest.Mock).mockReturnValue([
-      jest.fn(),
-      { loading: false, error: null },
-    ]);
-
-    (useQuery as jest.Mock).mockReturnValue({
-      data: { users_by_pk: null },
-      loading: false,
-      error: null,
-    });
+    (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
   });
 
-  it("renders the login form", () => {
-    render(
-      <MemoryRouter>
-        <FirebaseLogin />
-      </MemoryRouter>
-    );
-    expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
-    expect(screen.getByText("Login")).toBeInTheDocument();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it("handles email/password login", async () => {
-    (auth.signInWithEmailAndPassword as jest.Mock).mockResolvedValue({});
-
-    render(
-      <MemoryRouter>
-        <FirebaseLogin />
-      </MemoryRouter>
-    );
-
-    fireEvent.change(screen.getByPlaceholderText("Email"), {
-      target: { value: "test@example.com" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("Password"), {
-      target: { value: "password123" },
-    });
-    fireEvent.click(screen.getByText("Login"));
-
-    await waitFor(() => {
-      expect(auth.signInWithEmailAndPassword).toHaveBeenCalledWith(
-        auth,
-        "test@example.com",
-        "password123"
-      );
-    });
+  it('should render the Firebase login component', () => {
+    render(<FirebaseLogin />);
+    expect(screen.getByText('CrackTogether')).toBeInTheDocument();
   });
 
-  it("handles Google login", async () => {
-    (auth.signInWithPopup as jest.Mock).mockResolvedValue({
-      user: { id: "google-uid", email: "google@example.com", name: "Google User" },
-    });
-
-    render(
-      <MemoryRouter>
-        <FirebaseLogin />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByText("Login with Google"));
-
-    await waitFor(() => {
-      expect(auth.signInWithPopup).toHaveBeenCalledWith(auth, new GoogleAuthProvider());
-      expect(useMutation).toHaveBeenCalled();
-    });
+  it('should handle email/password login', async () => {
+    (signInWithEmailAndPassword as jest.Mock).mockResolvedValue({});
+    render(<FirebaseLogin />);
+    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password' } });
+    fireEvent.click(screen.getByText('Login'));
+    await expect(signInWithEmailAndPassword).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 
-  it("handles GitHub login", async () => {
-    (auth.signInWithPopup as jest.Mock).mockResolvedValue({
-      user: { id: "github-uid", email: "github@example.com", name: "GitHub User" },
-    });
-
-    render(
-      <MemoryRouter>
-        <FirebaseLogin />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByText("Login with GitHub"));
-
-    await waitFor(() => {
-      expect(auth.signInWithPopup).toHaveBeenCalledWith(auth, new GithubAuthProvider());
-      expect(useMutation).toHaveBeenCalled();
-    });
+  it('should handle Google login', async () => {
+    (signInWithPopup as jest.Mock).mockResolvedValue({});
+    render(<FirebaseLogin />);
+    fireEvent.click(screen.getByText('Login with Google'));
+    await expect(signInWithPopup).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 });

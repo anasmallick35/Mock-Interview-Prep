@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useAuth0 } from "@auth0/auth0-react";
-import { auth } from "@/utils/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { chatSession } from "@/utils/gemini";
 import TakeInterviewComponent from "@/components/TakeInterview";
 import { useDispatch, useSelector } from "react-redux";
 import { createInterviewStart } from "@/store/slices/TakeInterviewSlices";
 import { RootState } from "@/store/store";
-import { useLazyQuery } from "@apollo/client";
-import { GET_QUESTION } from "@/services/InterviewQuery";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { GET_QUESTION, GET_USER } from "@/services/InterviewQuery";
+import useAuth from "@/hooks/useAuth";
+import { UPDATE_POINTS } from "@/services/InterviewMutation";
 
 const useTakeInterview = () => {
   const [jobTitle, setJobTitle] = useState<string>("");
@@ -23,8 +22,9 @@ const useTakeInterview = () => {
     (state: RootState) => state.takeInterview
   );
   const [getUserQuestions] = useLazyQuery(GET_QUESTION);
-  const { user: auth0User, isAuthenticated: auth0IsAuthenticated } = useAuth0();
-  const [firebaseUser] = useAuthState(auth);
+  const { user, isFirebaseAuthenticated, isOAuthAuthenticated } = useAuth();
+
+  const [updateUserPoints] = useMutation(UPDATE_POINTS);
 
   useEffect(() => {
     if (interviewId) {
@@ -36,7 +36,7 @@ const useTakeInterview = () => {
     e.preventDefault();
     setLoading(true);
 
-    if (!auth0IsAuthenticated && !firebaseUser) {
+    if (!isFirebaseAuthenticated && !isOAuthAuthenticated) {
       toast.error("Please log in to continue.");
       return;
     }
@@ -63,13 +63,20 @@ const useTakeInterview = () => {
       const combinedQuestions = dbQuestion
         ? [...geminiQuestions, dbQuestion]
         : geminiQuestions;
-      const userId = firebaseUser?.uid || auth0User?.sub;
+      const userId = user?.uid || user?.sub;
 
       if (userId) {
         dispatch(
           createInterviewStart({ combinedQuestions, jobTitle, topic, userId })
         );
-        toast.success("Interview created successfully");
+
+        await updateUserPoints({
+          variables: {
+            id: userId,
+            points: -50, // Deduct 50 points
+          },
+        });
+        toast.success("Interview created successfully. 50 points deducted.");
       }
     } catch (error) {
       console.error("Error generating questions:", error);
@@ -79,9 +86,19 @@ const useTakeInterview = () => {
     }
   };
 
+  const { data } = useQuery(GET_USER, {
+    variables: {
+      userId: isFirebaseAuthenticated ? user?.uid : user?.sub,
+    },
+  });
+
   const handleStartInterview = () => {
-    if (!auth0IsAuthenticated && !firebaseUser) {
+    if (!isFirebaseAuthenticated && !isOAuthAuthenticated) {
       toast.error("Please login to start an interview.");
+      return;
+    }
+    if (data?.users_by_pk?.points < 50) {
+      toast.error("You don't have enough points to start an interview.");
       return;
     }
     setOpenDialog(true);

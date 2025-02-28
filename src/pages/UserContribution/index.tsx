@@ -1,13 +1,7 @@
 import Button from "@/components/Button";
 import { UserContriProps } from "./types";
-
-
-/*export interface Question {
-  id: string;
-  question: string;
-  topic: string;
-  status: "approved" | "rejected" | "pending";
-}*/
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faRibbon } from "@fortawesome/free-solid-svg-icons";
 
 const UserContribution: React.FC<UserContriProps> = ({
   currentQuestions,
@@ -20,12 +14,30 @@ const UserContribution: React.FC<UserContriProps> = ({
   statusFilter,
   paginationRef,
   totalPages,
+  totalApprovedQuestion,
+  totalPendingQuestion,
+  totalRejectedQuestions,
 }) => {
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold mb-6 text-center">
-        Your Contributions
+    <div className="p-6 max-w-4xl mx-auto relative">
+      <h2 className="text-3xl font-bold mb-16 text-center">
+      <FontAwesomeIcon icon={faRibbon} className="text-green-600"/> Your Contributions
       </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="p-4 bg-green-50 rounded-lg shadow-sm">
+          <p className="text-sm text-gray-600">Approved</p>
+          <p className="text-2xl font-bold text-green-800">{totalApprovedQuestion}</p>
+        </div>
+        <div className="p-4 bg-yellow-50 rounded-lg shadow-sm">
+          <p className="text-sm text-gray-600">Pending</p>
+          <p className="text-2xl font-bold text-yellow-800">{totalPendingQuestion}</p>
+        </div>
+        <div className="p-4 bg-red-50 rounded-lg shadow-sm">
+          <p className="text-sm text-gray-600">Rejected</p>
+          <p className="text-2xl font-bold text-red-800">{totalRejectedQuestions}</p>
+        </div>
+      </div>
+
       <div className="mb-6">
         <label htmlFor="statusFilter" className="mr-2 text-gray-700">
           Filter by Status:

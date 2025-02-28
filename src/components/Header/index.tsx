@@ -1,9 +1,11 @@
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Login from "@/Auth/O-Auth/Login";
 import Logout from "@/Auth/O-Auth/Logout";
 import FirebaseLogout from "@/Auth/firebase-auth/Logout";
 import { Spinner } from "../Spinner";
 import Button from "../Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoins } from "@fortawesome/free-solid-svg-icons";
 
 interface HeaderProps {
   data: any;
@@ -52,13 +54,21 @@ const Header: React.FC<HeaderProps> = ({
                   Admin Dashboard
                 </Link>
               )}
-              <Link to="/profile">
+              <div className="flex items-center space-x-2 bg-yellow-100 p-3 rounded-xl shadow-sm cursor-pointer hover:bg-yellow-200 transition-colors">
+                  <FontAwesomeIcon icon={faCoins} className="text-yellow-600" />
+                  <span className="text-yellow-800 font-bold text-sm">
+                    {data?.users_by_pk?.points}
+                  </span>
+                </div>
+              <Link to="/user-contributions">
+                <Button>Your Contribution</Button>
+              </Link>
+                <Link to="/profile">
                 <img
                   className="w-10 h-10 rounded-full object-cover border-2 border-white"
                   src={data?.users_by_pk?.picture}
                 />
               </Link>
-              <Link to = "/user-contributions"><Button>Your Contribution</Button></Link>
             </>
           ) : (
             <>

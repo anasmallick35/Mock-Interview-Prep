@@ -2,7 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import { Suspense } from "react";
 import { Toaster } from "sonner";
 import useAuth from "./hooks/useAuth";
-import router from "./Router";
+import router from "./router";
 import { Spinner } from "./components/Spinner";
 
 const App = () => {

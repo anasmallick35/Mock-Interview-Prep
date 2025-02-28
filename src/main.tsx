@@ -11,9 +11,6 @@ import store  from './store/store.ts'
 //import {auth} from './utils/firebase.ts'
 
 
-
-
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Auth0Provider

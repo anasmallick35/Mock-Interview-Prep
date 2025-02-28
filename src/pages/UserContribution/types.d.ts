@@ -9,4 +9,8 @@ export interface UserContriProps {
     statusFilter: "all" | "approved" | "rejected" | "pending";
     paginationRef: React.RefObject<HTMLDivElement>;
     totalPages: number;
+    totalPendingQuestion: number;
+    totalQuestions: number;
+    totalRejectedQuestions: number;
+    totalApprovedQuestion: number;
   }

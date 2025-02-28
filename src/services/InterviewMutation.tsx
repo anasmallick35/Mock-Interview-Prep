@@ -30,9 +30,18 @@ export const APPROVE_QUESTION = gql`
       _set: { status: "approved" }
     ) {
       id
+      user_id
     }
   }
 `;
+
+export const INC_POINTS = gql`
+mutation INCPoints($userId: String!) {
+  update_users(where: {id: {_eq: $userId}}, _inc: {points: 25}) {
+    affected_rows
+  }
+}
+`
 
 export const REJECT_QUESTION = gql`
   mutation RejectQuestion($id: uuid!) {
@@ -123,6 +132,14 @@ export const UPLOAD_QUESTION = gql`
     }
   }
 `;
+export const UPDATE_POINTS = gql`
+mutation UpdateUserPoints($id: String!, $points: Int!) {
+  update_users_by_pk(pk_columns: { id: $id }, _inc: { points: $points }) {
+    id
+    points
+  }
+}
+  `
 
 export const INSERT_INTERVIEW = gql`
       mutation InsertInterview(

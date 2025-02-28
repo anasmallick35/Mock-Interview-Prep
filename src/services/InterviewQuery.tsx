@@ -32,7 +32,8 @@ export const GET_USER = gql`
       role,
       name,
       picture,
-      email
+      email,
+      points
     }
   }
 `;

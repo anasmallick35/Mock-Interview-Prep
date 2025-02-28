@@ -13,3 +13,18 @@ if (typeof global.TextDecoder === "undefined") {
     prototype: TextDecoder;
   };
 }
+
+// @ts-nocheck
+
+Object.defineProperty(import.meta, 'env', {
+  value: {
+    VITE_FIREBASE_API_KEY: 'random_' + Math.random().toString(36).slice(2),
+    VITE_FIREBASE_AUTH_DOMAIN: 'random_' + Math.random().toString(36).slice(2),
+    VITE_FIREBASE_PROJECT_ID: 'random_' + Math.random().toString(36).slice(2),
+    VITE_FIREBASE_STORAGE_BUCKET: 'random_' + Math.random().toString(36).slice(2),
+    VITE_FIREBASE_MESSAGING_SENDER_ID: 'random_' + Math.random().toString(36).slice(2),
+    VITE_FIREBASE_APP_ID: 'random_' + Math.random().toString(36).slice(2),
+    VITE_FIREBASE_MEASUREMENT_ID: 'random_' + Math.random().toString(36).slice(2)
+  },
+  writable: false,
+});

@@ -7,7 +7,6 @@ import {
   signInWithPhoneNumber,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  Auth,
   ConfirmationResult,
 } from "firebase/auth";
 
@@ -23,8 +22,9 @@ const firebaseConfig: FirebaseOptions = {
 
 
 
+
 const app = initializeApp(firebaseConfig);
-const auth: Auth = getAuth(app);
+const auth = getAuth(app);
 
 export {
   auth,

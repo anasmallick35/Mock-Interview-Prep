@@ -10,14 +10,6 @@ import { toast } from "sonner";
 import UserContribution from "@/pages/UserContribution";
 import { Spinner } from "@/components/Spinner";
 
-
-/*interface Question {
-  id: string;
-  question: string;
-  topic: string;
-  status: "approved" | "rejected" | "pending";
-}*/
-
 const UserContributions = () => {
   const { user } = useAuth();
   const dispatch = useDispatch();
@@ -80,6 +72,19 @@ const UserContributions = () => {
       });
     }
   };
+
+  const totalQuestions = questions.length;
+
+  const totalPendingQuestion = questions.filter(
+    (question) => question.status === "pending"
+  ).length;
+
+  const totalApprovedQuestion = questions.filter(
+    (question) => question.status === "approved"
+  ).length;
+  const totalRejectedQuestions =
+    totalQuestions - totalPendingQuestion - totalApprovedQuestion;
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -108,6 +113,10 @@ const UserContributions = () => {
       statusFilter={statusFilter}
       paginationRef={paginationRef}
       totalPages={totalPages}
+      totalQuestions={totalQuestions}
+      totalPendingQuestion={totalPendingQuestion}
+      totalApprovedQuestion={totalApprovedQuestion}
+      totalRejectedQuestions={totalRejectedQuestions}
     />
   );
 };

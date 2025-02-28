@@ -39,7 +39,7 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
             <div key={index} className="mt-4 border rounded-lg overflow-hidden">
               <button
                 onClick={() => handleToggle(index)}
-                className="w-full p-3 flex justify-between items-centertext-black bg-gray-500 hover:bg-gray-200 transition"
+                className="w-full p-3 flex justify-between items-centertext-black hover:bg-gray-200 transition"
               >
                 {item.question}
                 <ChevronsUpDown className="h-4" />
