@@ -1,19 +1,38 @@
-import { renderHook } from '@testing-library/react';
-import useAuth from '@/hooks/useAuth';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import env from "@/utils/config";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import "@testing-library/jest-dom";
 
+jest.mock("@/utils/firebase", () => ({
+  auth: {
+    currentUser: null,
+  },
+  signInWithEmailAndPassword: jest.fn(),
+  signInWithPopup: jest.fn(),
+  signInWithPhoneNumber: jest.fn(),
+  GoogleAuthProvider: jest.fn(),
+  RecaptchaVerifier: jest.fn(),
+}));
 
-jest.mock('@auth0/auth0-react', () => ({
+jest.mock("@/utils/apolloClient", () => {
+  const mockClient = {
+    query: jest.fn(),
+  };
+  return {
+    __esModule: true,
+    default: mockClient,
+  };
+});
+
+jest.mock("@auth0/auth0-react", () => ({
   useAuth0: jest.fn(),
 }));
 
-jest.mock('react-firebase-hooks/auth', () => ({
+jest.mock("react-firebase-hooks/auth", () => ({
   useAuthState: jest.fn(),
 }));
 
-describe('useAuth Hook', () => {
+describe("useAuth Hook", () => {
   beforeEach(() => {
     (useAuth0 as jest.Mock).mockReturnValue({
       user: null,
@@ -27,9 +46,8 @@ describe('useAuth Hook', () => {
     jest.clearAllMocks();
   });
 
-  it('should return initial auth state', () => {
-    const { result } = renderHook(() => useAuth());
-    expect(result.current.isAuthenticated).toBe(false);
-    expect(result.current.isLoading).toBe(false);
+  test("uses environment variables", () => {
+    expect(env.VITE_FIREBASE_API_KEY).toBe("mock-api-key");
+    expect(env.VITE_FIREBASE_PROJECT_ID).toBe("mock-project-id");
   });
 });

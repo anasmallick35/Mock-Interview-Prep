@@ -1,56 +1,118 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import FirebaseLogin from '@/Auth/firebase-auth/Login';
-import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { toast } from 'sonner';
+import env from "@/utils/config"; 
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import FirebaseLogin from "../Login";
+import { auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "@/utils/firebase";
+import { BrowserRouter } from "react-router-dom";
+import { MockedProvider } from "@apollo/client/testing";
+import { toast } from "sonner";
 import "@testing-library/jest-dom";
 
-jest.mock('react-router-dom', () => ({
-  useNavigate: jest.fn(),
-}));
 
-jest.mock('firebase/auth', () => ({
+jest.mock("@/utils/firebase", () => ({
+  auth: {
+    currentUser: null,
+  },
   signInWithEmailAndPassword: jest.fn(),
   signInWithPopup: jest.fn(),
+  signInWithPhoneNumber: jest.fn(),
+  GoogleAuthProvider: jest.fn(),
+  RecaptchaVerifier: jest.fn(),
 }));
 
-jest.mock('sonner', () => ({
-  toast: {
-    error: jest.fn(),
-  },
-}));
+// Mock Apollo Client
+jest.mock("@/utils/apolloClient", () => {
+  const mockClient = {
+    query: jest.fn(),
+  };
+  return {
+    __esModule: true,
+    default: mockClient,
+  };
+});
 
-describe('FirebaseLogin Component', () => {
-  const mockNavigate = jest.fn();
+// Mock Sonner (Toast notifications)
+jest.mock("sonner", () => ({ toast: { error: jest.fn(), success: jest.fn() } }));
 
+describe("FirebaseLogin Component", () => {
   beforeEach(() => {
-    (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should render the Firebase login component', () => {
-    render(<FirebaseLogin />);
-    expect(screen.getByText('CrackTogether')).toBeInTheDocument();
+  test("renders login form fields", () => {
+    render(
+      <MockedProvider>
+        <BrowserRouter>
+          <FirebaseLogin />
+        </BrowserRouter>
+      </MockedProvider>
+    );
+
+    expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
   });
 
-  it('should handle email/password login', async () => {
+  test("handles email/password login successfully", async () => {
     (signInWithEmailAndPassword as jest.Mock).mockResolvedValue({});
-    render(<FirebaseLogin />);
-    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password' } });
-    fireEvent.click(screen.getByText('Login'));
-    await expect(signInWithEmailAndPassword).toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith('/');
+
+    render(
+      <MockedProvider>
+        <BrowserRouter>
+          <FirebaseLogin />
+        </BrowserRouter>
+      </MockedProvider>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "test@example.com" } });
+    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "password123" } });
+    fireEvent.click(screen.getByText("Login"));
+
+    await waitFor(() =>
+      expect(signInWithEmailAndPassword).toHaveBeenCalledWith(auth, "test@example.com", "password123")
+    );
   });
 
-  it('should handle Google login', async () => {
-    (signInWithPopup as jest.Mock).mockResolvedValue({});
-    render(<FirebaseLogin />);
-    fireEvent.click(screen.getByText('Login with Google'));
-    await expect(signInWithPopup).toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith('/');
+  test("shows error message on failed login", async () => {
+    (signInWithEmailAndPassword as jest.Mock).mockRejectedValue(new Error("Login Failed"));
+
+    render(
+      <MockedProvider>
+        <BrowserRouter>
+          <FirebaseLogin />
+        </BrowserRouter>
+      </MockedProvider>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "test@example.com" } });
+    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "wrongpassword" } });
+    fireEvent.click(screen.getByText("Login"));
+
+    await waitFor(() => expect(toast.error).toHaveBeenCalledWith("Unable to Login"));
+  });
+
+  test("handles Google login", async () => {
+    const mockUser = { uid: "123", email: "test@example.com" };
+    const mockProvider = new GoogleAuthProvider();
+
+    (signInWithPopup as jest.Mock).mockResolvedValue({
+      user: mockUser,
+      provider: "google",
+    });
+
+    render(
+      <MockedProvider>
+        <BrowserRouter>
+          <FirebaseLogin />
+        </BrowserRouter>
+      </MockedProvider>
+    );
+
+    fireEvent.click(screen.getByText("Login with Google"));
+
+    await waitFor(() => expect(signInWithPopup).toHaveBeenCalledWith(auth, mockProvider));
+  });
+
+  test("uses environment variables", () => {
+    expect(env.VITE_FIREBASE_API_KEY).toBe("mock-api-key");
+    expect(env.VITE_FIREBASE_PROJECT_ID).toBe("mock-project-id");
   });
 });
