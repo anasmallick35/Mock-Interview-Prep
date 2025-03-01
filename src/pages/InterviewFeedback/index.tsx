@@ -12,13 +12,14 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
 }) => {
   return (
     <div className="p-10 ml-6">
-      <Button
+      {feedbackList.length > 0 && (
+        <Button
         className="mt-5 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
         onClick={handleDelete}
       >
         Delete
       </Button>
-
+      )}
       <h2 className="text-3xl font-bold text-green-600 mt-4">
         Congratulations!
       </h2>
