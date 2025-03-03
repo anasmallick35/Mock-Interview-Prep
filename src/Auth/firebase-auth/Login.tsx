@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   auth,
@@ -8,18 +9,21 @@ import {
 } from "../../utils/firebase";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { CREATE_USER } from "./Signup";
 import { GET_USER } from "@/services/InterviewQuery";
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa"; 
+import { FaGithub } from "react-icons/fa";
+
 
 const FirebaseLogin = () => {
-  const [createUser] = useMutation(CREATE_USER);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [createUser] = useMutation(CREATE_USER);
   const navigate = useNavigate();
+
+  const [getUser, { data }] = useLazyQuery(GET_USER);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,23 +41,11 @@ const FirebaseLogin = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-      const { data } = useQuery(GET_USER, {
-        variables: { userId: user.uid },
-      });
-
-      if (!data.users_by_pk) {
-        await createUser({
-          variables: {
-            id: user.uid,
-            provider: "google",
-            email: user.email,
-            name: user.displayName || user.email,
-          },
-        });
-      }
+      console.log(user?.uid);
+      await getUser({ variables: { userId: user?.uid } });
 
       navigate("/");
+
     } catch (error) {
       console.error(error);
       toast.error("Unable to Login");
@@ -66,11 +58,10 @@ const FirebaseLogin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const { data } = useQuery(GET_USER, {
-        variables: { userId: user.uid },
-      });
+      await getUser({ variables: { userId: user.uid } });
 
-      if (!data.users_by_pk) {
+
+      if (!data?.users_by_pk) {
         await createUser({
           variables: {
             id: user.uid,

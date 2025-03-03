@@ -10,7 +10,7 @@ const ProtectedRoute: React.FC<{ adminOnly?: string }> = ({ adminOnly }) => {
   const { user, isAuthenticated, isLoading, isGuest } = useAuth();
 
   const { data } = useQuery(GET_USER, {
-    variables: { userId: user?.sub },
+    variables: { userId: user?.sub || user?.uid },
     skip: !isAuthenticated,
   });
 

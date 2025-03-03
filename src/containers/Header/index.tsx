@@ -3,6 +3,7 @@ import useAuth from "@/hooks/useAuth";
 import { GET_USER } from "@/services/InterviewQuery";
 import Header from "@/components/Header";
 import { Spinner } from "@/components/Spinner";
+import { Sidebar } from "lucide-react";
 
 const useHeader = () => {
   const {

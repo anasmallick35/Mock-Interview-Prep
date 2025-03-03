@@ -1,8 +1,6 @@
 import { auth } from "../../utils/firebase";
 
-
 const FirebaseLogout = () => {
-
   const handleLogout = async () => {
     try {
       await auth.signOut();
@@ -11,7 +9,14 @@ const FirebaseLogout = () => {
     }
   };
 
-  return <button onClick={handleLogout}>Log Out</button>;
+  return (
+    <div
+      onClick={handleLogout}
+      className="w-full py-2 px-4 bg-slate-500 text-white font-semibold  hover:bg-red-600 transition-all duration-300"
+    >
+      Log Out
+    </div>
+  );
 };
 
 export default FirebaseLogout;

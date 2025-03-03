@@ -35,8 +35,8 @@ const Home: React.FC<HomeProps> = ({ firebaseLoading, firebaseError }) => {
 
       <div className="flex flex-col md:flex-row gap-8 justify-center items-start">
         <div className="flex flex-col md:w-2/5 gap-6">
-          <TakeInterviewContainer />
-          <PastInterviews />
+         {/*<TakeInterviewContainer />*/}
+          {/*<PastInterviews />*/}
         </div>
 
         <div className="flex flex-wrap justify-center gap-6 md:w-3/5">

@@ -4,6 +4,8 @@ import ProtectedRoute from "./containers/ProtectedRoute";
 import { lazy } from "react";
 
 import GuestLogin from "./Auth/O-Auth/GuestLogin";
+import TakeInterview from "./containers/TakeInterview";
+import PastInterviews from "./containers/PastInterview"
 const Home = lazy(() => import("./containers/Home"));
 const Profile = lazy(() => import("./containers/Profile"));
 const AdminDashboard = lazy(() => import("./containers/AdminDashboard"));
@@ -27,11 +29,13 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Home /> },
           { path: "profile", element: <Profile /> },
+          {path: "take-interview", element: <TakeInterview/>},
           { path: "start-interview/:interviewId", element: <StartInterview /> },
           {
             path: "start-interview/:interviewId/feedback",
             element: <Feedback />,
           },
+          {path: "past-interviews" ,element: <PastInterviews/>},
           {path: "user-contributions" ,element: <UserContributions/>}
         ],
       },
@@ -40,6 +44,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute adminOnly={"admin"} />,
         children: [{ path: "", element: <AdminDashboard /> }],
       },
+      
       { path: "log-in", element: <FirebaseLogin /> },
       { path: "sign-up", element: < FirebaseSignup/> },
       { path: "guest-login", element: <GuestLogin /> },
