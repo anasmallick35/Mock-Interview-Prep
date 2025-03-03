@@ -47,8 +47,8 @@ describe("FirebaseLogin Component", () => {
       </MockedProvider>
     );
 
-    expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Enter your email")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Enter your password")).toBeInTheDocument();
   });
 
   test("handles email/password login successfully", async () => {
@@ -62,9 +62,9 @@ describe("FirebaseLogin Component", () => {
       </MockedProvider>
     );
 
-    fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "test@example.com" } });
-    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "password123" } });
-    fireEvent.click(screen.getByText("Login"));
+    fireEvent.change(screen.getByPlaceholderText("Enter your email"), { target: { value: "test@example.com" } });
+    fireEvent.change(screen.getByPlaceholderText("Enter your password"), { target: { value: "password123" } });
+    fireEvent.click(screen.getByText("Log in"));
 
     await waitFor(() =>
       expect(signInWithEmailAndPassword).toHaveBeenCalledWith(auth, "test@example.com", "password123")
@@ -82,9 +82,9 @@ describe("FirebaseLogin Component", () => {
       </MockedProvider>
     );
 
-    fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "test@example.com" } });
-    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "wrongpassword" } });
-    fireEvent.click(screen.getByText("Login"));
+    fireEvent.change(screen.getByPlaceholderText("Enter your email"), { target: { value: "test@example.com" } });
+    fireEvent.change(screen.getByPlaceholderText("Enter your password"), { target: { value: "wrongpassword" } });
+    fireEvent.click(screen.getByText("Log in"));
 
     await waitFor(() => expect(toast.error).toHaveBeenCalledWith("Unable to Login"));
   });
@@ -106,7 +106,7 @@ describe("FirebaseLogin Component", () => {
       </MockedProvider>
     );
 
-    fireEvent.click(screen.getByText("Login with Google"));
+    fireEvent.click(screen.getByText("Sign in with Google"));
 
     await waitFor(() => expect(signInWithPopup).toHaveBeenCalledWith(auth, mockProvider));
   });

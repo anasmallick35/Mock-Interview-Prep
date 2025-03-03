@@ -1,5 +1,5 @@
 import { FaCloudUploadAlt } from "react-icons/fa";
-import Button from "../Button";
+import Button from "../Button"; // Ensure this path is correct
 
 interface UploadQuestionProps {
   handleUploadQuestion: () => void;
@@ -28,19 +28,24 @@ const QuestionUpload: React.FC<UploadQuestionProps> = ({
 }) => {
   return (
     <>
+      {/* Upload Question Button */}
       {!isFormOpen && (
-        <Button
+        <div
           onClick={handleUploadQuestion}
-          className="flex items-center space-x-2 p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
+          className="flex justify-center items-center min-h-[200px] bg-white rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300 w-96 border border-gray-200"
         >
-          <FaCloudUploadAlt className="cursor-pointer" />
-          <span>Upload Question</span>
-        </Button>
+          <div className="flex flex-col items-center space-y-2 p-6 text-gray-800">
+            <FaCloudUploadAlt className="text-4xl text-blue-500" />
+            <span className="text-xl font-semibold">Upload Question</span>
+            <p className="text-sm text-gray-600">Click here to contribute</p>
+          </div>
+        </div>
       )}
 
+      {/* Modal/Dialog */}
       {isFormOpen && (
-        <div className="fixed inset-0 bg-white z-50 p-6 overflow-y-auto">
-          <div className="max-w-4xl mx-auto">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
             <div className="border-b pb-4">
               <h2 className="text-2xl font-bold text-gray-800">
                 Contribute by Uploading Question
@@ -86,7 +91,7 @@ const QuestionUpload: React.FC<UploadQuestionProps> = ({
 
             <Button
               onClick={() => setIsFormOpen(false)}
-              className="mt-4 text-gray-500 bg-red-500 hover:text-gray-700 flex items-center space-x-2"
+              className="mt-4 text-gray-500 bg-gray-200 hover:bg-gray-300 transition duration-300 flex items-center space-x-2 p-3 rounded-lg"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -110,4 +115,5 @@ const QuestionUpload: React.FC<UploadQuestionProps> = ({
     </>
   );
 };
+
 export default QuestionUpload;

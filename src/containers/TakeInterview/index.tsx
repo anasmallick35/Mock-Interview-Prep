@@ -91,7 +91,6 @@ const useTakeInterview = () => {
       userId: isFirebaseAuthenticated ? user?.uid : user?.sub,
     },
   });
-
   const handleStartInterview = () => {
     if (!isFirebaseAuthenticated && !isOAuthAuthenticated) {
       toast.error("Please login to start an interview.");

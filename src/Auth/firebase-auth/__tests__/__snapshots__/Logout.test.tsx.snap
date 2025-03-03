@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FirebaseLogout Component renders logout button and matches snapshot 1`] = `
+<DocumentFragment>
+  <button>
+    Log Out
+  </button>
+</DocumentFragment>
+`;

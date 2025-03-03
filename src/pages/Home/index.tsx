@@ -40,10 +40,10 @@ const Home: React.FC<HomeProps> = ({ firebaseLoading, firebaseError }) => {
         </div>
 
         <div className="flex flex-wrap justify-center gap-6 md:w-3/5">
-          <div className="shadow-xl rounded-xl border border-gray-300 bg-white p-6 w-80 h-64 flex flex-col justify-center items-center transform transition-all hover:scale-105 hover:shadow-2xl">
+          <div>
             <UploadQuestionContainer />
           </div>
-          <div className="shadow-xl rounded-xl border border-gray-300 bg-white p-6 w-80 h-64 flex flex-col justify-center items-center transform transition-all hover:scale-105 hover:shadow-2xl">
+          <div>
             <BulkUpload />
           </div>
         </div>
