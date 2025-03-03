@@ -30,7 +30,6 @@ const Header: React.FC<HeaderProps> = ({
       </div>
     );
   }
-
   return (
     <header className="sticky top-0 bg-white shadow-md dark:bg-gray-900 dark:text-white z-50">
       <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -87,3 +86,4 @@ const Header: React.FC<HeaderProps> = ({
 };
 
 export default Header;
+A
