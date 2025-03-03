@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Login from "@/Auth/O-Auth/Login";
 import Logout from "@/Auth/O-Auth/Logout";
 import FirebaseLogout from "@/Auth/firebase-auth/Logout";
 import { Spinner } from "../Spinner";
@@ -76,13 +75,6 @@ const Header: React.FC<HeaderProps> = ({
             </>
           ) : (
             <>
-              <Login />
-              <Link to="/firebase-login">
-                <Button>Firebase Login</Button>
-              </Link>
-              <Link to="/firebase-signup">
-                <Button>Firebase Signup</Button>
-              </Link>
               <Link to="/guest-login">
                 <Button>Guest Login</Button>
               </Link>

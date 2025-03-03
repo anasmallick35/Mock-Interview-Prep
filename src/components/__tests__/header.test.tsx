@@ -35,11 +35,8 @@ describe("Header Component", () => {
     expect(screen.getByText("CrackTogether")).toBeInTheDocument();
   });
 
-  test("renders login buttons when not authenticated", () => {
+  test("renders guest button when not authenticated", () => {
     renderHeader({ isAuthenticated: false });
-    expect(screen.getByText("OAuth Login")).toBeInTheDocument();
-    expect(screen.getByText("Firebase Login")).toBeInTheDocument();
-    expect(screen.getByText("Firebase Signup")).toBeInTheDocument();
     expect(screen.getByText("Guest Login")).toBeInTheDocument();
   });
 

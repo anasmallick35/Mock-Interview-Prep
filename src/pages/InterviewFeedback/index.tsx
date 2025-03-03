@@ -2,7 +2,6 @@ import { ChevronsUpDown } from "lucide-react";
 import Button from "@/components/Button";
 import { FeedbackProps } from "./types";
 
-
 const FeedbackComponent: React.FC<FeedbackProps> = ({
   feedbackList,
   openIndex,

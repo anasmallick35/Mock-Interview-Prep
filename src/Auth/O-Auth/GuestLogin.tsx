@@ -24,7 +24,7 @@ const GuestLogin = () => {
         <p className="mb-6">You are logging in as a guest. Some features will be restricted.</p>
         <Button
           onClick={handleGuestLogin}
-          className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+          className="bg-slate-400 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
         >
           Continue as Guest
         </Button>

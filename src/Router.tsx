@@ -4,17 +4,17 @@ import ProtectedRoute from "./containers/ProtectedRoute";
 import { lazy } from "react";
 
 import GuestLogin from "./Auth/O-Auth/GuestLogin";
-
 const Home = lazy(() => import("./containers/Home"));
 const Profile = lazy(() => import("./containers/Profile"));
 const AdminDashboard = lazy(() => import("./containers/AdminDashboard"));
 const StartInterview = lazy(() => import("./containers/StartInterview"));
 const Feedback = lazy(() => import("./containers/Feedback"));
-const AuthPage = lazy(() => import("./pages/AuthPage"));
-const FirebaseLogin = lazy(() => import("./Auth/firebase-auth/Login"));
-const FirebaseSignup = lazy(() => import("./Auth/firebase-auth/Signup"));
+//const AuthPage = lazy(() => import("./pages/AuthPage"));
+const FirebaseLogin = lazy(() => import("./pages/Auth/Login"));
+const FirebaseSignup = lazy(() => import("./pages/Auth/Signup"));
 const Error = lazy(() => import("./pages/Error"));
 const UserContributions = lazy(()=> import("./containers/UserContribution"))
+
 
 const router = createBrowserRouter([
   {
@@ -40,9 +40,8 @@ const router = createBrowserRouter([
         element: <ProtectedRoute adminOnly={"admin"} />,
         children: [{ path: "", element: <AdminDashboard /> }],
       },
-      { path: "auth", element: <AuthPage /> },
-      { path: "firebase-login", element: <FirebaseLogin /> },
-      { path: "firebase-signup", element: <FirebaseSignup /> },
+      { path: "log-in", element: <FirebaseLogin /> },
+      { path: "sign-up", element: < FirebaseSignup/> },
       { path: "guest-login", element: <GuestLogin /> },
     ],
   },

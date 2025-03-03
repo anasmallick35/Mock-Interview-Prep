@@ -23,7 +23,7 @@ const ProtectedRoute: React.FC<{ adminOnly?: string }> = ({ adminOnly }) => {
   }
 
   if (!isAuthenticated && !isGuest) {
-    return <Navigate to="/auth" />;
+    return <Navigate to="/log-in" />;
   }
 
   if (adminOnly && !data?.users_by_pk) {
