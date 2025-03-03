@@ -38,20 +38,9 @@ const FirebaseLogin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const { data } = useQuery(GET_USER, {
+       useQuery(GET_USER, {
         variables: { userId: user.uid },
       });
-
-      if (!data.users_by_pk) {
-        await createUser({
-          variables: {
-            id: user.uid,
-            provider: "google",
-            email: user.email,
-            name: user.displayName || user.email,
-          },
-        });
-      }
 
       navigate("/");
     } catch (error) {

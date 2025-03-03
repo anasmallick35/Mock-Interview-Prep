@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { auth, createUserWithEmailAndPassword } from "../../utils/firebase";
+import { auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "../../utils/firebase";
 import { toast } from "sonner";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import client from "../../utils/apolloClient";
 import { auth as firebaseAuth } from "../../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc"; 
 import { FaGithub } from "react-icons/fa"; 
+import { GET_USER } from "@/services/InterviewQuery";
+import useAuth from "@/hooks/useAuth";
 
 export const CREATE_USER = gql`
   mutation InsertUser(
@@ -80,6 +82,38 @@ const FirebaseSignup = () => {
       toast.error("Unable to register");
     }
   };
+
+  const handleGoogleLogin = async () => {
+    const {isFirebaseAuthenticated} = useAuth()
+      const provider = new GoogleAuthProvider();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+  
+        const { data } = useQuery(GET_USER, {
+          variables: { userId: user.uid },
+        });
+        if(data && data.users_by_pk){
+          return toast.error("User already exists");
+        }
+        else{
+          await createUser({
+            variables: {
+              id: user.uid,
+              provider: "google",
+              email: user.email,
+              name: user.displayName || user.email,
+            },
+          });
+        }
+  
+        navigate("/");
+      } catch (error) {
+        console.error(error);
+        toast.error("Unable to Login");
+      }
+    };
+  
 
   return (
     <div className="w-full">
