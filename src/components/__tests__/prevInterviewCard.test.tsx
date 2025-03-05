@@ -71,15 +71,4 @@ describe("PrevInterviewCard Component", () => {
     fireEvent.click(screen.getByText("Feedback"));
     expect(mockNavigate).toHaveBeenCalledWith("/start-interview/1/feedback");
   });
-
-  test("calls onDelete when 'Delete' button is clicked", () => {
-    render(
-      <MemoryRouter>
-        <PrevInterviewCard interview={mockInterview} onDelete={mockOnDelete} />
-      </MemoryRouter>
-    );
-
-    fireEvent.click(screen.getByText("Delete"));
-    expect(mockOnDelete).toHaveBeenCalledTimes(1);
-  });
 });

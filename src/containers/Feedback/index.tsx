@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
+import {  useQuery } from "@apollo/client";
 import { GET_FEEDBACK_FROM_USER_ANSWERS } from "@/services/InterviewQuery";
-import { DELETE_FEEDBACK } from "@/services/InterviewMutation";
+//import { DELETE_FEEDBACK } from "@/services/InterviewMutation";
 import FeedbackComponent from "@/pages/InterviewFeedback";
 
 const FeedbackContainer = () => {
@@ -22,15 +22,15 @@ const FeedbackContainer = () => {
     }
   }, [data]);
 
-  const [deleteFeedback] = useMutation(DELETE_FEEDBACK, {
+  /*const [deleteFeedback] = useMutation(DELETE_FEEDBACK, {
     variables: { mockId: interviewId },
     onCompleted: () => {
       alert("Feedback Deleted successfully");
       setFeedbackList([]);
     },
   });
-
-  const handleDelete = () => deleteFeedback();
+*/
+  /*const handleDelete = () => deleteFeedback();*/
   const handleToggle = (index: number) =>
     setOpenIndex(openIndex === index ? null : index);
 
@@ -39,7 +39,6 @@ const FeedbackContainer = () => {
       feedbackList={feedbackList}
       openIndex={openIndex}
       handleToggle={handleToggle}
-      handleDelete={handleDelete}
       navigate={navigate}
     />
   );

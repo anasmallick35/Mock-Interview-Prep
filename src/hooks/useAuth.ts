@@ -30,7 +30,7 @@ const useAuth = (): AuthState => {
       setIsGuest(true);
     }
 
-    const handleStorageChange = (event: StorageEvent | Event) => {
+    const handleStorageChange = (_event: StorageEvent | Event) => {
       const guestState = localStorage.getItem("isGuest");
       setIsGuest(guestState === "true");
     };

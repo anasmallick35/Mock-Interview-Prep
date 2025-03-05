@@ -104,7 +104,7 @@ const Record: React.FC<RecordProps> = ({
         </div>
       )}
 
-      <div className="flex flex-col my-20 justify-center bg-black items-center rounded-lg p-5">
+      <div className="flex flex-col my-10 justify-center bg-black items-center rounded-lg p-5">
         <img
           src={webCam}
           width={width}

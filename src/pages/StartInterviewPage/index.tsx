@@ -3,6 +3,8 @@ import Button from "@/components/Button";
 import QuestionSection from "@/components/QuestionSection";
 import RecordSection from "@/containers/RecordAnswerSection";
 import { StartInterviewProps } from "./types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faSquareCaretLeft, faSquareCaretRight } from "@fortawesome/free-solid-svg-icons";
 
 
 const StartInterviewComponent: React.FC<StartInterviewProps> = ({
@@ -34,21 +36,15 @@ const StartInterviewComponent: React.FC<StartInterviewProps> = ({
         />
       </div>
 
-      <div className="flex justify-end gap-6">
+      <div className="flex justify-end gap-6 mt-20 mr-3">
         {activeQuestionIndex > 0 && (
-          <Button
-            onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)}
-          >
-            Previous Question
-          </Button>
+          <FontAwesomeIcon icon={faSquareCaretLeft} className = "text-4xl" onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)}/>
         )}
+
         {activeQuestionIndex !== mockInterviewQuestions?.length - 1 && (
-          <Button
-            onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)}
-          >
-            Next Question
-          </Button>
+          <FontAwesomeIcon icon={faSquareCaretRight} className = "text-4xl" onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)}/>
         )}
+
         {interviewDetails && (
           <Link to={`/start-interview/${interviewDetails?.id}/feedback`}>
             <Button>End Interview</Button>

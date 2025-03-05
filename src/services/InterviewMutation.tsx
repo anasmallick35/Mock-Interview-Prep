@@ -141,6 +141,23 @@ mutation UpdateUserPoints($id: String!, $points: Int!) {
 }
   `
 
+  export const CREATE_USER = gql`
+  mutation InsertUser(
+    $id: String
+    $provider: String
+    $email: String
+    $name: String
+  ) {
+    insert_users_one(
+      object: { id: $id, provider: $provider, email: $email, name: $name }
+    ) {
+      id
+      email
+      name
+    }
+  }
+`;
+
 export const INSERT_INTERVIEW = gql`
       mutation InsertInterview(
         $id: uuid!,

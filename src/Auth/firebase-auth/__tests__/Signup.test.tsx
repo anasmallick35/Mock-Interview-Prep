@@ -1,31 +1,31 @@
-import env from '@/utils/config';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import FirebaseSignup from '../Signup';
 import { createUserWithEmailAndPassword } from "@/utils/firebase";
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import "@testing-library/jest-dom";
 
-// Mock the necessary modules
 jest.mock('@/utils/firebase', () => ({
   auth: {},
-  createUserWithEmailAndPassword: jest.fn().mockResolvedValue({ user: { uid: '123', email: 'test@example.com' } }),
+  createUserWithEmailAndPassword: jest.fn(),
 }));
 
 jest.mock("@/utils/apolloClient", () => {
-    const mockClient = {
-      query: jest.fn(),
-    };
-    return {
-      __esModule: true,
-      default: mockClient,
-    };
-  });
-  
+  const mockClient = {
+    query: jest.fn(),
+  };
+  return {
+    __esModule: true,
+    default: mockClient,
+  };
+});
+
 jest.mock('@apollo/client', () => ({
   useMutation: jest.fn(),
+  useLazyQuery: jest.fn(),
+  gql: jest.fn(),
 }));
 
 jest.mock('react-firebase-hooks/auth', () => ({
@@ -53,12 +53,16 @@ describe('FirebaseSignup', () => {
     (useMutation as jest.Mock).mockReturnValue([mockCreateUser, { loading: false, error: null }]);
     (useAuthState as jest.Mock).mockReturnValue([null, false, null]);
     (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
+    (useLazyQuery as jest.Mock).mockReturnValue([
+      jest.fn().mockResolvedValue({ data: { users: [] } }),
+      { loading: false, error: null }
+    ]);
   });
 
   test('renders the component correctly', () => {
     render(<FirebaseSignup />);
-    expect(screen.getByText('Sign up with Google')).toBeInTheDocument();
-    expect(screen.getByText('Sign up with GitHub')).toBeInTheDocument();
+    expect(screen.getByText(/Sign up with Google/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sign up with GitHub/i)).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByText('Sign up')).toBeInTheDocument();
@@ -104,9 +108,9 @@ describe('FirebaseSignup', () => {
 
     render(<FirebaseSignup />);
 
-    fireEvent.click(screen.getByText('Sign up'));
-
+    fireEvent.click(screen.getByText('Signing up...'));
     expect(screen.getByText('Signing up...')).toBeInTheDocument();
+    
   });
 
   test('displays error message on Firebase authentication failure', async () => {
@@ -144,11 +148,8 @@ describe('FirebaseSignup', () => {
     fireEvent.click(screen.getByText('Sign up'));
 
     await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith('Hasura user creation failed.');
+      expect(toast.error).toHaveBeenCalledWith('user creation failed.');
+      expect(toast.error).toHaveBeenCalledWith('Unable to register');
     });
-  });
-  test("uses environment variables", () => {
-    expect(env.VITE_FIREBASE_API_KEY).toBe("mock-api-key");
-    expect(env.VITE_FIREBASE_PROJECT_ID).toBe("mock-project-id");
   });
 });

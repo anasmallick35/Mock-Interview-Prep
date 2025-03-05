@@ -1,5 +1,7 @@
-import { FaLightbulb, FaVolumeUp } from "react-icons/fa";
+import { FaLightbulb } from "react-icons/fa";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 
 interface Question {
   question: string;
@@ -48,17 +50,16 @@ const QuestionSection: React.FC<QuestionSectionProps> = ({
         )}
       </div>
 
+<div className="flex flex-row gap-8">
       <h2 className="my-5 text-md md:text-lg">
         {questions && questions[activeQuestionIndex]?.question}
       </h2>
-
-      <FaVolumeUp
-        className="cursor-pointer"
+      <FontAwesomeIcon icon={faVolumeHigh} className=" my-6 text-md md:text-lg cursor-pointer"
         onClick={() =>
           textToSpeech(questions[activeQuestionIndex]?.question || "")
-        }
-      />
+        }/>
 
+      </div>
       <div className="border rounded-lg p-5 bg-blue-300 mt-20">
         <h2 className="flex gap-2 items-center text-blue-700">
           <FaLightbulb />

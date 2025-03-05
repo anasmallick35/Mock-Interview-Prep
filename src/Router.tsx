@@ -14,6 +14,7 @@ const FirebaseLogin = lazy(() => import("./pages/Auth/Login"));
 const FirebaseSignup = lazy(() => import("./pages/Auth/Signup"));
 const Error = lazy(() => import("./pages/Error"));
 const UserContributions = lazy(()=> import("./containers/UserContribution"))
+const ResetPassword = lazy(() => import("./Auth/firebase-auth/ResetPassword"));
 
 
 const router = createBrowserRouter([
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       { path: "log-in", element: <FirebaseLogin /> },
       { path: "sign-up", element: < FirebaseSignup/> },
       { path: "guest-login", element: <GuestLogin /> },
+      {path: "reset-password", element: <ResetPassword />}
     ],
   },
 ]);

@@ -14,6 +14,7 @@ const ProtectedRoute: React.FC<{ adminOnly?: string }> = ({ adminOnly }) => {
     skip: !isAuthenticated,
   });
 
+
   if (isLoading) {
     return (
       <div>
@@ -22,7 +23,7 @@ const ProtectedRoute: React.FC<{ adminOnly?: string }> = ({ adminOnly }) => {
     );
   }
 
-  if (!isAuthenticated && !isGuest) {
+  if (!isAuthenticated && !isGuest && !data?.users_by_pk) {
     return <Navigate to="/log-in" />;
   }
 

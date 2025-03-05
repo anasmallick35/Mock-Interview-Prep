@@ -6,30 +6,20 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
   feedbackList,
   openIndex,
   handleToggle,
-  handleDelete,
   navigate,
 }) => {
   return (
     <div className="p-10 ml-6">
-      {feedbackList.length > 0 && (
-        <Button
-        className="mt-5 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
-        onClick={handleDelete}
-      >
-        Delete
-      </Button>
-      )}
-      <h2 className="text-3xl font-bold text-green-600 mt-4">
-        Congratulations!
-      </h2>
-      <h2 className="font-bold text-2xl">Here is your interview feedback</h2>
-
       {feedbackList.length === 0 ? (
         <h2 className="font-bold text-lg text-green-500">
           No interview Feedback
         </h2>
       ) : (
         <>
+        <h2 className="text-3xl font-bold text-green-600 mt-4">
+        Congratulations!
+      </h2>
+      <h2 className="font-bold text-2xl">Here is your interview feedback</h2>
           <p className="text-sm text-gray-500">
             Below are interview questions with correct answers, your answers,
             and feedback for improvement.

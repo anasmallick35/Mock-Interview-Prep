@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button";
+import Modal from "../modals"; 
 
 interface Interview {
   id: string;
@@ -20,6 +21,7 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
   onDelete,
 }) => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onStart = () => {
     navigate("/start-interview/" + interview?.id);
@@ -27,6 +29,19 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
 
   const onFeedbackPress = () => {
     navigate("/start-interview/" + interview?.id + "/feedback");
+  };
+
+  const handleDelete = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    onDelete();
+    setIsModalOpen(false);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -58,11 +73,18 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
         </div>
         <Button
           className="w-full h-10 bg-red-500 transition-colors duration-200"
-          onClick={onDelete}
+          onClick={handleDelete}
         >
           Delete
         </Button>
       </div>
+
+      {/* Modal for confirmation */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 };

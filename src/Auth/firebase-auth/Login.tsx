@@ -6,16 +6,18 @@ import {
   signInWithPopup,
   GithubAuthProvider,
 } from "../../utils/firebase";
+
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
-import { CREATE_USER } from "./Signup";
+import { Link, useNavigate } from "react-router-dom";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_USER } from "@/services/InterviewQuery";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa"; 
+import { CREATE_USER } from "@/services/InterviewMutation";
 
 const FirebaseLogin = () => {
   const [createUser] = useMutation(CREATE_USER);
+  const [getUser] = useLazyQuery(GET_USER); 
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -24,6 +26,10 @@ const FirebaseLogin = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if(!email || !password) {
+        toast.error("Email and password are required");
+      }
+
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
     } catch (error) {
@@ -38,9 +44,7 @@ const FirebaseLogin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-       useQuery(GET_USER, {
-        variables: { userId: user.uid },
-      });
+      await getUser({ variables: { userId: user?.uid } });
 
       navigate("/");
     } catch (error) {
@@ -55,9 +59,7 @@ const FirebaseLogin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const { data } = useQuery(GET_USER, {
-        variables: { userId: user.uid },
-      });
+      const {data} = await getUser({ variables: { userId: user?.uid } });
 
       if (!data.users_by_pk) {
         await createUser({
@@ -122,7 +124,7 @@ const FirebaseLogin = () => {
           <label className="flex flex-col gap-1">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-gray-700">Password</span>
-              <a href="/reset-password" className="text-sm text-blue-500 hover:underline">Forgot password?</a>
+              <Link to="/reset-password" className="text-sm text-blue-500 hover:underline">Forgot password?</Link>
             </div>
             <input
               type="password"

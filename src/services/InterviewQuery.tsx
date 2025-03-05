@@ -38,6 +38,14 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_USER_BY_EMAIL = gql`
+ query GetUserByEmail($email : String!){
+  users(where: {email: {_eq: $email}}) {
+    email
+}
+ }
+`
+
 export const GET_FEEDBACK_FROM_USER_ANSWERS = gql`
   query getFeedback(
   $interviewId : uuid!

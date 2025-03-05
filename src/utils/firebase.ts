@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   ConfirmationResult,
+  sendPasswordResetEmail 
 } from "firebase/auth";
 
 const firebaseConfig: FirebaseOptions = {
@@ -34,5 +35,6 @@ export {
   signInWithPhoneNumber,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 };
 export type { ConfirmationResult };
