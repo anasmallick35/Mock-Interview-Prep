@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { RootState } from "@/redux/store";
 import {
   deleteQuestionStart,
   fetchUserQuestionsStart,
-} from "@/store/slices/UserQuestionsSlice";
+} from "@/redux/slices/UserQuestionsSlice";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "sonner";
 import UserContribution from "@/pages/UserContribution";

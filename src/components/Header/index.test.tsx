@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen, cleanup } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import Header from "../Header";
+import Header from ".";
 
 jest.mock("@/Auth/O-Auth/Login", () => () => <button>OAuth Login</button>);
 jest.mock("@/Auth/O-Auth/Logout", () => () => <button>OAuth Logout</button>);

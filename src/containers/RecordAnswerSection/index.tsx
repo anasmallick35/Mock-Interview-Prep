@@ -8,33 +8,19 @@ import { chatSession } from "@/utils/gemini";
 import { useMutation } from "@apollo/client";
 import { INSERT_FEEDBACK_RESP } from "@/services/InterviewMutation";
 import Record from "@/components/RecordAnswerSection";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
-interface Question {
-  question: string;
-  answer: string;
-}
 
-interface InterviewDetails {
-  mockId: string;
-}
 
-interface RecordContainerProps {
-  mockInterviewQuestions: {
-    questions: Question[];
-  };
-  activeQuestionIndex: number;
-  interviewDetails: InterviewDetails;
-}
+
+
 
 interface ResultType {
   transcript: string;
 }
 
-const useRecordContainer = ({
-  mockInterviewQuestions,
-  activeQuestionIndex,
-  interviewDetails,
-}: RecordContainerProps) => {
+const useRecordContainer = () => {
   const { interviewId } = useParams<{ interviewId: string }>();
   const { user, isGuest } = useAuth();
   const [userAnswer, setUserAnswer] = useState<string>("");
@@ -58,7 +44,9 @@ const useRecordContainer = ({
     }
   }, [results]);
 
-  const questions = mockInterviewQuestions?.questions || mockInterviewQuestions;
+  const { questions,activeQuestionIndex, interviewDetails} = useSelector(
+    (state: RootState) => state.interviewPage
+  );
 
   
   const startStopRecording = async () => {

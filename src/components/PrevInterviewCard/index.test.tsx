@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import PrevInterviewCard from "../PrevInterviewCard";
+import PrevInterviewCard from ".";
 import { useNavigate } from "react-router-dom";
 import "@testing-library/jest-dom";
 

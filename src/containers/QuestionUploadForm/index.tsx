@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import QuestionUpload from "@/components/QuestionUploadForm";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadQuestionStart } from "@/store/slices/QuestionUploadSlice";
-import { RootState } from "@/store/store";
+import { uploadQuestionStart } from "@/redux/slices/QuestionUploadSlice";
+import { RootState } from "@/redux/store";
 
 const UploadQuestionContainer = () => {
   const { user, isGuest } = useAuth();

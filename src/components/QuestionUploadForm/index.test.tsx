@@ -1,6 +1,6 @@
 
 import { render, screen, fireEvent } from "@testing-library/react";
-import QuestionUpload from "../QuestionUploadForm";
+import QuestionUpload from ".";
 import "@testing-library/jest-dom";
 
 const mockHandleStartInterview = jest.fn();

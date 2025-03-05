@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@/components/Button"; 
 import { AdminDashboardProps } from "./types";
+import { Spinner } from "@/components/Spinner";
 
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({
@@ -10,7 +11,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   approveQuestion,
   rejectQuestion,
 }) => {
-  if (queryLoading) return <div>Loading...</div>;
+  if (queryLoading) return <div><Spinner/></div>;
   if (error) {
     console.error("GraphQL Error:", error);
     return <div>Error fetching questions: {error.message}</div>;

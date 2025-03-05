@@ -5,8 +5,8 @@ import PastInterviews from "@/components/PastInterview";
 import {
   deleteInterviewStart,
   fetchInterviewsStart,
-} from "@/store/slices/PastInterviewSlices/interviewSlices";
-import { RootState } from "@/store/store";
+} from "@/redux/slices/PastInterviewSlices/interviewSlices";
+import { RootState } from "@/redux/store";
 import useAuth from "@/hooks/useAuth";
 
 const usePastInterviews = () => {

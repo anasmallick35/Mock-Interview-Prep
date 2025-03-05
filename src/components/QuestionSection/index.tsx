@@ -2,16 +2,12 @@ import { FaLightbulb } from "react-icons/fa";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
-interface Question {
-  question: string;
-}
 
 interface QuestionSectionProps {
-  mockInterviewQuestions: { questions: Question[] };
-
-  activeQuestionIndex: number;
-  setActiveQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+  setActiveQuestionIndex: (index: number) => void;
 }
 
 const textToSpeech = (text: string): void => {
@@ -24,11 +20,12 @@ const textToSpeech = (text: string): void => {
 };
 
 const QuestionSection: React.FC<QuestionSectionProps> = ({
-  mockInterviewQuestions,
-  activeQuestionIndex,
   setActiveQuestionIndex,
 }) => {
-  const questions = mockInterviewQuestions?.questions || [];
+  
+   const { questions,activeQuestionIndex} = useSelector(
+      (state: RootState) => state.interviewPage
+    );
 
   return (
     <div className="mt-2 p-5 border rounded-lg">

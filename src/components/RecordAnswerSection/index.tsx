@@ -1,14 +1,14 @@
-"use client";
+import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
-import { Mic, StopCircle } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { FaMicrophone, FaStopCircle } from "react-icons/fa";
 import Button from "../Button";
-import webCam from "@/assets/webcam.png";
 import { width, height } from "@/utils/constant";
 import * as faceapi from "face-api.js";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { WebcamIcon } from "lucide-react";
+
 
 interface RecordProps {
   isRecording: boolean;
@@ -48,7 +48,6 @@ const Record: React.FC<RecordProps> = ({
   useEffect(() => {
     if (!isFaceDetectionReady || !webcamRef.current) return;
     const video = webcamRef.current.video;
-    //console.log("Video element:", video);
 
     if (!video) return;
 
@@ -58,7 +57,6 @@ const Record: React.FC<RecordProps> = ({
           .detectAllFaces(video)
           .withFaceLandmarks()
           .withFaceDescriptors();
-          
 
         if (detections.length > 1) {
           setIsMultipleFacesDetected(true);
@@ -88,6 +86,12 @@ const Record: React.FC<RecordProps> = ({
 
   return (
     <div className="flex items-center justify-center flex-col relative">
+      {/* Overlay when recording */}
+      {isRecording && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+      )}
+
+      {/* Warning for multiple faces */}
       {isMultipleFacesDetected && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
           <div className="bg-red-300 p-8 rounded-lg shadow-2xl text-center transform transition-all duration-300 ease-in-out animate-fade-in">
@@ -104,14 +108,12 @@ const Record: React.FC<RecordProps> = ({
         </div>
       )}
 
-      <div className="flex flex-col my-10 justify-center bg-black items-center rounded-lg p-5">
-        <img
-          src={webCam}
-          width={width}
+      {/* Webcam and recording button */}
+      <div className={`flex flex-col my-10 justify-center bg-black items-center rounded-lg p-5 ${isRecording ? "pointer-events-none opacity-50" : ""}`}>
+
+        <WebcamIcon  width={width}
           height={height}
-          alt="webcam"
-          className="absolute"
-        />
+          className="absolute text-white"/>
         <Webcam
           ref={webcamRef}
           mirrored={true}
@@ -120,21 +122,24 @@ const Record: React.FC<RecordProps> = ({
         />
       </div>
 
-      <Button
-        disabled={loading || isMultipleFacesDetected}
-        className="my-1 bg-red-500"
-        onClick={startStopRecording}
-      >
-        {isRecording ? (
-          <h2 className="flex gap-2">
-            <StopCircle /> Stop Recording
-          </h2>
-        ) : (
-          <h2 className="flex gap-2 items-center">
-            <Mic /> Record Answer
-          </h2>
-        )}
-      </Button>
+      {/* Record/Stop button */}
+      <div className="z-50"> {/* Ensure the button is above the overlay */}
+        <Button
+          disabled={loading || isMultipleFacesDetected}
+          className="my-1 bg-red-500"
+          onClick={startStopRecording}
+        >
+          {isRecording ? (
+            <h2 className="flex gap-2">
+              <FaStopCircle size={24} /> Stop Recording
+            </h2>
+          ) : (
+            <h2 className="flex gap-2 items-center">
+              <FaMicrophone size={24} /> Record Answer
+            </h2>
+          )}
+        </Button>
+      </div>
     </div>
   );
 };

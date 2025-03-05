@@ -6,8 +6,8 @@ import {
   approveQuestionStart,
   rejectQuestionStart,
   deleteRejectedQuestionsStart,
-} from "@/store/slices/AdminSlice";
-import { RootState } from "@/store/store";
+} from "@/redux/slices/AdminSlice";
+import { RootState } from "@/redux/store";
 
 const AdminDashboardContainer = () => {
   const dispatch = useDispatch();

@@ -3,6 +3,6 @@ export interface StartInterviewProps {
     error: any;
     mockInterviewQuestions: any[];
     activeQuestionIndex: number;
-    setActiveQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+    setActiveQuestionIndex: (index: number) => void;
     interviewDetails: any | null;
   }

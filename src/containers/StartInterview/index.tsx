@@ -1,29 +1,37 @@
-'use client'
-import { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
+'use client';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { GET_INTERVIEW } from '@/services/InterviewQuery';
+import { useDispatch, useSelector } from 'react-redux';
 import StartInterviewComponent from '@/pages/StartInterviewPage';
+import {
+  setActiveQuestionIndex,
+} from '@/redux/slices/InterviewPageSlices';
+import { RootState } from '@/redux/store'; // Adjust the import path as needed
 
 const StartInterviewContainer = () => {
   const { interviewId } = useParams<{ interviewId: string }>();
+  const dispatch = useDispatch();
 
-  const { data, loading, error } = useQuery(GET_INTERVIEW, {
-    variables: { interviewId },
-  });
+  // Access Redux state
+  const {
+    loading,
+    error,
+    questions: mockInterviewQuestions,
+    activeQuestionIndex,
+    interviewDetails,
+  } = useSelector((state: RootState) => state.interviewPage);
 
-  const [mockInterviewQuestions, setMockInterviewQuestions] = useState<any[]>([]);
-  const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(0);
-  const [interviewDetails, setInterviewDetails] = useState<any | null>(null);
-
+  // Dispatch action to fetch interview data
   useEffect(() => {
-    if (data && data.interviews.length > 0) {
-      const interview = data.interviews[0];
-      const jsonMock = JSON.parse(interview.jsonMockResp);
-      setMockInterviewQuestions(jsonMock.questions);
-      setInterviewDetails(interview);
+    if (interviewId) {
+      dispatch({ type: 'interview/fetchInterview', payload: interviewId });
     }
-  }, [data]);
+  }, [interviewId, dispatch]);
+
+  // Function to handle setting the active question index
+  const handleSetActiveQuestionIndex = (index: number) => {
+    dispatch(setActiveQuestionIndex(index));
+  };
 
   return (
     <StartInterviewComponent
@@ -31,7 +39,7 @@ const StartInterviewContainer = () => {
       error={error}
       mockInterviewQuestions={mockInterviewQuestions}
       activeQuestionIndex={activeQuestionIndex}
-      setActiveQuestionIndex={setActiveQuestionIndex}
+      setActiveQuestionIndex={handleSetActiveQuestionIndex}
       interviewDetails={interviewDetails}
     />
   );

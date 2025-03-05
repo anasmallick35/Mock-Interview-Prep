@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
-import PastInterviews from "../PastInterview";
+import PastInterviews from ".";
 import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
 

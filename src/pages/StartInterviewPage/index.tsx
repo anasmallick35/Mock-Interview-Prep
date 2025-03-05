@@ -1,21 +1,21 @@
-import { Link } from "react-router-dom";
-import Button from "@/components/Button";
-import QuestionSection from "@/components/QuestionSection";
-import RecordSection from "@/containers/RecordAnswerSection";
-import { StartInterviewProps } from "./types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faSquareCaretLeft, faSquareCaretRight } from "@fortawesome/free-solid-svg-icons";
-
+import { Link } from 'react-router-dom';
+import Button from '@/components/Button';
+import QuestionSection from '@/components/QuestionSection';
+import RecordSection from '@/containers/RecordAnswerSection';
+import { StartInterviewProps } from './types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquareCaretLeft, faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { Spinner } from '@/components/Spinner';
 
 const StartInterviewComponent: React.FC<StartInterviewProps> = ({
   loading,
   error,
   mockInterviewQuestions,
   activeQuestionIndex,
-  setActiveQuestionIndex,
+  setActiveQuestionIndex, 
   interviewDetails,
 }) => {
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div><Spinner/></div>;
   if (error) return <div>Error loading interview details</div>;
 
   return (
@@ -23,30 +23,32 @@ const StartInterviewComponent: React.FC<StartInterviewProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Questions Section */}
         <QuestionSection
-          mockInterviewQuestions={{ questions: mockInterviewQuestions }}
-          activeQuestionIndex={activeQuestionIndex}
-          setActiveQuestionIndex={setActiveQuestionIndex}
+          setActiveQuestionIndex={setActiveQuestionIndex} 
         />
 
         {/* Video, Audio Recording */}
-        <RecordSection
-          mockInterviewQuestions={{ questions: mockInterviewQuestions }}
-          activeQuestionIndex={activeQuestionIndex}
-          interviewDetails={interviewDetails}
-        />
+        <RecordSection/>
       </div>
 
       <div className="flex justify-end gap-6 mt-20 mr-3">
         {activeQuestionIndex > 0 && (
-          <FontAwesomeIcon icon={faSquareCaretLeft} className = "text-4xl" onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)}/>
+          <FontAwesomeIcon
+            icon={faSquareCaretLeft}
+            className="text-4xl cursor-pointer"
+            onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)} // Pass a number
+          />
         )}
 
-        {activeQuestionIndex !== mockInterviewQuestions?.length - 1 && (
-          <FontAwesomeIcon icon={faSquareCaretRight} className = "text-4xl" onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)}/>
+        {activeQuestionIndex !== mockInterviewQuestions.length - 1 && (
+          <FontAwesomeIcon
+            icon={faSquareCaretRight}
+            className="text-4xl cursor-pointer"
+            onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)} // Pass a number
+          />
         )}
 
         {interviewDetails && (
-          <Link to={`/start-interview/${interviewDetails?.id}/feedback`}>
+          <Link to={`/start-interview/${interviewDetails.id}/feedback`}>
             <Button>End Interview</Button>
           </Link>
         )}

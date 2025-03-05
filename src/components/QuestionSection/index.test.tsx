@@ -1,27 +1,36 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import QuestionSection from "../QuestionSection";
+import QuestionSection from ".";
 import "@testing-library/jest-dom";
+import { useSelector } from "react-redux";
+
+jest.mock("react-redux", () => ({
+  useSelector: jest.fn(),
+}));
 
 describe("QuestionSection Component", () => {
   const mockSetActiveQuestionIndex = jest.fn();
 
-  const mockQuestions = {
-    questions: [
-      { question: "What is React?" },
-      { question: "What is a closure in JavaScript?" },
-      { question: "Explain event delegation." },
-    ],
+  const mockQuestions = [
+    { question: "What is React?" },
+    { question: "What is a closure in JavaScript?" },
+    { question: "Explain event delegation." },
+  ];
+
+  const mockState = {
+    interviewPage: {
+      questions: mockQuestions,
+      activeQuestionIndex: 0,
+    },
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
+    (useSelector as unknown as jest.Mock).mockImplementation((selector) => selector(mockState));
   });
 
   test("renders questions correctly", () => {
     render(
       <QuestionSection
-        mockInterviewQuestions={mockQuestions}
-        activeQuestionIndex={0}
         setActiveQuestionIndex={mockSetActiveQuestionIndex}
       />
     );
@@ -34,8 +43,6 @@ describe("QuestionSection Component", () => {
   test("updates active question index when a question is clicked", () => {
     render(
       <QuestionSection
-        mockInterviewQuestions={mockQuestions}
-        activeQuestionIndex={0}
         setActiveQuestionIndex={mockSetActiveQuestionIndex}
       />
     );
@@ -47,20 +54,25 @@ describe("QuestionSection Component", () => {
   test("displays the correct active question", () => {
     render(
       <QuestionSection
-        mockInterviewQuestions={mockQuestions}
-        activeQuestionIndex={1}
         setActiveQuestionIndex={mockSetActiveQuestionIndex}
       />
     );
 
-    expect(screen.getByText("What is a closure in JavaScript?")).toBeInTheDocument();
+    expect(screen.getByText("What is React?")).toBeInTheDocument();
   });
 
   test("displays 'No questions available' when the question list is empty", () => {
+    const emptyState = {
+      interviewPage: {
+        questions: [],
+        activeQuestionIndex: 0,
+      },
+    };
+
+    (useSelector as unknown as jest.Mock).mockImplementation((selector) => selector(emptyState));
+
     render(
       <QuestionSection
-        mockInterviewQuestions={{ questions: [] }}
-        activeQuestionIndex={0}
         setActiveQuestionIndex={mockSetActiveQuestionIndex}
       />
     );
@@ -71,8 +83,6 @@ describe("QuestionSection Component", () => {
   test("renders the note section correctly", () => {
     render(
       <QuestionSection
-        mockInterviewQuestions={mockQuestions}
-        activeQuestionIndex={0}
         setActiveQuestionIndex={mockSetActiveQuestionIndex}
       />
     );
