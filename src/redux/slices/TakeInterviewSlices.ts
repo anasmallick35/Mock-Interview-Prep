@@ -21,7 +21,7 @@ const takeInterviewSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    createInterviewSuccess(state, action: PayloadAction<string>) {
+    createInterviewSuccess(state, action: PayloadAction<string | null>) {
       state.interviewId = action.payload;
       state.loading = false;
       console.log('ac',action.payload)

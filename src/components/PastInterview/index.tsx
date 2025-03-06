@@ -19,14 +19,16 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
   if (loading) return <Spinner />;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
+
+  
   return (
-    <div>
-      <br />
-      <br />
+    <div className="container mx-auto px-4">
       {interviews?.length > 0 && (
-        <h2 className="font-medium text-xl">Previous Mock Interviews</h2>
+        <h2 className="font-medium text-xl mb-4 text-center mt-10">
+          Previous Mock Interviews
+        </h2>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
         <Suspense fallback={<Spinner />}>
           {interviews?.map((interview) => (
             <PrevInterviewCard

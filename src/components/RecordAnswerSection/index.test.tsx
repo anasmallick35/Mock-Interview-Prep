@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import Record from ".";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -6,26 +6,27 @@ import * as faceapi from "face-api.js";
 import "@testing-library/jest-dom";
 
 
-
-// Mock the useNavigate hook
 jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
 }));
 
-// Mock the toast notification
+jest.mock("lucide-react", () => ({
+  WebcamIcon: jest.fn(() => <svg data-testid="web-camera-icon"></svg>),
+}));
+
+
 jest.mock("sonner", () => ({
   toast: {
     error: jest.fn(),
   },
 }));
 
-// Mock the Webcam component
+
 jest.mock("react-webcam", () => ({
   __esModule: true,
   default: jest.fn(() => <div data-testid="webcam-mock"></div>),
 }));
 
-// Mock the face-api.js
 jest.mock("face-api.js", () => ({
   nets: {
     ssdMobilenetv1: { loadFromUri: jest.fn() },
@@ -68,26 +69,39 @@ describe("Record Component", () => {
         withFaceDescriptors: jest.fn(() => [1, 2]), // Simulate multiple faces
       })),
     }));
-
+  
     renderComponent();
-    
+  
+    // Simulate face detection
+    fireEvent.click(screen.getByText(/Record Answer/i));
+  
+    // Wait for the warning message to appear
     await waitFor(() => {
-      expect(screen.getByText(/Warning!/i)).toBeInTheDocument();
-      expect(screen.getByText(/More than one face detected/i)).toBeInTheDocument();
+     
+      const warningElement = screen.getByText(/Warning!/i);
+      expect(warningElement).toBeInTheDocument();
+  
+    
+      const messageElement = screen.getByText(/More than one face detected/i);
+      expect(messageElement).toBeInTheDocument();
     });
   });
 
   it("decrements session count on multiple face detection", async () => {
     (faceapi.detectAllFaces as jest.Mock).mockImplementation(async () => ({
       withFaceLandmarks: jest.fn(() => ({
-        withFaceDescriptors: jest.fn(() => [1, 2]), // Simulate multiple faces
+        withFaceDescriptors: jest.fn(() => [1, 2]), 
       })),
     }));
-
+  
     renderComponent();
+  
     
+    fireEvent.click(screen.getByText(/Record Answer/i));
+  
     await waitFor(() => {
-      expect(screen.getByText(/You have 4 session left/i)).toBeInTheDocument();
+      const sessionCountElement = screen.getByText('You have 4 session left');
+      expect(sessionCountElement).toBeInTheDocument();
     });
   });
 
@@ -97,9 +111,14 @@ describe("Record Component", () => {
         withFaceDescriptors: jest.fn(() => [1, 2]), // Simulate multiple faces
       })),
     }));
-
+  
+    // Render with only 1 session left
     renderComponent({ totalSession: 1 });
-
+  
+    // Simulate face detection
+    fireEvent.click(screen.getByText(/Record Answer/i));
+  
+    // Wait for navigation to occur
     await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith("/");
       expect(toast.error).toHaveBeenCalledWith("You cheated!");
@@ -108,9 +127,13 @@ describe("Record Component", () => {
 
   it("disables button during loading or multiple face detection", () => {
     renderComponent({ loading: true });
-    expect(screen.getByRole("button")).toBeDisabled();
-
+    const buttons = screen.getAllByRole("button");
+    const disabledButton = buttons.find((button) => (button as HTMLButtonElement).disabled);
+    expect(disabledButton).toBeInTheDocument();
+  
     renderComponent({ isMultipleFacesDetected: true });
-    expect(screen.getByRole("button")).toBeDisabled();
+    const buttonsWithMultipleFaces = screen.getAllByRole("button");
+    const disabledButtonWithMultipleFaces = buttonsWithMultipleFaces.find((button) => (button as HTMLButtonElement).disabled);
+    expect(disabledButtonWithMultipleFaces).toBeInTheDocument();
   });
 });

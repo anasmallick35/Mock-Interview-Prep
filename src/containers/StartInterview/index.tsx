@@ -26,6 +26,8 @@ const StartInterviewContainer = () => {
     if (interviewId) {
       dispatch({ type: 'interview/fetchInterview', payload: interviewId });
     }
+
+    
   }, [interviewId, dispatch]);
 
   // Function to handle setting the active question index

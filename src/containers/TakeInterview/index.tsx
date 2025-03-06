@@ -32,6 +32,7 @@ const useTakeInterview = () => {
     }
   }, [interviewId, navigate]);
 
+
   const handleGenerateQuestions = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -91,12 +92,13 @@ const useTakeInterview = () => {
       userId: isFirebaseAuthenticated ? user?.uid : user?.sub,
     },
   });
+  console.log(data)
   const handleStartInterview = () => {
     if (!isFirebaseAuthenticated && !isOAuthAuthenticated) {
       toast.error("Please login to start an interview.");
       return;
     }
-    if (data?.users_by_pk?.points < 50) {
+   if (data?.users_by_pk?.points < 50) {
       toast.error("You don't have enough points to start an interview.");
       return;
     }

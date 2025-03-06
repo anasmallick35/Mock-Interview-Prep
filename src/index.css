@@ -31,6 +31,7 @@ body {
   display: flex;
   flex-direction: column; /* Stack elements properly */
   align-items:normal; /* Stretch elements to full width */
+  overflow-x: hidden;
 }
 
 

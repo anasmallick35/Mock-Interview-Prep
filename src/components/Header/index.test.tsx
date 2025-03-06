@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen, cleanup } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Header from ".";
+import env from "@/utils/config"; 
 
 jest.mock("@/Auth/O-Auth/Login", () => () => <button>OAuth Login</button>);
 jest.mock("@/Auth/O-Auth/Logout", () => () => <button>OAuth Logout</button>);
@@ -72,5 +73,10 @@ describe("Header Component", () => {
   test("does not show profile picture when user is not authenticated", () => {
     renderHeader({ isAuthenticated: false });
     expect(screen.queryByRole("img")).toBeNull();
+  });
+
+  test("uses environment variables", () => {
+    expect(env.VITE_FIREBASE_API_KEY).toBe("mock-api-key");
+    expect(env.VITE_FIREBASE_PROJECT_ID).toBe("mock-project-id");
   });
 });

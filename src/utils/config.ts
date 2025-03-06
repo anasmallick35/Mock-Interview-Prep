@@ -8,6 +8,7 @@ interface GlobalImportMetaEnv {
   VITE_FIREBASE_APP_ID: string;
   VITE_FIREBASE_MEASUREMENT_ID: string;
   VITE_HASURA_ADMIN: string;
+  VITE_GUEST_ID: string;
 }
 
 interface GlobalImportMeta {
@@ -34,6 +35,7 @@ Object.defineProperty(global, 'import', {
         VITE_FIREBASE_APP_ID: 'mock-app-id',
         VITE_FIREBASE_MEASUREMENT_ID: 'mock-measurement-id',
         VITE_HASURA_ADMIN: 'mock-hasura-admin',
+        VITE_GUEST_ID: 'mock-hasura-guest',
       },
     },
   },

@@ -1,31 +1,21 @@
 import { toast } from "sonner";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {  useState } from "react";
+
 import useAuth from "@/hooks/useAuth";
 import QuestionUpload from "@/components/QuestionUploadForm";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { uploadQuestionStart } from "@/redux/slices/QuestionUploadSlice";
-import { RootState } from "@/redux/store";
+
 
 const UploadQuestionContainer = () => {
   const { user, isGuest } = useAuth();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector(
-    (state: RootState) => state.uploadQuestion
-  );
+
 
   const [question, setQuestion] = useState<string>("");
   const [jobTitle, setJobTitle] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && !error) {
-      navigate("/");
-    }
-  }, [loading, error, navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

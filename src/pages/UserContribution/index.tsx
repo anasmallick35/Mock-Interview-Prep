@@ -18,6 +18,8 @@ const UserContribution: React.FC<UserContriProps> = ({
   totalPendingQuestion,
   totalRejectedQuestions,
 }) => {
+
+  
   return (
     <div className="p-6 max-w-4xl mx-auto relative">
       <h2 className="text-3xl font-bold mb-16 text-center">

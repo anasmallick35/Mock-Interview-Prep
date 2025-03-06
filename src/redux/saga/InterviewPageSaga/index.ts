@@ -8,6 +8,7 @@ import {
 } from '@/redux/slices/InterviewPageSlices';
 import { PayloadAction } from '@reduxjs/toolkit';
 import client from "@/utils/apolloClient";
+import { createInterviewSuccess } from '@/redux/slices/TakeInterviewSlices';
 
 function* fetchInterviewPageSaga(action: PayloadAction<string>) {
   try {
@@ -27,6 +28,7 @@ function* fetchInterviewPageSaga(action: PayloadAction<string>) {
     yield put(setError('Interview not fetched'));
   } finally {
     yield put(setLoading(false));
+   yield put(createInterviewSuccess(null));
   }
 }
 

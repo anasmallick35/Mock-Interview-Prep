@@ -4,6 +4,7 @@ import ProtectedRoute from "./containers/ProtectedRoute";
 import { lazy } from "react";
 
 import GuestLogin from "./Auth/O-Auth/GuestLogin";
+const PrevInterview = lazy(() => import("./containers/PastInterview"));
 const Home = lazy(() => import("./containers/Home"));
 const Profile = lazy(() => import("./containers/Profile"));
 const AdminDashboard = lazy(() => import("./containers/AdminDashboard"));
@@ -15,6 +16,8 @@ const FirebaseSignup = lazy(() => import("./pages/Auth/Signup"));
 const Error = lazy(() => import("./pages/Error"));
 const UserContributions = lazy(()=> import("./containers/UserContribution"))
 const ResetPassword = lazy(() => import("./Auth/firebase-auth/ResetPassword"));
+const UploadPage = lazy(() => import("./pages/UploadQuestion"))
+import TakeInterviewContainer from "./containers/TakeInterview";
 
 
 const router = createBrowserRouter([
@@ -28,12 +31,16 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Home /> },
           { path: "profile", element: <Profile /> },
+          {path: "upload" , element : <UploadPage/>},
+
           { path: "start-interview/:interviewId", element: <StartInterview /> },
           {
             path: "start-interview/:interviewId/feedback",
             element: <Feedback />,
           },
-          {path: "user-contributions" ,element: <UserContributions/>}
+          {path: "user-contributions" ,element: <UserContributions/>},
+          {path: "prevInterview" , element : <PrevInterview/>},
+          {path:"take-interview", element : <TakeInterviewContainer />}
         ],
       },
       {

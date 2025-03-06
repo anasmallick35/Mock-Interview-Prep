@@ -30,8 +30,8 @@ const TakeInterviewComponent: React.FC<TakeInterviewProps> = ({
       </div>
 
       {openDialog && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg mx-4">
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-full max-w-md mx-2">
             <h1 className="text-2xl font-bold text-center mb-2">
               Tell us about the job role
             </h1>

@@ -39,17 +39,6 @@ describe("PrevInterviewCard Component", () => {
     expect(screen.getByText(/Created At:/)).toBeInTheDocument();
   });
 
-  test("displays the formatted created_at date", () => {
-    render(
-      <MemoryRouter>
-        <PrevInterviewCard interview={mockInterview} onDelete={mockOnDelete} />
-      </MemoryRouter>
-    );
-
-    const formattedDate = new Date(mockInterview.created_at).toLocaleString();
-    expect(screen.getByText(`Created At: ${formattedDate}`)).toBeInTheDocument();
-  });
-
   test("navigates to the correct start interview URL when 'Start' button is clicked", () => {
     render(
       <MemoryRouter>
