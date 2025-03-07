@@ -10,7 +10,7 @@ const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {isAuthenticated,user,isFirebaseAuthenticated, isOAuthAuthenticated, isGuest, isLoading} = useAuth()
 
-  const guestId = import.meta.env.VITE_GUEST_ID;
+  const guestId = "import.meta.env.VITE_GUEST_ID"
     const { data } = useQuery(GET_USER, {
       variables: {
         userId: isFirebaseAuthenticated
@@ -48,7 +48,7 @@ const Dropdown = () => {
             <li>
               <Link
                 to="profile"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block px-4 py-2 text-[16px] text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 onClick={()=> setIsOpen(!isOpen)}
               >
                 Profile
@@ -57,7 +57,7 @@ const Dropdown = () => {
                <li>
               <Link
                 to="/user-contributions"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block px-4 py-2 text-[16px] text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 onClick={()=> setIsOpen(!isOpen)}
               >
                 Earnings

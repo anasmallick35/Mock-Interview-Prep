@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import Logout from "@/Auth/O-Auth/Logout";
-import FirebaseLogout from "@/Auth/firebase-auth/Logout";
 import { Spinner } from "../Spinner";
 import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,9 +9,6 @@ interface HeaderProps {
   data: any;
   isLoading: boolean;
   isAuthenticated: boolean;
-  isFirebaseAuthenticated: boolean;
-  isOAuthAuthenticated: boolean;
-  isGuest: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({

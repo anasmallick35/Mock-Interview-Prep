@@ -43,4 +43,3 @@ Object.defineProperty(global, 'import', {
 });
 
 export default global.import.meta.env;
-  

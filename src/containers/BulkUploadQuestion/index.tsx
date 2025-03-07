@@ -54,6 +54,7 @@ const useBulkUpload = () => {
         });
         toast.success("Questions uploaded successfully");
         setFile(null);
+        setLoading(false)
 
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
@@ -67,12 +68,22 @@ const useBulkUpload = () => {
     reader.readAsBinaryString(file);
   };
 
+  const handleDownloadTemplate = () => {
+      const templateUrl = "https://docs.google.com/spreadsheets/d/1sI8jeL5-7_3RyY6dmRAai5EsVCVrWVof/export?format=xlsx";
+      const link = document.createElement("a");
+    
+      link.href = templateUrl;
+      link.download = "Question_Template.xlsx";
+      link.click();
+    };
+
   return (
     <BulkUpload
       fileInputRef={fileInputRef}
       loading={loading}
       handleFileUpload={handleFileUpload}
       handleSubmit={handleSubmit}
+      handleDownloadTemplate = {handleDownloadTemplate}
     />
   );
 };

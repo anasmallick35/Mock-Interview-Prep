@@ -1,26 +1,42 @@
-
+import React, { useState, useRef } from "react";
 import UploadQuestionContainer from "@/containers/QuestionUploadForm";
 import BulkUpload from "@/containers/BulkUploadQuestion";
 
-const UploadPage = () => {
+const UploadQuestionPage: React.FC = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<"form" | "bulk" | null>(
+    null
+  );
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleUploadQuestion = () => {
+    setIsFormOpen(true);
+    setSelectedOption("form");
+  };
+
+  const handleBulkUpload = () => {
+    setSelectedOption("bulk");
+  };
+
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-       
-        <h1 className="text-4xl font-bold text-gray-900 text-center mb-8">
+    <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
           Upload Questions
         </h1>
 
-       
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-         
-         <div className="bg-white rounded-xl shadow-2xl p-6 hover:shadow-3xl transition-shadow duration-300">
-            <UploadQuestionContainer />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Option 1: Upload via Form */}
+          <div onClick={handleUploadQuestion} className="cursor-pointer">
+            <UploadQuestionContainer
+            />
           </div>
 
-          {/* Bulk Upload Component */}
-          <div className="bg-white rounded-xl shadow-2xl p-6 hover:shadow-3xl transition-shadow duration-300">
-            <BulkUpload />
+          {/* Option 2: Bulk Upload */}
+          <div onClick={handleBulkUpload} className="cursor-pointer">
+            <BulkUpload
+            />
           </div>
         </div>
       </div>
@@ -28,4 +44,4 @@ const UploadPage = () => {
   );
 };
 
-export default UploadPage;
+export default UploadQuestionPage;

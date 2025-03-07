@@ -45,7 +45,7 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[20rem] shadow-lg rounded-lg bg-white p-4 hover:shadow-xl transition-shadow duration-300">
+    <div className="w-full max-w-[20rem] shadow-lg rounded-lg bg-white p-6 hover:shadow-xl transition-shadow duration-300">
       {/* Card Header */}
       <div className="flex items-center justify-between mb-4">
         {/* Job Title with Logo */}
@@ -54,11 +54,11 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="h-6 w-6 text-blue-500"
+            className="h-6 w-6 text-purple-500"
           >
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
           </svg>
-          <h5 className="text-xl font-semibold text-blue-gray-900 truncate">
+          <h5 className="text-xl font-semibold text-gray-800 truncate">
             {interview?.jobTitle}
           </h5>
         </div>
@@ -98,7 +98,7 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
           <p className="text-gray-600 truncate">{interview?.topic}</p>
         </div>
 
-        
+        {/* Created At */}
         <div className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -116,13 +116,13 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
         {/* Buttons */}
         <div className="mt-6 flex flex-col gap-3">
           <Button
-            className="w-full h-10 bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200 rounded-md"
+            className="w-full h-10 bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:from-purple-600 hover:to-indigo-600 transition-all rounded-lg"
             onClick={onFeedbackPress}
           >
             Feedback
           </Button>
           <Button
-            className="w-full h-10 bg-green-500 text-white hover:bg-green-600 transition-colors duration-200 rounded-md"
+            className="w-full h-10 bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:from-teal-600 hover:to-cyan-600 transition-all rounded-lg"
             onClick={onStart}
           >
             Start

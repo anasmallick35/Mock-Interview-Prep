@@ -5,16 +5,17 @@ import "@testing-library/jest-dom";
 
 jest.mock("../PrevInterviewCard", () => ({ interview, onDelete }: any) => (
   <div data-testid="prev-interview-card">
-    <p>{interview.title}</p>
+    <p>{interview.jobTitle}</p> {/* Updated to use jobTitle */}
     <button onClick={onDelete}>Delete</button>
   </div>
 ));
 
 const mockHandleDeleteInterview = jest.fn();
 
+// Updated mock data to use jobTitle instead of title
 const mockInterviews = [
-  { id: "1", title: "Frontend Developer" },
-  { id: "2", title: "Backend Developer" },
+  { id: "1", jobTitle: "Frontend Developer" },
+  { id: "2", jobTitle: "Backend Developer" },
 ];
 
 const renderComponent = (props: Partial<React.ComponentProps<typeof PastInterviews>> = {}) => {
@@ -36,11 +37,6 @@ afterEach(() => {
 });
 
 describe("PastInterviews Component", () => {
-  /*test("renders spinner while loading", () => {
-    renderComponent({ loading: true });
-    expect(screen.getByTestId("spinner")).toBeInTheDocument();
-  });*/
-
   test("renders error message when error occurs", () => {
     renderComponent({ error: "Network error" });
     expect(screen.getByText("Error: Network error")).toBeInTheDocument();
@@ -56,10 +52,10 @@ describe("PastInterviews Component", () => {
 
     expect(screen.getByText("Previous Mock Interviews")).toBeInTheDocument();
     
-    await waitFor(()=>{
-        expect(screen.getByText("Frontend Developer")).toBeInTheDocument();
-        expect(screen.getByText("Backend Developer")).toBeInTheDocument();
-    })
+    await waitFor(() => {
+      expect(screen.getByText("Frontend Developer")).toBeInTheDocument();
+      expect(screen.getByText("Backend Developer")).toBeInTheDocument();
+    });
   });
 
   test("calls handleDeleteInterview when delete button is clicked", async () => {

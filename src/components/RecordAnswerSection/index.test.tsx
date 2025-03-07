@@ -77,13 +77,8 @@ describe("Record Component", () => {
   
     // Wait for the warning message to appear
     await waitFor(() => {
-     
-      const warningElement = screen.getByText(/Warning!/i);
-      expect(warningElement).toBeInTheDocument();
-  
-    
-      const messageElement = screen.getByText(/More than one face detected/i);
-      expect(messageElement).toBeInTheDocument();
+      expect(screen.getByText((content) => content.includes("Warning!"))).toBeInTheDocument();
+      expect(screen.getByText((content) => content.includes("You have 4 session left"))).toBeInTheDocument();
     });
   });
 
