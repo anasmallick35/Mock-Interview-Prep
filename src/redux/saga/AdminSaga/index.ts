@@ -16,7 +16,7 @@ import {
   approveQuestionStart,
   rejectQuestionStart,
   deleteRejectedQuestionsStart,
-} from "../slices/AdminSlice"; 
+} from "../../slices/AdminSlice"; 
 
 import { PayloadAction } from "@reduxjs/toolkit";
 import client from "@/utils/apolloClient";

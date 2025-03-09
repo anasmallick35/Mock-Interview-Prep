@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { chatSession } from "@/utils/gemini";
 import TakeInterviewComponent from "@/components/TakeInterview";
 import { useDispatch, useSelector } from "react-redux";
-import { createInterviewStart } from "@/redux/slices/TakeInterviewSlices";
+import { createInterviewStart } from "@/redux/slices/TakeInterviewSlice";
 import { RootState } from "@/redux/store";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { GET_QUESTION, GET_USER } from "@/services/InterviewQuery";

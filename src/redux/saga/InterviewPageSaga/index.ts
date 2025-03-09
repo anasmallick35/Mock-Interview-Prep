@@ -5,12 +5,13 @@ import {
   setError,
   setQuestions,
   setInterviewDetails,
+  setActiveQuestionIndex,
 } from '@/redux/slices/InterviewPageSlices';
 import { PayloadAction } from '@reduxjs/toolkit';
 import client from "@/utils/apolloClient";
-import { createInterviewSuccess } from '@/redux/slices/TakeInterviewSlices';
+import { createInterviewSuccess } from '@/redux/slices/TakeInterviewSlice';
 
-function* fetchInterviewPageSaga(action: PayloadAction<string>) {
+export function* fetchInterviewPageSaga(action: PayloadAction<string>) {
   try {
     yield put(setLoading(true));
     const { data } = yield call(client.query, {
@@ -23,6 +24,7 @@ function* fetchInterviewPageSaga(action: PayloadAction<string>) {
       const jsonMock = JSON.parse(interview.jsonMockResp);
       yield put(setQuestions(jsonMock.questions));
       yield put(setInterviewDetails(interview));
+      yield put(setActiveQuestionIndex(0))
     }
   } catch (error) {
     yield put(setError('Interview not fetched'));

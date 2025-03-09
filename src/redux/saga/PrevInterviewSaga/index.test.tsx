@@ -1,6 +1,6 @@
 import { runSaga } from "redux-saga";
-import { fetchInterviewsSaga, deleteInterviewSaga } from "./PrevInterviewSaga";
-import { fetchInterviewsSuccess, fetchInterviewsFailure, deleteInterviewSuccess, deleteInterviewFailure } from "./../../slices/PastInterviewSlices/interviewSlices";
+import { fetchInterviewsSaga, deleteInterviewSaga } from ".";
+import { fetchInterviewsSuccess, fetchInterviewsFailure, deleteInterviewSuccess, deleteInterviewFailure } from "../../slices/PastInterviewSlices";
 import client from "@/utils/apolloClient";
 
 

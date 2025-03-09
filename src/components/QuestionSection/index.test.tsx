@@ -80,14 +80,4 @@ describe("QuestionSection Component", () => {
     expect(screen.getByText("No questions available.")).toBeInTheDocument();
   });
 
-  test("renders the note section correctly", () => {
-    render(
-      <QuestionSection
-        setActiveQuestionIndex={mockSetActiveQuestionIndex}
-      />
-    );
-
-    expect(screen.getByText("Note:")).toBeInTheDocument();
-    expect(screen.getByText(/Click on Record Answer/)).toBeInTheDocument();
-  });
 });

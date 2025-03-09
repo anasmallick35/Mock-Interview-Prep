@@ -4,7 +4,7 @@ import { RootState } from "@/redux/store";
 import {
   deleteQuestionStart,
   fetchUserQuestionsStart,
-} from "@/redux/slices/UserQuestionsSlice";
+} from "@/redux/slices/UserContributionSlice";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "sonner";
 import UserContribution from "@/pages/UserContribution";

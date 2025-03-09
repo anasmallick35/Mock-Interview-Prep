@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './saga/rootSaga';
-import interviewsReducer from './slices/PastInterviewSlices/interviewSlices';
-import questionsReducer from './slices/questionSlice';
-import takeInterviewReducer from './slices/TakeInterviewSlices'
+import interviewsReducer from './slices/PastInterviewSlices';
+import questionsReducer from './slices/QuestionSlice'
+import takeInterviewReducer from './slices/TakeInterviewSlice'
 import uploadQuestionReducer from './slices/QuestionUploadSlice'
 //import storage from 'redux-persist/lib/storage';
 //import { persistReducer, persistStore } from 'redux-persist';
 import adminQuestionReducer from './slices/AdminSlice'
-import userQuestionReducer from './slices/UserQuestionsSlice'
+import userQuestionReducer from './slices/UserContributionSlice'
 import interviewPageReducer from './slices/InterviewPageSlices'
 
 const sagaMiddleware = createSagaMiddleware();

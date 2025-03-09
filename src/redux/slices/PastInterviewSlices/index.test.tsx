@@ -5,7 +5,7 @@ import reducer, {
     deleteInterviewStart,
     deleteInterviewSuccess,
     deleteInterviewFailure,
-  } from "./interviewSlices"
+  } from "."
   
   describe("interviewSlice Reducer", () => {
     const initialState = { interviews: [], loading: false, error: null };

@@ -84,6 +84,7 @@ const Record: React.FC<RecordProps> = ({
     }
   }, [totalSession]);
 
+
   return (
     <div className="flex items-center justify-center flex-col relative">
       {/* Overlay when recording */}
@@ -123,7 +124,7 @@ const Record: React.FC<RecordProps> = ({
       </div>
 
       {/* Record/Stop button */}
-      <div className="z-50"> {/* Ensure the button is above the overlay */}
+      <div className="z-50"> 
         <Button
           disabled={loading || isMultipleFacesDetected}
           className="my-1 bg-red-500"

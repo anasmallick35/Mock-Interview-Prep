@@ -1,7 +1,7 @@
 
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { fetchInterviewsStart, fetchInterviewsSuccess, fetchInterviewsFailure, deleteInterviewFailure, deleteInterviewStart, deleteInterviewSuccess  } from '../../slices/PastInterviewSlices/interviewSlices'
-import { fetchQuestionsStart, fetchQuestionsSuccess, fetchQuestionsFailure} from '../../slices/questionSlice';
+import { fetchInterviewsStart, fetchInterviewsSuccess, fetchInterviewsFailure, deleteInterviewFailure, deleteInterviewStart, deleteInterviewSuccess  } from '../../slices/PastInterviewSlices'
+import { fetchQuestionsStart, fetchQuestionsSuccess, fetchQuestionsFailure} from '../../slices/QuestionSlice';
 import client from '@/utils/apolloClient';
 
 import { PayloadAction } from '@reduxjs/toolkit';

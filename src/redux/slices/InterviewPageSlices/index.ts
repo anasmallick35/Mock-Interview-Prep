@@ -4,7 +4,7 @@ interface InterviewPageState {
   loading: boolean;
   error: string | null;
   questions: any[];
-  activeQuestionIndex: number;
+  activeQuestionIndex: number | null;
   interviewDetails: any | null;
 }
 

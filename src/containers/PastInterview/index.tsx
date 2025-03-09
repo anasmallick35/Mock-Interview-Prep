@@ -5,7 +5,7 @@ import PastInterviews from "@/components/PastInterview";
 import {
   deleteInterviewStart,
   fetchInterviewsStart,
-} from "@/redux/slices/PastInterviewSlices/interviewSlices";
+} from "@/redux/slices/PastInterviewSlices";
 import { RootState } from "@/redux/store";
 import useAuth from "@/hooks/useAuth";
 

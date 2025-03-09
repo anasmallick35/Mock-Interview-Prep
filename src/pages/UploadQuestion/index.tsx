@@ -1,13 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import UploadQuestionContainer from "@/containers/QuestionUploadForm";
 import BulkUpload from "@/containers/BulkUploadQuestion";
 
 const UploadQuestionPage: React.FC = () => {
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<"form" | "bulk" | null>(
+  const [_isFormOpen, setIsFormOpen] = useState(false);
+  const [_selectedOption, setSelectedOption] = useState<"form" | "bulk" | null>(
     null
   );
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  //const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleUploadQuestion = () => {
     setIsFormOpen(true);

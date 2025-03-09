@@ -6,11 +6,10 @@ interface ConfirmationProps {
   onConfirm: () => void;
 }
 
-const Card: React.FC<ConfirmationProps> = ({ isOpen, onClose, onConfirm }) => {
+const ConfirmationCard: React.FC<ConfirmationProps> = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
       <div className="group select-none w-[300px] flex flex-col p-6 bg-gray-800 border border-gray-700 shadow-lg rounded-2xl">
         <div className="text-center p-3 flex-auto">
           <svg
@@ -45,8 +44,7 @@ const Card: React.FC<ConfirmationProps> = ({ isOpen, onClose, onConfirm }) => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 
-export default Card;
+export default ConfirmationCard;

@@ -4,7 +4,7 @@ import QuestionSection from '@/components/QuestionSection';
 import RecordSection from '@/containers/RecordAnswerSection';
 import { StartInterviewProps } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareCaretLeft, faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
+import {  faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Spinner } from '@/components/Spinner';
 
 const StartInterviewComponent: React.FC<StartInterviewProps> = ({
@@ -31,19 +31,11 @@ const StartInterviewComponent: React.FC<StartInterviewProps> = ({
       </div>
 
       <div className="flex justify-end gap-6 mt-20 mr-3">
-        {activeQuestionIndex > 0 && (
-          <FontAwesomeIcon
-            icon={faSquareCaretLeft}
-            className="text-4xl cursor-pointer"
-            onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)} // Pass a number
-          />
-        )}
-
         {activeQuestionIndex !== mockInterviewQuestions.length - 1 && (
           <FontAwesomeIcon
             icon={faSquareCaretRight}
             className="text-4xl cursor-pointer"
-            onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)} // Pass a number
+            onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)} 
           />
         )}
 

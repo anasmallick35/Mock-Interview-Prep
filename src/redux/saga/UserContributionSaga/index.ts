@@ -6,8 +6,8 @@ import {
   deleteQuestionSuccess,
   deleteQuestionFailure,
   deleteQuestionStart
-} from "../slices/UserQuestionsSlice";
-import client from "../../utils/apolloClient";
+} from "../../slices/UserContributionSlice";
+import client from "../../../utils/apolloClient";
 import { FETCH_USER_QUESTIONS } from "@/services/InterviewQuery";
 import { DELETE_USER_QUESTION } from "@/services/InterviewMutation";
 

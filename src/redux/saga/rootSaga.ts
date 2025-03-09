@@ -1,17 +1,17 @@
 import { all } from "redux-saga/effects";
-import { watchCreateInterview } from "./takeInterviewSaga";
+import { watchCreateInterview } from "./TakeInterviewSaga";
 import { watchUploadQuestion } from "./QuestionUploadSaga";
 import {
   watchDeleteInterview,
   watchFetchInterviews,
-} from "./PrevInterviewSaga/PrevInterviewSaga";
+} from "./PrevInterviewSaga";
 import {
   watchFetchPendingQuestion,
   watchApproveQuestion,
   watchDeleteRejectedQuestions,
   watchRejectQuestions,
 } from "./AdminSaga";
-import { watchFetchUserQuestions,watchDeleteQuestions} from "./UserQuestionsSaga";
+import { watchFetchUserQuestions,watchDeleteQuestions} from "./UserContributionSaga";
 import { watchFetchInterview } from "./InterviewPageSaga";
 
 export default function* rootSaga() {

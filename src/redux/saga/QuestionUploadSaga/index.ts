@@ -3,8 +3,8 @@ import {
   uploadQuestionStart,
   uploadQuestionSuccess,
   uploadQuestionFailure,
-} from "../slices/QuestionUploadSlice";
-import client from "../../utils/apolloClient";
+} from "../../slices/QuestionUploadSlice";
+import client from "../../../utils/apolloClient";
 import { UPLOAD_QUESTION } from "@/services/InterviewMutation";
 
 function* uploadQuestionSaga(action: ReturnType<typeof uploadQuestionStart>) {

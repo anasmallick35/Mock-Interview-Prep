@@ -1,7 +1,7 @@
 
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { createInterviewStart, createInterviewSuccess, createInterviewFailure } from '../slices/TakeInterviewSlices';
-import client from '../../utils/apolloClient'
+import { createInterviewStart, createInterviewSuccess, createInterviewFailure } from '../../slices/TakeInterviewSlice';
+import client from '../../../utils/apolloClient'
 import { v4 as uuidv4 } from 'uuid';
 import { INSERT_INTERVIEW } from '@/services/InterviewMutation';
 

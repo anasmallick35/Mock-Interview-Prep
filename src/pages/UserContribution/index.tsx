@@ -27,16 +27,16 @@ const UserContribution: React.FC<UserContriProps> = ({
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="p-4 bg-green-50 rounded-lg shadow-sm">
-          <p className="text-sm text-gray-600">Approved</p>
-          <p className="text-2xl font-bold text-green-800">{totalApprovedQuestion}</p>
+          <p data-testid="approved-label" className="text-sm text-gray-600">Approved</p>
+          <p className="text-2xl font-bold text-green-800" data-testid="approved-count">{totalApprovedQuestion}</p>
         </div>
         <div className="p-4 bg-yellow-50 rounded-lg shadow-sm">
-          <p className="text-sm text-gray-600">Pending</p>
-          <p className="text-2xl font-bold text-yellow-800">{totalPendingQuestion}</p>
+          <p data-testid="pending-label" className="text-sm text-gray-600">Pending</p>
+          <p className="text-2xl font-bold text-yellow-800" data-testid="pending-count">{totalPendingQuestion}</p>
         </div>
         <div className="p-4 bg-red-50 rounded-lg shadow-sm">
-          <p className="text-sm text-gray-600">Rejected</p>
-          <p className="text-2xl font-bold text-red-800">{totalRejectedQuestions}</p>
+          <p data-testid="rejected-label" className="text-sm text-gray-600">Rejected</p>
+          <p className="text-2xl font-bold text-red-800" data-testid="rejected-count">{totalRejectedQuestions}</p>
         </div>
       </div>
 
