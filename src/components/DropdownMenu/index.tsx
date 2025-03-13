@@ -10,8 +10,17 @@ import { Spinner } from "../Spinner";
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { isAuthenticated, user, isFirebaseAuthenticated, isOAuthAuthenticated, isGuest, isLoading } = useAuth()
+  const {
+    isAuthenticated,
+    user,
+    isFirebaseAuthenticated,
+    isOAuthAuthenticated,
+    isGuest,
+    isLoading,
+  } = useAuth();
+
   const guestId = import.meta.env.VITE_GUEST_ID;
+
   const { data } = useQuery(GET_USER, {
     variables: {
       userId: isFirebaseAuthenticated
@@ -23,17 +32,17 @@ const Dropdown = () => {
     skip: !isAuthenticated,
   });
 
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false); 
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
-   
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -48,32 +57,35 @@ const Dropdown = () => {
   }
 
   return (
-    <div className="relative inline-block text-left" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <img
-        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white cursor-pointer"
+        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white cursor-pointer transition-transform duration-200 hover:scale-105"
         src={data?.users_by_pk?.picture}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((prev) => !prev)}
         alt="Profile"
       />
 
-  
+
       {isOpen && (
         <div
-          id="dropdownDivider"
-          className="absolute left-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700 dark:divide-gray-600 z-50"
-        >
+        id="dropdownDivider"
+        className="absolute top-full right-2 mt-3 w-48 max-w-[95vw] bg-white dark:bg-gray-800 shadow-xl rounded-xl z-50 divide-y divide-gray-200 dark:divide-gray-700 animate-fade-in"
+      >
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
             <li>
               <Link
                 to="profile"
-                className="block px-4 py-2 text-[16px] text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ml-1"
+                className="block px-4 py-2 text-[16px] hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 onClick={() => setIsOpen(false)}
               >
                 Profile
               </Link>
             </li>
           </ul>
-          <div className="block px-4 py-2 text-[16px] text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ml-1 font-semibold cursor-pointer" onClick={() => setIsOpen(false)}>
+          <div
+            className="px-4 py-2 text-[16px] text-black dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          >
             {isFirebaseAuthenticated && <FirebaseLogout />}
             {(isOAuthAuthenticated || isGuest) && <Logout />}
           </div>
