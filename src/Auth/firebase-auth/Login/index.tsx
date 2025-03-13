@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   auth,
   signInWithEmailAndPassword,
@@ -48,6 +48,7 @@ const FirebaseLogin = () => {
       const user = result.user;
 
       const { data } = await getUser({ variables: { userId: user?.uid } });
+    
       if (!data.users_by_pk) {
         await createUser({
           variables: {
@@ -58,8 +59,10 @@ const FirebaseLogin = () => {
           },
         });
       }
-
-      navigate("/");
+      useEffect(()=>{
+        if(data.users_by_pk)
+        navigate("/");
+      },data)
     } catch (error) {
       console.error(error);
       toast.error("Unable to Login");
