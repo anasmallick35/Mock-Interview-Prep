@@ -49,13 +49,13 @@ const FirebaseLogin = () => {
 
       const { data } = await getUser({ variables: { userId: user?.uid } });
     
-      if (!data.users_by_pk) {
+      if (!data?.users_by_pk) {
         await createUser({
           variables: {
-            id: user.uid,
+            id: user?.uid,
             provider: "google",
-            email: user.email,
-            name: user.displayName || user.email,
+            email: user?.email,
+            name: user?.displayName || user.email,
           },
         });
       }
@@ -64,7 +64,7 @@ const FirebaseLogin = () => {
         navigate("/");
       },data)
     } catch (error) {
-      console.error(error);
+      console.error("error",error);
       toast.error("Unable to Login");
     }
   };
