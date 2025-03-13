@@ -2,7 +2,6 @@ import { call, put } from "redux-saga/effects";
 import { createInterviewSaga } from ".";
 import {
   createInterviewStart,
-  createInterviewSuccess,
   createInterviewFailure,
 } from "@/redux/slices/TakeInterviewSlice";
 import client from "@/utils/apolloClient";
