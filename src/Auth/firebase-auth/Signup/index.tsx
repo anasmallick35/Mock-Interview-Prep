@@ -99,8 +99,6 @@ const FirebaseSignup = () => {
       }
 
       const { data } = await getUser({ variables: { userId: user?.uid } });
-      console.log('dd',data)
-
       if (data) {
         toast.error(
           "User with this email already registered. Please log in."

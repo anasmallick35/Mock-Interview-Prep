@@ -4,6 +4,9 @@ import RecordSection from '@/containers/RecordAnswerSection';
 import { StartInterviewProps } from './types';
 import { Spinner } from '@/components/Spinner';
 
+
+
+
 const StartInterviewComponent: React.FC<StartInterviewProps> = ({
   loading,
   error,

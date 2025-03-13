@@ -47,7 +47,17 @@ const FirebaseLogin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      await getUser({ variables: { userId: user?.uid } });
+      const { data } = await getUser({ variables: { userId: user?.uid } });
+      if (!data.users_by_pk) {
+        await createUser({
+          variables: {
+            id: user.uid,
+            provider: "google",
+            email: user.email,
+            name: user.displayName || user.email,
+          },
+        });
+      }
 
       navigate("/");
     } catch (error) {
@@ -62,8 +72,7 @@ const FirebaseLogin = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const {data} = await getUser({ variables: { userId: user?.uid } });
-
+      const { data } = await getUser({ variables: { userId: user?.uid } });
       if (!data.users_by_pk) {
         await createUser({
           variables: {
