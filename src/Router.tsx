@@ -10,14 +10,15 @@ const Profile = lazy(() => import("./containers/Profile"));
 const AdminDashboard = lazy(() => import("./containers/AdminDashboard"));
 const StartInterview = lazy(() => import("./containers/StartInterview"));
 const Feedback = lazy(() => import("./containers/Feedback"));
-const FirebaseLogin = lazy(() => import("./pages/Auth/Login"));
-const FirebaseSignup = lazy(() => import("./pages/Auth/Signup"));
+
 const Error = lazy(() => import("./pages/Error"));
 const UserContributions = lazy(()=> import("./containers/UserContribution"))
 const ResetPassword = lazy(() => import("./Auth/firebase-auth/ResetPassword"));
 const UploadPage = lazy(() => import("./pages/UploadQuestion"))
 import TakeInterviewContainer from "./containers/TakeInterview";
 import RoleBasedRouter from "./containers/RoleBasedRouter";
+import LoginPage from "./pages/Auth/Login";
+import SignupPage from "./pages/Auth/Signup";
 
 
 const router = createBrowserRouter([
@@ -48,8 +49,8 @@ const router = createBrowserRouter([
         element: <ProtectedRoute adminOnly={"admin"} />,
         children: [{ path: "", element: <AdminDashboard /> }],
       },
-      { path: "log-in", element: <FirebaseLogin /> },
-      { path: "sign-up", element: < FirebaseSignup/> },
+      { path: "log-in", element: <LoginPage/> },
+      { path: "sign-up", element: < SignupPage/> },
       { path: "guest-login", element: <GuestLogin /> },
       {path: "reset-password", element: <ResetPassword />}
     ],

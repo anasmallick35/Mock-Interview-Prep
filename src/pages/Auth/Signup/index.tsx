@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import { useEffect } from "react";
 
-const AuthPage = () => {
+const SignupPage = () => {
   const navigate = useNavigate();
 
   const { isAuthenticated } = useAuth();
@@ -55,4 +55,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default SignupPage;

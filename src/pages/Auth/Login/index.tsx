@@ -2,15 +2,17 @@ import FirebaseLogin from "@/Auth/firebase-auth/Login";
 import AuthBackground from "@/components/AuthBackground";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
+import { useEffect } from "react";
 
-const AuthPage = () => {
+const LoginPage = () => {
   const navigate = useNavigate();
 
   const { isAuthenticated } = useAuth();
-  if (isAuthenticated) {
-    return navigate("/");
-  }
-
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden mt-16">
       <div className="relative isolate grow">
@@ -80,4 +82,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default LoginPage;
