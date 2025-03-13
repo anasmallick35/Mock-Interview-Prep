@@ -44,6 +44,8 @@ jest.mock("face-api.js", () => ({
 
 describe("Record Component", () => {
   const startStopRecordingMock = jest.fn();
+  const confirmRecording = jest.fn();
+  const discardRecording = jest.fn()
   const navigateMock = jest.fn();
 
   beforeEach(() => {
@@ -60,6 +62,10 @@ describe("Record Component", () => {
         isRecording={false}
         loading={false}
         startStopRecording={startStopRecordingMock}
+        audioURL={""}
+        showConfirmation= {false} 
+        confirmRecording = {confirmRecording} 
+        discardRecording = {discardRecording}
       />
     );
 
@@ -73,6 +79,10 @@ describe("Record Component", () => {
         isRecording={true}
         loading={false}
         startStopRecording={startStopRecordingMock}
+        audioURL={""}
+        showConfirmation= {false} 
+        confirmRecording = {confirmRecording} 
+        discardRecording = {discardRecording}
       />
     );
 
@@ -86,6 +96,10 @@ describe("Record Component", () => {
         isRecording={false}
         loading={true}
         startStopRecording={startStopRecordingMock}
+        audioURL={""}
+        showConfirmation= {false} 
+        confirmRecording = {confirmRecording} 
+        discardRecording = {discardRecording}
       />
     );
 
@@ -98,6 +112,10 @@ describe("Record Component", () => {
         isRecording={false}
         loading={false}
         startStopRecording={startStopRecordingMock}
+        audioURL={""}
+        showConfirmation= {false} 
+        confirmRecording = {confirmRecording} 
+        discardRecording = {discardRecording}
       />
     );
 

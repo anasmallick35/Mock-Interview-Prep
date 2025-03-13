@@ -11,6 +11,7 @@ import '@testing-library/jest-dom'
 describe('InterviewPage Slice Reducers - Unit Tests', () => {
   const initialState = {
     loading: false,
+    userAnswers: [],
     error: null,
     questions: [],
     activeQuestionIndex: 0,

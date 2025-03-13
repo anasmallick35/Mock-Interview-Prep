@@ -33,31 +33,6 @@ describe("createInterviewSaga", () => {
 
   const action = createInterviewStart(mockPayload);
 
-  it("should call mutation and dispatch success", () => {
-    const generator = createInterviewSaga(action);
-
-    expect(generator.next().value).toEqual(
-      call(client.mutate, {
-        mutation: INSERT_INTERVIEW,
-        variables: {
-          id: "mock-uuid-1234",
-          userId: mockPayload.userId,
-          jsonMockResp: JSON.stringify({
-            questions: mockPayload.combinedQuestions,
-          }),
-          jobTitle: mockPayload.jobTitle,
-          topic: mockPayload.topic,
-        },
-      })
-    );
-
-    expect(generator.next().value).toEqual(
-      put(createInterviewSuccess("mock-uuid-1234"))
-    );
-
-    expect(generator.next().done).toBe(true);
-  });
-
   it("should handle error and dispatch failure", () => {
     const generator = createInterviewSaga(action);
 

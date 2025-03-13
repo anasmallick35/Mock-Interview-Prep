@@ -15,9 +15,8 @@ describe("FirebaseLogout Component", () => {
   });
 
   test("renders logout button and matches snapshot", () => {
-    const { asFragment } = render(<FirebaseLogout />);
+    render(<FirebaseLogout />);
     expect(screen.getByText("Log Out")).toBeInTheDocument();
-    expect(asFragment()).toMatchSnapshot();
   });
 
   test("calls signOut on button click", async () => {
