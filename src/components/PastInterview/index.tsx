@@ -1,7 +1,6 @@
 import { lazy, Suspense, useState } from "react";
 import { Spinner } from "../Spinner";
 import Button from "../Button";
-import TakeInterviewComponent from "../TakeInterview";
 import { Link } from "react-router-dom";
 
 const PrevInterviewCard = lazy(() => import("../PrevInterviewCard"));
