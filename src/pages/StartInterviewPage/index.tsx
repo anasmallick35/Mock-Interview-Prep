@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Button from '@/components/Button';
 import QuestionSection from '@/components/QuestionSection';
 import RecordSection from '@/containers/RecordAnswerSection';
 import { StartInterviewProps } from './types';
