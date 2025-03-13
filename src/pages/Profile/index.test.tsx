@@ -3,7 +3,6 @@ import ProfileComponent from ".";
 import { ProfileProps } from "./types";
 import '@testing-library/jest-dom';
 
-// Mock Button and Spinner
 jest.mock("@/components/Button", () => (props: any) => (
   <button onClick={props.onClick} disabled={props.disabled} className={props.className}>
     {props.children}

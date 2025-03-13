@@ -1,4 +1,4 @@
-import { auth } from "../../utils/firebase";
+import { auth } from "@/utils/firebase";
 
 
 const FirebaseLogout = () => {
@@ -11,7 +11,7 @@ const FirebaseLogout = () => {
     }
   };
 
-  return <button onClick={handleLogout}>Log Out</button>;
+  return <div onClick={handleLogout}>Log Out</div>;
 };
 
 export default FirebaseLogout;

@@ -83,7 +83,7 @@ const ProfileComponent: React.FC<ProfileProps> = ({
           <Button
             type="submit"
             disabled={updateLoading || uploading}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 disabled:bg-blue-300"
+            className="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition duration-300 disabled:bg-blue-300"
           >
             {updateLoading || uploading ? "Updating..." : "Update Profile"}
           </Button>

@@ -6,7 +6,8 @@ import { Provider } from 'react-redux'
 import {Auth0Provider} from '@auth0/auth0-react'
 import { ApolloProvider } from '@apollo/client'
 import client from './utils/apolloClient.ts'
-import store from './redux/store.ts'
+import store, { persistor } from './redux/store.ts'
+import { PersistGate } from 'redux-persist/integration/react'
 //import { PersistGate } from 'redux-persist/integration/react'
 //import {auth} from './utils/firebase.ts'
 
@@ -21,12 +22,11 @@ createRoot(document.getElementById('root')!).render(
     }}
   >
     <Provider store={store}>
-      
+    <PersistGate loading={null} persistor={persistor}>
     <ApolloProvider client={client}>
-
     <App />
     </ApolloProvider>
-  
+  </PersistGate>
     </Provider>
     </Auth0Provider>
   </StrictMode>,

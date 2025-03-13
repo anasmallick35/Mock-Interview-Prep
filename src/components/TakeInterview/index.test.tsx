@@ -5,14 +5,12 @@ import useAuth from '@/hooks/useAuth';
 import "@testing-library/jest-dom";
 import env from '@/utils/config';
 
-// Mock the external dependencies
 jest.mock('sonner');
 jest.mock('@/hooks/useAuth', () => ({
     __esModule: true,
     default: jest.fn(),
   }));
 
-// Mock the Button component if it's not already mocked
 jest.mock('../Button', () => ({
   __esModule: true,
   default: ({ children, ...props }: any) => (
@@ -31,7 +29,6 @@ jest.mock("@/utils/firebase", () => ({
     RecaptchaVerifier: jest.fn(),
   }));
 
-// Mock the LoaderCircle icon
 jest.mock('lucide-react', () => ({
   LoaderCircle: () => <div>LoaderCircle</div>,
 }));
@@ -54,7 +51,7 @@ describe('TakeInterviewComponent', () => {
     };
 
   beforeEach(() => {
-    jest.clearAllMocks(); // Clear all mocks before each test
+    jest.clearAllMocks(); 
   });
 
   it('renders the component correctly', () => {

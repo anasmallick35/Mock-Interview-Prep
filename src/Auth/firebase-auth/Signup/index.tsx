@@ -4,11 +4,11 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-} from "../../utils/firebase";
+} from "@/utils/firebase";
 import { toast } from "sonner";
 import {  useLazyQuery, useMutation } from "@apollo/client";
-import client from "../../utils/apolloClient";
-import { auth as firebaseAuth } from "../../utils/firebase";
+import client from "@/utils/apolloClient";
+import { auth as firebaseAuth } from "@/utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";

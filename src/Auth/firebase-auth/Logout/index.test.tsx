@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import FirebaseLogout from "../Logout";
+import FirebaseLogout from ".";
 import { auth} from "@/utils/firebase";
 import "@testing-library/jest-dom";
 

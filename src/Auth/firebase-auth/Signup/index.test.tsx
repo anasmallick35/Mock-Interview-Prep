@@ -1,5 +1,5 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-import FirebaseSignup from '../Signup';
+import FirebaseSignup from '.';
 import { createUserWithEmailAndPassword } from "@/utils/firebase";
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { useAuthState } from 'react-firebase-hooks/auth';

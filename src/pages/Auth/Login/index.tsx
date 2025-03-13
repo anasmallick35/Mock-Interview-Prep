@@ -1,28 +1,36 @@
-import FirebaseLogin from '@/Auth/firebase-auth/Login';
-import AuthBackground from '@/components/AuthBackground';
-import { Link, useNavigate } from 'react-router-dom';
+import FirebaseLogin from "@/Auth/firebase-auth/Login";
+import AuthBackground from "@/components/AuthBackground";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 
 const AuthPage = () => {
-
   const navigate = useNavigate();
-  
-    const {isAuthenticated} = useAuth()
-    if(isAuthenticated){
-      return navigate("/")
-    }
+
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return navigate("/");
+  }
 
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden mt-16">
       <div className="relative isolate grow">
-        <div className="absolute inset-0 flex h-full flex-col overflow-hidden bg-background" data-theme="light">
+        <div
+          className="absolute inset-0 flex h-full flex-col overflow-hidden bg-background"
+          data-theme="light"
+        >
           <div className="flex size-full grow-0 flex-col overflow-auto lg:block">
             <div className="max-w-7xl p-4 lg:mx-auto lg:flex lg:min-h-full lg:max-w-[1500px] lg:flex-row-reverse lg:p-0">
-              <AuthBackground /> 
+              <AuthBackground />
               <div className="lg:flex lg:w-full lg:max-w-2xl lg:shrink-0 lg:grow-0 lg:flex-col lg:items-center lg:justify-center lg:py-8">
                 <div className="w-full">
                   <div className="mx-auto max-w-lg px-8">
-                    <svg width="106" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 106 25" className="h-6 w-auto">
+                    <svg
+                      width="106"
+                      height="25"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 106 25"
+                      className="h-6 w-auto"
+                    >
                       {/* Add your logo SVG here */}
                     </svg>
                   </div>
@@ -37,7 +45,9 @@ const AuthPage = () => {
                         to="/sign-up"
                       >
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="text-base font-medium">Need an account?</div>
+                          <div className="text-base font-medium">
+                            Need an account?
+                          </div>
                           <div>Sign up to start building today</div>
                         </div>
                         <div className="flex items-center justify-end">

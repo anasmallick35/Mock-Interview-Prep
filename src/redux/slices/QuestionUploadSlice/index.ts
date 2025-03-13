@@ -7,7 +7,7 @@ export interface Question{
   topic : string
 }
 
-interface QuestionUploadState {
+export interface QuestionUploadState {
   loading: boolean;
   error: string | null;
   questions : Question[]

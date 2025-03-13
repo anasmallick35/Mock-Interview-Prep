@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import Home from ".";
 import "@testing-library/jest-dom";
 
-// Mock components
+
 jest.mock("@/components/Spinner", () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));
@@ -35,13 +35,13 @@ describe("Home Component", () => {
   it("renders dashboard when loading is false and no error", () => {
     render(<Home firebaseLoading={false} firebaseError={null} />);
 
-    // Check dashboard headings
+   
     expect(screen.getByText(/Dashboard/i)).toBeInTheDocument();
     expect(
       screen.getByText(/Create and start your AI Mock Interview/i)
     ).toBeInTheDocument();
 
-    // Check for child components
+    
     expect(screen.getByTestId("take-interview")).toBeInTheDocument();
     expect(screen.getByTestId("prev-interview")).toBeInTheDocument();
     expect(screen.getByTestId("contribution-card")).toBeInTheDocument();

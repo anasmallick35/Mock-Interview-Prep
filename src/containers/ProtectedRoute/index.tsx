@@ -39,6 +39,7 @@ const ProtectedRoute: React.FC<{ adminOnly?: string }> = ({ adminOnly }) => {
     alert("Permission denied");
     return <Navigate to="/" />;
   }
+
   return <Outlet />;
 };
 

@@ -5,11 +5,13 @@ import {
   setError,
   setQuestions,
   setInterviewDetails,
-  setActiveQuestionIndex,
+  setUserAnswer,
 } from '@/redux/slices/InterviewPageSlices';
 import { PayloadAction } from '@reduxjs/toolkit';
 import client from "@/utils/apolloClient";
 import { createInterviewSuccess } from '@/redux/slices/TakeInterviewSlice';
+import { INSERT_FEEDBACK_RESP } from '@/services/InterviewMutation';
+
 
 export function* fetchInterviewPageSaga(action: PayloadAction<string>) {
   try {
@@ -24,7 +26,6 @@ export function* fetchInterviewPageSaga(action: PayloadAction<string>) {
       const jsonMock = JSON.parse(interview.jsonMockResp);
       yield put(setQuestions(jsonMock.questions));
       yield put(setInterviewDetails(interview));
-      yield put(setActiveQuestionIndex(0))
     }
   } catch (error) {
     yield put(setError('Interview not fetched'));
@@ -34,6 +35,40 @@ export function* fetchInterviewPageSaga(action: PayloadAction<string>) {
   }
 }
 
-export function* watchFetchInterview() {
+function* handleUpdateUserAnswer(action: any) {
+  const { question,correctAnswer, userAnswer, feedback, rating, userEmail, mockId } = action.payload;
+
+  try {
+    yield put(setLoading(true));
+    yield call(client.mutate, {
+      mutation: INSERT_FEEDBACK_RESP,
+      variables: {
+        question,
+        correctAnswer, 
+        userAnswer,
+        feedback,
+        rating,
+        userEmail,
+        mockId,
+      },
+    });
+    
+      yield put(setUserAnswer({ question, userAnswer, feedback, rating,userEmail,mockId }));
+      yield put(setError(null));
+  } catch (error) {
+    console.error(error);
+    yield put(setError("Failed to load user answer"));
+  } finally {
+    yield put(setLoading(false));
+  }
+}
+
+
+export function* watchFetchPageInterview() {
   yield takeLatest('interview/fetchInterview', fetchInterviewPageSaga);
 }
+
+export function* watchUserAnswer() {
+  yield takeLatest('interviewPage/updateUserAnswer', handleUpdateUserAnswer);
+}
+

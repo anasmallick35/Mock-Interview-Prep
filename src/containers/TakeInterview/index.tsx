@@ -74,7 +74,7 @@ const useTakeInterview = () => {
         await updateUserPoints({
           variables: {
             id: userId,
-            points: -50, // Deduct 50 points
+            points: -50, 
           },
         });
         toast.success("Interview created successfully. 50 points deducted.");

@@ -4,7 +4,7 @@ import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../DropdownMenu";
-
+import FirebaseLogout from "@/Auth/firebase-auth/Logout";
 interface HeaderProps {
   data: any;
   isLoading: boolean;
@@ -36,12 +36,7 @@ const Header: React.FC<HeaderProps> = ({
       {isAuthenticated ? (
         <>
           {data?.users_by_pk?.role === "admin" && (
-            <Link
-              to="/admin"
-              className="bg-slate-500 text-white p-2 rounded text-sm sm:text-base"
-            >
-              Admin Dashboard
-            </Link>
+            <FirebaseLogout/>
           )}
           {data?.users_by_pk?.role !== "admin" && (
             <>
@@ -54,9 +49,9 @@ const Header: React.FC<HeaderProps> = ({
               <Link to="/user-contributions">
                 <Button className="text-sm sm:text-base">Your Contribution</Button>
               </Link>
+              <Dropdown/>
             </>
           )}
-          <Dropdown/>
         </>
       ) : (
         <>

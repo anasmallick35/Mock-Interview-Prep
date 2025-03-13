@@ -5,26 +5,20 @@ import interviewsReducer from './slices/PastInterviewSlices';
 import questionsReducer from './slices/QuestionSlice'
 import takeInterviewReducer from './slices/TakeInterviewSlice'
 import uploadQuestionReducer from './slices/QuestionUploadSlice'
-//import storage from 'redux-persist/lib/storage';
-//import { persistReducer, persistStore } from 'redux-persist';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import adminQuestionReducer from './slices/AdminSlice'
 import userQuestionReducer from './slices/UserContributionSlice'
 import interviewPageReducer from './slices/InterviewPageSlices'
 
 const sagaMiddleware = createSagaMiddleware();
 
-/*const persistConfig = {
-  key:'root',
+const persistConfig = {
+  key: 'interviewPage',
   storage,
-  whitelist: ['interviews', 'questions', 'uploadQuestion','takeInterview'],
-};*/
+};
 
-
-/*const persistedInterviewsReducer = persistReducer(persistConfig,interviewsReducer);
-const persistedQuestionsReducer = persistReducer(persistConfig, questionsReducer);
-const persistedTakeInterviewReducer = persistReducer(persistConfig, takeInterviewReducer);
-const persistedUploadQuestionReducer = persistReducer(persistConfig, uploadQuestionReducer);*/
-
+const persistedInterviewPageReducer = persistReducer(persistConfig, interviewPageReducer);
 
 
 const store = configureStore({
@@ -35,7 +29,7 @@ const store = configureStore({
     uploadQuestion: uploadQuestionReducer,
     admin: adminQuestionReducer,
     userQuestions : userQuestionReducer,
-    interviewPage: interviewPageReducer,
+    interviewPage: persistedInterviewPageReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(sagaMiddleware),
@@ -45,5 +39,5 @@ sagaMiddleware.run(rootSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-//export const persistor = persistStore(store);
+export const persistor = persistStore(store);
 export default store;

@@ -28,7 +28,7 @@ const QuestionUpload: React.FC<UploadQuestionProps> = ({
 }) => {
   return (
     <>
-      {/* Upload Question Button */}
+      
       {!isFormOpen && (
         <div
           onClick={handleUploadQuestion}
@@ -42,7 +42,7 @@ const QuestionUpload: React.FC<UploadQuestionProps> = ({
         </div>
       )}
 
-      {/* Modal/Dialog */}
+      
       {isFormOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
@@ -83,7 +83,7 @@ const QuestionUpload: React.FC<UploadQuestionProps> = ({
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white p-3 rounded-lg hover:from-purple-600 hover:to-indigo-600 transition duration-300"
+                className="w-full  bg-purple-600 text-white rounded hover:bg-purple-700 transition duration-300"
               >
                 Upload Question
               </Button>

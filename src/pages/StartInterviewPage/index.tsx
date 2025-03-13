@@ -3,15 +3,11 @@ import Button from '@/components/Button';
 import QuestionSection from '@/components/QuestionSection';
 import RecordSection from '@/containers/RecordAnswerSection';
 import { StartInterviewProps } from './types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Spinner } from '@/components/Spinner';
 
 const StartInterviewComponent: React.FC<StartInterviewProps> = ({
   loading,
   error,
-  mockInterviewQuestions,
-  activeQuestionIndex,
   setActiveQuestionIndex, 
   interviewDetails,
 }) => {
@@ -27,21 +23,16 @@ const StartInterviewComponent: React.FC<StartInterviewProps> = ({
         />
 
         {/* Video, Audio Recording */}
-        <RecordSection/>
+        <RecordSection
+        setActiveQuestionIndex={setActiveQuestionIndex}
+        />
       </div>
 
       <div className="flex justify-end gap-6 mt-20 mr-3">
-        {activeQuestionIndex !== mockInterviewQuestions.length - 1 && (
-          <FontAwesomeIcon
-            icon={faSquareCaretRight}
-            className="text-4xl cursor-pointer"
-            onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)} 
-          />
-        )}
 
         {interviewDetails && (
           <Link to={`/start-interview/${interviewDetails.id}/feedback`}>
-            <Button>End Interview</Button>
+            <button className='w-full mt-6 bg-purple-600 text-white rounded hover:bg-purple-700 transition duration-300'>End Interview</button>
           </Link>
         )}
       </div>

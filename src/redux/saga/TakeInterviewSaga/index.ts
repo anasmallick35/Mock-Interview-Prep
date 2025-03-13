@@ -4,9 +4,10 @@ import { createInterviewStart, createInterviewSuccess, createInterviewFailure } 
 import client from '../../../utils/apolloClient'
 import { v4 as uuidv4 } from 'uuid';
 import { INSERT_INTERVIEW } from '@/services/InterviewMutation';
+import { resetInterviewState } from '@/redux/slices/InterviewPageSlices';
 
 
-function* createInterviewSaga(action: ReturnType<typeof createInterviewStart>) {
+export function* createInterviewSaga(action: ReturnType<typeof createInterviewStart>) {
   try {
     const { combinedQuestions, jobTitle, topic , userId  } = action.payload;
 
@@ -21,7 +22,7 @@ function* createInterviewSaga(action: ReturnType<typeof createInterviewStart>) {
         topic,
       },
     });
-
+    yield put(resetInterviewState());
     yield put(createInterviewSuccess(interviewId));
   } catch (error) {
     yield put(createInterviewFailure("error in creating interview"));

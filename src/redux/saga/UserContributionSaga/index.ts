@@ -6,12 +6,13 @@ import {
   deleteQuestionSuccess,
   deleteQuestionFailure,
   deleteQuestionStart
-} from "../../slices/UserContributionSlice";
-import client from "../../../utils/apolloClient";
+} from "@/redux/slices/UserContributionSlice";
+
+import client from "@/utils/apolloClient";
 import { FETCH_USER_QUESTIONS } from "@/services/InterviewQuery";
 import { DELETE_USER_QUESTION } from "@/services/InterviewMutation";
 
-function* fetchUserQuestionsSaga(action: ReturnType<typeof fetchUserQuestionsStart>) {
+export function* fetchUserQuestionsSaga(action: ReturnType<typeof fetchUserQuestionsStart>) {
   try {
     const userId = action.payload;
     const { data } = yield call(client.query, {

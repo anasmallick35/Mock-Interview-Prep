@@ -1,8 +1,6 @@
-
 import { render, screen, fireEvent } from "@testing-library/react";
 import UploadQuestionPage from ".";
-import '@testing-library/jest-dom'
-
+import "@testing-library/jest-dom";
 
 jest.mock("@/containers/QuestionUploadForm", () => () => (
   <div data-testid="upload-question-form">UploadQuestionForm</div>
@@ -34,7 +32,7 @@ describe("UploadQuestionPage", () => {
     render(<UploadQuestionPage />);
     const bulkUploadElement = screen.getByTestId("bulk-upload");
     fireEvent.click(bulkUploadElement);
-   
+
     expect(screen.getByTestId("bulk-upload")).toBeInTheDocument();
   });
 });

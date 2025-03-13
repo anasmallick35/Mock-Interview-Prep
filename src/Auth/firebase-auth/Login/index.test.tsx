@@ -1,6 +1,6 @@
 import env from "@/utils/config"; 
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import FirebaseLogin from "../Login";
+import FirebaseLogin from ".";
 import { auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "@/utils/firebase";
 import { BrowserRouter } from "react-router-dom";
 import { MockedProvider } from "@apollo/client/testing";
@@ -19,7 +19,7 @@ jest.mock("@/utils/firebase", () => ({
   RecaptchaVerifier: jest.fn(),
 }));
 
-// Mock Apollo Client
+
 jest.mock("@/utils/apolloClient", () => {
   const mockClient = {
     query: jest.fn(),
@@ -30,7 +30,7 @@ jest.mock("@/utils/apolloClient", () => {
   };
 });
 
-// Mock Sonner (Toast notifications)
+
 jest.mock("sonner", () => ({ toast: { error: jest.fn(), success: jest.fn() } }));
 
 describe("FirebaseLogin Component", () => {
@@ -86,7 +86,7 @@ describe("FirebaseLogin Component", () => {
     fireEvent.change(screen.getByPlaceholderText("Enter your password"), { target: { value: "wrongpassword" } });
     fireEvent.click(screen.getByText("Log in"));
 
-    await waitFor(() => expect(toast.error).toHaveBeenCalledWith("Unable to Login"));
+    await waitFor(() => expect(toast.error).toHaveBeenCalledWith("User not found. Please register."));
   });
 
   test("handles Google login", async () => {

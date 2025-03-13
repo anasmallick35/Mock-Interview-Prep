@@ -12,7 +12,7 @@ import {
   watchRejectQuestions,
 } from "./AdminSaga";
 import { watchFetchUserQuestions,watchDeleteQuestions} from "./UserContributionSaga";
-import { watchFetchInterview } from "./InterviewPageSaga";
+import { watchFetchPageInterview, watchUserAnswer } from "./InterviewPageSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -26,6 +26,7 @@ export default function* rootSaga() {
     watchRejectQuestions(),
     watchFetchUserQuestions(),
     watchDeleteQuestions(),
-    watchFetchInterview(),
+    watchFetchPageInterview(),
+    watchUserAnswer()
   ]);
 }

@@ -1,69 +1,100 @@
 "use client";
 import { toast } from "sonner";
-import { useState, useEffect } from "react";
-import useSpeechToText from "react-hook-speech-to-text";
+import { useState, useRef } from "react";
 import useAuth from "@/hooks/useAuth";
 import { useParams } from "react-router-dom";
 import { chatSession } from "@/utils/gemini";
-import { useMutation } from "@apollo/client";
-import { INSERT_FEEDBACK_RESP } from "@/services/InterviewMutation";
+import { useDispatch, useSelector } from "react-redux";
 import Record from "@/components/RecordAnswerSection";
 import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
+import { ElevenLabsClient } from "elevenlabs";
+
+const client = new ElevenLabsClient({
+  apiKey: import.meta.env.VITE_ELEVENLABS_API_KEY, 
+});
 
 
-
-
-
-
-interface ResultType {
-  transcript: string;
+interface QuestionSectionProps {
+  setActiveQuestionIndex: (index: number) => void;
 }
 
-const useRecordContainer = () => {
+const useRecordContainer: React.FC<QuestionSectionProps> = ({
+  setActiveQuestionIndex,
+}) => {
   const { interviewId } = useParams<{ interviewId: string }>();
   const { user, isGuest } = useAuth();
-  const [userAnswer, setUserAnswer] = useState<string>("");
+  const [userRecording, setUserRecording] = useState<string>("");
+  const [isRecording, setIsRecording] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [insertFeedback] = useMutation(INSERT_FEEDBACK_RESP);
- 
-  const {
-    isRecording,
-    results,
-    startSpeechToText,
-    stopSpeechToText,
-    setResults,
-  } = useSpeechToText({
-    continuous: true,
-    useLegacyResults: false,
-  });
+  const [audioURL, setAudioURL] = useState<string>("");
+  const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (results.length > 0) {
-      setUserAnswer(results.map((r) => (r as ResultType).transcript).join(" "));
-    }
-  }, [results]);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const audioBlobRef = useRef<Blob | null>(null);
 
-  const { questions,activeQuestionIndex, interviewDetails} = useSelector(
+  const { questions, activeQuestionIndex, interviewDetails } = useSelector(
     (state: RootState) => state.interviewPage
   );
 
-  
   const startStopRecording = async () => {
     if (isGuest) return toast.error("Please login to continue");
-    if (isRecording) {
-      stopSpeechToText();
-      updateUserAnswer();
+
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
+      mediaRecorderRef.current.stop();
+      setIsRecording(true);
     } else {
-      startSpeechToText();
+      setAudioURL("");
+      setUserRecording("");
+      audioChunksRef.current = [];
+      setIsRecording(true);
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        audioBlobRef.current = audioBlob;
+        const audioUrl = URL.createObjectURL(audioBlob);
+        setAudioURL(audioUrl);
+        setShowConfirmation(true);
+        setIsRecording(false);
+
+        
+        try {
+          const transcription = await client.speechToText.convert({
+            file: audioBlob,
+            model_id: "scribe_v1",
+            tag_audio_events: true,
+            language_code: "eng",
+            diarize: true,
+          });
+          setUserRecording(transcription.text || "");
+        } catch (err) {
+          console.error("Transcription failed:", err);
+          toast.error("Speech to text failed. Please try again.");
+        }
+      };
+
+      mediaRecorder.start();
     }
   };
 
-  const updateUserAnswer = async () => {
+  const confirmRecording = async () => {
+    setShowConfirmation(false);
     setLoading(true);
+
     const feedbackPrompt = `
       Question: ${questions[activeQuestionIndex]?.question}, 
-      User Answer: ${userAnswer} depends on question and answer. 
+      User Answer: ${userRecording}. 
       Please provide a rating (integer) and feedback (3-5 lines) in JSON format with "rating" and "feedback" fields.
     `;
 
@@ -73,36 +104,46 @@ const useRecordContainer = () => {
       const cleanedJson = responseText.replace(/^```json|```$/g, "");
       const jsonFeedbackResp = JSON.parse(cleanedJson);
 
-      const resp = await insertFeedback({
-        variables: {
+      dispatch({
+        type: "interviewPage/updateUserAnswer",
+        payload: {
           question: questions[activeQuestionIndex]?.question,
           correctAnswer: questions[activeQuestionIndex]?.answer,
-          userAnswer,
+          userAnswer: userRecording,
           feedback: jsonFeedbackResp.feedback,
           rating: jsonFeedbackResp.rating,
-          userEmail: user?.email || "crackTogether@gmail.com",
+          userEmail: user?.email,
           mockId: interviewDetails.mockId || interviewId,
         },
       });
 
-      if (resp) {
-        toast("User Answer recorded successfully");
-        setUserAnswer("");
-        setResults([]);
-      }
+      toast("User Answer recorded successfully");
+      setAudioURL("");
+      setUserRecording("");
+      setActiveQuestionIndex(activeQuestionIndex + 1);
     } catch (error) {
-      console.error("Error updating answer:", error);
       toast.error("Failed to record answer");
     }
 
     setLoading(false);
   };
 
+  const discardRecording = () => {
+    setShowConfirmation(false);
+    setAudioURL("");
+    setUserRecording("");
+  };
+  console.log(isRecording);
+
   return (
     <Record
       isRecording={isRecording}
       loading={loading}
       startStopRecording={startStopRecording}
+      audioURL={audioURL}
+      showConfirmation={showConfirmation}
+      confirmRecording={confirmRecording}
+      discardRecording={discardRecording}
     />
   );
 };

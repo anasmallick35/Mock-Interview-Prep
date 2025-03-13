@@ -7,7 +7,7 @@ import {
 import client from "../../../utils/apolloClient";
 import { UPLOAD_QUESTION } from "@/services/InterviewMutation";
 
-function* uploadQuestionSaga(action: ReturnType<typeof uploadQuestionStart>) {
+export function* uploadQuestionSaga(action: ReturnType<typeof uploadQuestionStart>) {
   try {
     const { question, jobTitle, topic, userId } = action.payload;
 

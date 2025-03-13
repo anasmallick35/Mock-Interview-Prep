@@ -56,7 +56,7 @@ const TakeInterviewComponent: React.FC<TakeInterviewProps> = ({
 
               <div>
                 <label className="block font-medium text-gray-700 mb-1">
-                  Job Responsibilities
+                  Job Topic
                 </label>
                 <textarea
                   placeholder="E.g. React, Angular, Java"
@@ -77,7 +77,7 @@ const TakeInterviewComponent: React.FC<TakeInterviewProps> = ({
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center space-x-2"
+                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition flex items-center space-x-2"
                 >
                   {loading ? (
                     <>

@@ -92,7 +92,7 @@ const BulkUpload: React.FC<BulkUploadProps> = ({
       <Button
         onClick={onSubmit}
         disabled={loading}
-        className="w-full mt-6 bg-gradient-to-r from-purple-500 to-indigo-500 text-white p-3 rounded-lg hover:from-purple-600 hover:to-indigo-600 transition duration-300"
+        className="w-full mt-6  bg-purple-600 text-white rounded hover:bg-purple-700 transition duration-300"
       >
         {loading ? "Uploading..." : "Upload Excel File"}
       </Button>

@@ -17,7 +17,7 @@ const Logout: React.FC = () => {
   return (
     <Button
       onClick={handleLogout}
-      className="bg-red-500 text-white p-2 rounded"
+      className=" text-black p-2 rounded"
     >
       Log Out
     </Button>

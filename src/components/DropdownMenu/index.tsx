@@ -10,9 +10,8 @@ import { Spinner } from "../Spinner";
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { isAuthenticated, user, isFirebaseAuthenticated, isOAuthAuthenticated, isGuest, isLoading } = useAuth();
-
-  const guestId = "import.meta.env.VITE_GUEST_ID";
+  const { isAuthenticated, user, isFirebaseAuthenticated, isOAuthAuthenticated, isGuest, isLoading } = useAuth()
+  const guestId = import.meta.env.VITE_GUEST_ID;
   const { data } = useQuery(GET_USER, {
     variables: {
       userId: isFirebaseAuthenticated
@@ -67,23 +66,14 @@ const Dropdown = () => {
             <li>
               <Link
                 to="profile"
-                className="block px-4 py-2 text-[16px] text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block px-4 py-2 text-[16px] text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ml-1"
                 onClick={() => setIsOpen(false)}
               >
                 Profile
               </Link>
             </li>
-            <li>
-              <Link
-                to="/user-contributions"
-                className="block px-4 py-2 text-[16px] text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                onClick={() => setIsOpen(false)} 
-              >
-                Earnings
-              </Link>
-            </li>
           </ul>
-          <div className="py-2" onClick={() => setIsOpen(false)}>
+          <div className="block px-4 py-2 text-[16px] text-black hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ml-1 font-semibold cursor-pointer" onClick={() => setIsOpen(false)}>
             {isFirebaseAuthenticated && <FirebaseLogout />}
             {(isOAuthAuthenticated || isGuest) && <Logout />}
           </div>

@@ -1,20 +1,21 @@
-
 import { render, screen, fireEvent } from "@testing-library/react";
 import FeedbackComponent from ".";
-import '@testing-library/jest-dom'
+import "@testing-library/jest-dom";
 
-// Mock Button component
 jest.mock("@/components/Button", () => (props: any) => (
-  <button onClick={props.onClick} className={props.className} data-testid="mock-button">
+  <button
+    onClick={props.onClick}
+    className={props.className}
+    data-testid="mock-button"
+  >
     {props.children}
   </button>
 ));
 
 jest.mock("lucide-react", () => ({
-    ChevronsUpDown: jest.fn(() => <svg data-testid="Open Interview"></svg>),
-  }));
+  ChevronsUpDown: jest.fn(() => <svg data-testid="Open Interview"></svg>),
+}));
 
-// Sample feedback list
 const sampleFeedback = [
   {
     question: "What is React?",
@@ -43,9 +44,7 @@ describe("FeedbackComponent", () => {
       />
     );
 
-    expect(
-      screen.getByText(/No interview Feedback/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/No interview Feedback/i)).toBeInTheDocument();
   });
 
   it("renders feedback list when feedback is present", () => {

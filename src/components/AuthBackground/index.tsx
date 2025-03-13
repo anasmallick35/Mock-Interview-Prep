@@ -10,7 +10,7 @@ const AuthBackground: React.FC = () => {
             style={{ opacity: 1 }}
           ></div>
           <div className="absolute inset-0 flex size-full flex-col items-center" aria-hidden="true">
-            {/* Add your background SVG or design here */}
+            {/* SVG or design here */}
           </div>
         </div>
       </div>

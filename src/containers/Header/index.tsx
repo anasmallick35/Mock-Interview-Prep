@@ -11,7 +11,6 @@ const useHeader = () => {
     isLoading,
     isGuest,
     isFirebaseAuthenticated,
-    isOAuthAuthenticated,
   } = useAuth();
 
   const guestId = import.meta.env.VITE_GUEST_ID;
@@ -38,9 +37,6 @@ const useHeader = () => {
       data={data ?? null}
       isLoading={isLoading}
       isAuthenticated={isAuthenticated}
-      isOAuthAuthenticated={isOAuthAuthenticated}
-      isFirebaseAuthenticated={isFirebaseAuthenticated}
-      isGuest={isGuest}
     />
   );
 };

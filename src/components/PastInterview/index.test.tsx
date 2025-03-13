@@ -5,14 +5,14 @@ import "@testing-library/jest-dom";
 
 jest.mock("../PrevInterviewCard", () => ({ interview, onDelete }: any) => (
   <div data-testid="prev-interview-card">
-    <p>{interview.jobTitle}</p> {/* Updated to use jobTitle */}
+    <p>{interview.jobTitle}</p> 
     <button onClick={onDelete}>Delete</button>
   </div>
 ));
 
 const mockHandleDeleteInterview = jest.fn();
 
-// Updated mock data to use jobTitle instead of title
+
 const mockInterviews = [
   { id: "1", jobTitle: "Frontend Developer" },
   { id: "2", jobTitle: "Backend Developer" },

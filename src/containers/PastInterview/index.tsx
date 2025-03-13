@@ -16,6 +16,8 @@ const usePastInterviews = () => {
     (state: RootState) => state.interviews
   );
 
+  console.log(interviews[0]?.created_at)
+
   const guestId = import.meta.env.VITE_GUEST_ID;
 
   const userId = user?.sub || user?.uid || guestId;

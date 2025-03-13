@@ -10,7 +10,6 @@ const Profile = lazy(() => import("./containers/Profile"));
 const AdminDashboard = lazy(() => import("./containers/AdminDashboard"));
 const StartInterview = lazy(() => import("./containers/StartInterview"));
 const Feedback = lazy(() => import("./containers/Feedback"));
-//const AuthPage = lazy(() => import("./pages/AuthPage"));
 const FirebaseLogin = lazy(() => import("./pages/Auth/Login"));
 const FirebaseSignup = lazy(() => import("./pages/Auth/Signup"));
 const Error = lazy(() => import("./pages/Error"));
@@ -18,6 +17,7 @@ const UserContributions = lazy(()=> import("./containers/UserContribution"))
 const ResetPassword = lazy(() => import("./Auth/firebase-auth/ResetPassword"));
 const UploadPage = lazy(() => import("./pages/UploadQuestion"))
 import TakeInterviewContainer from "./containers/TakeInterview";
+import RoleBasedRouter from "./containers/RoleBasedRouter";
 
 
 const router = createBrowserRouter([
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <ProtectedRoute />,
+        element: <RoleBasedRouter />,
         children: [
           { index: true, element: <Home /> },
           { path: "profile", element: <Profile /> },

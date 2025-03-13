@@ -1,7 +1,8 @@
+"use client";
 import { FaLightbulb } from "react-icons/fa";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
@@ -9,21 +10,68 @@ interface QuestionSectionProps {
   setActiveQuestionIndex: (index: number) => void;
 }
 
-const textToSpeech = (text: string): void => {
-  if ("speechSynthesis" in window) {
-    const speech = new SpeechSynthesisUtterance(text);
-    window.speechSynthesis.speak(speech);
-  } else {
-    alert("Sorry, your browser does not support text to speech.");
-  }
-};
-
 const QuestionSection: React.FC<QuestionSectionProps> = ({
   setActiveQuestionIndex,
 }) => {
   const { questions, activeQuestionIndex } = useSelector(
     (state: RootState) => state.interviewPage
   );
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioInstance, setAudioInstance] = useState<HTMLAudioElement | null>(null);
+
+  const textToSpeech = async (text: string) => {
+    try {
+      const response = await fetch("https://api.elevenlabs.io/v1/text-to-speech/JBFqnCBsd6RMkjVDRZzb", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "xi-api-key": import.meta.env.ELEVENLABS_API_KEY || "",
+        },
+        body: JSON.stringify({
+          text,
+          model_id: "eleven_multilingual_v2",
+          voice_settings: {
+            stability: 0.5,
+            similarity_boost: 0.5,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch TTS audio");
+      }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      setAudioInstance(audio);
+      setIsPlaying(true);
+
+      audio.play();
+
+      audio.onended = () => {
+        setIsPlaying(false);
+        setAudioInstance(null);
+      };
+
+    } catch (err) {
+      console.error("Text-to-Speech Error:", err);
+      alert("Failed to play text-to-speech audio.");
+    }
+  };
+
+  const handleAudioToggle = () => {
+    const text = questions[activeQuestionIndex]?.question || "";
+    if (isPlaying && audioInstance) {
+      audioInstance.pause();
+      audioInstance.currentTime = 0;
+      setIsPlaying(false);
+      setAudioInstance(null);
+    } else {
+      textToSpeech(text);
+    }
+  };
 
   return (
     <div className="mt-2 p-5 border rounded-lg">
@@ -37,19 +85,17 @@ const QuestionSection: React.FC<QuestionSectionProps> = ({
                   ? "bg-primary text-white"
                   : "bg-gray-200 text-gray-700"
               } ${
-                index !== activeQuestionIndex && index !== activeQuestionIndex + 1
+                index !== activeQuestionIndex
                   ? "cursor-not-allowed opacity-50"
                   : "cursor-pointer"
               }`}
               onClick={() => setActiveQuestionIndex(index)}
-              disabled={
-                index !== activeQuestionIndex && index !== activeQuestionIndex + 1
-              } // Disable all buttons except active and next
+              disabled={index !== activeQuestionIndex}
               title={
                 index < activeQuestionIndex
                   ? "You cannot reattempt previous questions"
                   : ""
-              } // Tooltip for previous questions
+              }
             >
               Question #{index + 1}
             </button>
@@ -59,16 +105,15 @@ const QuestionSection: React.FC<QuestionSectionProps> = ({
         )}
       </div>
 
-      <div className="flex flex-row gap-8">
+      <div className="flex flex-row gap-4 items-center">
         <h2 className="my-5 text-md md:text-lg">
-          {questions && questions[activeQuestionIndex]?.question}
+          {questions[activeQuestionIndex]?.question}
         </h2>
         <FontAwesomeIcon
-          icon={faVolumeHigh}
-          className="my-6 text-md md:text-lg cursor-pointer"
-          onClick={() =>
-            textToSpeech(questions[activeQuestionIndex]?.question || "")
-          }
+          icon={isPlaying ? faVolumeXmark : faVolumeHigh}
+          className="my-6 text-lg cursor-pointer transition duration-200 hover:text-blue-600"
+          onClick={handleAudioToggle}
+          title={isPlaying ? "Stop Audio" : "Play Audio"}
         />
       </div>
 

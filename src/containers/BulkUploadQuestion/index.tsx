@@ -35,12 +35,11 @@ const useBulkUpload = () => {
       const data = event.target?.result;
       if (!data) return;
 
-      const workbook = XLSX.read(data, { type: "binary" });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-      const questions = jsonData.map((row: any) => ({
+        const workbook = XLSX.read(data, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+        const questions = jsonData.map((row: any) => ({
         question: row.Question,
         jobTitle: row["Job Title"],
         topic: row.Topic,

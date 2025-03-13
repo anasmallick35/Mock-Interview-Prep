@@ -4,7 +4,6 @@ import StartInterviewComponent from ".";
 import { StartInterviewProps } from "./types";
 import '@testing-library/jest-dom'
 
-// Mocks
 jest.mock("@/components/Button", () => (props: any) => (
   <button onClick={props.onClick}>{props.children}</button>
 ));

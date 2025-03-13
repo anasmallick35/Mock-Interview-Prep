@@ -5,7 +5,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   GithubAuthProvider,
-} from "../../utils/firebase";
+} from "@/utils/firebase";
 
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
@@ -34,9 +34,10 @@ const FirebaseLogin = () => {
 
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
+      toast.success("Login successfull")
     } catch (error) {
       console.error(error);
-      toast.error("Unable to Login");
+      toast.error("User not found. Please register.");
     }
   };
 
