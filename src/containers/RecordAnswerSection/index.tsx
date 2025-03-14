@@ -124,7 +124,7 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
         });
 
         const jsonFeedbackResp = response.data.get_feedback;
-
+        console.log(jsonFeedbackResp)
       dispatch({
         type: "interviewPage/updateUserAnswer",
         payload: {

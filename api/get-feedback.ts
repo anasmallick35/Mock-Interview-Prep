@@ -1,4 +1,4 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const geminiKey = import.meta.env.VITE_GEMINI_API; 
 const genAI = new GoogleGenerativeAI(geminiKey);
