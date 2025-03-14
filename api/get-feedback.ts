@@ -23,9 +23,9 @@ interface FeedbackResponse {
 }
 
 export default async function handler(req: { method: string; body: RequestBody }, res: { status: (code: number) => { json: (body: any) => void } }) {
-  /*if (req.method !== "POST") {
+  if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
-  }*/
+  }
 
   const { question, userAnswer } = req.body.input;
 
