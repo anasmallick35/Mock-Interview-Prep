@@ -1,8 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const geminiKey = import.meta.env.VITE_GEMINI_API; 
+const geminiKey = process.env.GEMINI_API_KEY; 
+if (!geminiKey) {
+    throw new Error("GEMINI_API_KEY is not defined");
+}
 const genAI = new GoogleGenerativeAI(geminiKey);
-
 const model = genAI.getGenerativeModel({
   model: "gemini-2.0-flash-exp",
 });
