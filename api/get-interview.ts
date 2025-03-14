@@ -5,11 +5,11 @@ if(!geminKey){
     throw new Error("GEMINI_API_KEY is not defined");
 }
 
+
 const genAI = new GoogleGenerativeAI(geminKey);
 const model = genAI.getGenerativeModel({
     model: "gemini-2.0-flash-exp",
 });
-
 interface RequestBody{
     input : {
         jobTitle: string,
