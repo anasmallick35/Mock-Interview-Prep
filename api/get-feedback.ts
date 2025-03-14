@@ -31,11 +31,10 @@ export default async function handler(req: { method: string; body: RequestBody }
   }
 
   const { question, userAnswer } = req.body.input;
-
-  if (!question || !userAnswer) {
+  console.log("input",req.body.input);
+  /*if (!question || !userAnswer) {
     return res.status(400).json({ message: "Question and user answer are required." });
-  }
-
+  }*/
   const feedbackPrompt = `
     Question: ${question}, 
     User Answer: ${userAnswer}. 
