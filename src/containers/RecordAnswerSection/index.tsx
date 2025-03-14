@@ -3,13 +3,15 @@ import { toast } from "sonner";
 import { useState, useRef } from "react";
 import useAuth from "@/hooks/useAuth";
 import { useParams } from "react-router-dom";
-import { chatSession } from "@/utils/gemini";
+//import { chatSession } from "@/utils/gemini";
 import { useDispatch, useSelector } from "react-redux";
 import Record from "@/components/RecordAnswerSection";
 import { RootState } from "@/redux/store";
 import { ElevenLabsClient } from "elevenlabs";
+import { gql } from "@apollo/client";
+import client from "@/utils/apolloClient";
 
-const client = new ElevenLabsClient({
+const clients = new ElevenLabsClient({
   apiKey: import.meta.env.VITE_ELEVENLABS_API_KEY, 
 });
 
@@ -70,7 +72,7 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
 
         
         try {
-          const transcription = await client.speechToText.convert({
+          const transcription = await clients.speechToText.convert({
             file: audioBlob,
             model_id: "scribe_v1",
             tag_audio_events: true,
@@ -92,7 +94,7 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
     setShowConfirmation(false);
     setLoading(true);
 
-    const feedbackPrompt = `
+    /*const feedbackPrompt = `
       Question: ${questions[activeQuestionIndex]?.question}, 
       User Answer: ${userRecording}. 
       Please provide a rating (integer) and feedback (3-5 lines) in JSON format with "rating" and "feedback" fields.
@@ -102,7 +104,26 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
       const result = await chatSession.sendMessage(feedbackPrompt);
       const responseText = result.response.text().trim();
       const cleanedJson = responseText.replace(/^```json|```$/g, "");
-      const jsonFeedbackResp = JSON.parse(cleanedJson);
+      const jsonFeedbackResp = JSON.parse(cleanedJson);*/
+
+      try{
+
+        const response = await client.mutate({
+          mutation: gql`
+            mutation GetFeedback($question: String!, $userAnswer: String!) {
+              get_feedback(input: { question: $question, userAnswer: $userAnswer }) {
+                rating
+                feedback
+              }
+            }
+          `,
+          variables: {
+            question: questions[activeQuestionIndex]?.question,
+            userAnswer: userRecording,
+          },
+        });
+
+        const jsonFeedbackResp = response.data.get_feedback;
 
       dispatch({
         type: "interviewPage/updateUserAnswer",
