@@ -121,10 +121,12 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
             question: questions[activeQuestionIndex]?.question,
             userAnswer: userRecording,
           },
+          
         });
+        console.log("Res",response)
 
         const jsonFeedbackResp = response.data.get_feedback;
-        console.log(jsonFeedbackResp)
+        console.log("jj",jsonFeedbackResp)
       dispatch({
         type: "interviewPage/updateUserAnswer",
         payload: {
@@ -143,7 +145,9 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
       setUserRecording("");
       setActiveQuestionIndex(activeQuestionIndex + 1);
     } catch (error) {
+      console.error(error)
       toast.error("Failed to record answer");
+      
     }
 
     setLoading(false);
