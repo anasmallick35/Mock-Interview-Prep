@@ -2,21 +2,17 @@ import React, { useState } from "react";
 import {
   auth,
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
+
 } from "@/utils/firebase";
 import { toast } from "sonner";
-import {  useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import client from "@/utils/apolloClient";
 import { auth as firebaseAuth } from "@/utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { GET_USER, GET_USER_BY_EMAIL } from "@/services/InterviewQuery";
+import { GET_USER_BY_EMAIL } from "@/services/InterviewQuery";
 import { CREATE_USER } from "@/services/InterviewMutation";
-
-
 
 const FirebaseSignup = () => {
   const [email, setEmail] = useState<string>("");
@@ -27,9 +23,8 @@ const FirebaseSignup = () => {
   });
   const [_firebaseUser, firebaseLoading, firebaseErrorState] =
     useAuthState(firebaseAuth);
-  const [getUser] = useLazyQuery(GET_USER);
   const [getUserByEmail] = useLazyQuery(GET_USER_BY_EMAIL);
-  
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -45,16 +40,19 @@ const FirebaseSignup = () => {
     }
     const { data } = await getUserByEmail({ variables: { email: email } });
 
-    if(data?.users[0]?.email === email){
-      toast.error("Email already registered. Please login.")
+    if (data?.users[0]?.email === email) {
+      toast.error("Email already registered. Please login.");
+      return;
     }
 
     if (!email || !password) {
       toast.error("Email and password are required");
+      return;
     }
 
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters long.");
+      return;
     }
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -78,63 +76,19 @@ const FirebaseSignup = () => {
           navigate("/");
         } catch (hasuraError) {
           console.error("Hasura error:", hasuraError);
-          toast.error("user creation failed.");
+          toast.error("User creation failed.");
         }
       }
     } catch (firebaseError) {
       console.error(firebaseError);
-      toast.error('Unable to register')
+      toast.error('Unable to register');
     }
   };
 
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      if (!user.email) {
-          toast.error("Google login did not provide an email.");
-          return;
-      }
-
-      const { data } = await getUser({ variables: { userId: user?.uid } });
-      if (data) {
-        toast.error(
-          "User with this email already registered. Please log in."
-        );
-        return; 
-      }
-
-      await createUser({
-        variables: {
-          id: user.uid,
-          provider: "google",
-          email: user.email,
-          name: user.displayName || user.email,
-        },
-      });
-
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      toast.error('Unable to register')
-    }
-  };
 
   return (
     <div className="w-full">
       <div className="flex flex-col gap-4">
-        <button
-          className="flex items-center justify-center gap-2 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-          data-dd-action-name="Sign up with Google"
-          onClick={handleGoogleLogin}
-        >
-          <FcGoogle className="w-5 h-5" />
-          <span className="text-sm font-medium text-gray-700">
-            Sign up with Google
-          </span>
-        </button>
 
         <button
           className="flex items-center justify-center gap-2 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"

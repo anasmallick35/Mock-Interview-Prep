@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   auth,
   signInWithEmailAndPassword,
@@ -6,21 +6,17 @@ import {
   signInWithPopup,
   GithubAuthProvider,
 } from "@/utils/firebase";
-
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_USER } from "@/services/InterviewQuery";
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa"; 
+import { FaGithub } from "react-icons/fa";
 import { CREATE_USER } from "@/services/InterviewMutation";
 
-
 const FirebaseLogin = () => {
-
   const [createUser] = useMutation(CREATE_USER);
-  const [getUser] = useLazyQuery(GET_USER); 
-
+  const [getUser] = useLazyQuery(GET_USER);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -28,15 +24,15 @@ const FirebaseLogin = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if(!email || !password) {
+      if (!email || !password) {
         toast.error("Email and password are required");
+        return;
       }
 
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
-      toast.success("Login successfull")
+      toast.success("Login successful");
     } catch (error) {
-      console.error(error);
       toast.error("User not found. Please register.");
     }
   };
@@ -46,26 +42,22 @@ const FirebaseLogin = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+  
 
       const { data } = await getUser({ variables: { userId: user?.uid } });
-    
+  
       if (!data?.users_by_pk) {
-        await createUser({
-          variables: {
-            id: user?.uid,
-            provider: "google",
-            email: user?.email,
-            name: user?.displayName || user.email,
-          },
-        });
+    
+        toast.error("User not registered. Please sign up.");
+        await auth.signOut(); 
+        return;
       }
-      useEffect(()=>{
-        if(data.users_by_pk)
-        navigate("/");
-      },data)
+  
+      navigate("/");
+      toast.success("Login successful");
     } catch (error) {
-      console.error("error",error);
-      toast.error("Unable to Login");
+      console.error("error", error);
+      toast.error("Unable to login.");
     }
   };
 
@@ -101,7 +93,7 @@ const FirebaseLogin = () => {
           className="flex items-center justify-center gap-2 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
           onClick={handleGoogleLogin}
         >
-          <FcGoogle className="w-5 h-5" /> 
+          <FcGoogle className="w-5 h-5" />
           <span className="text-sm font-medium text-gray-700">Sign in with Google</span>
         </button>
 
@@ -109,7 +101,7 @@ const FirebaseLogin = () => {
           className="flex items-center justify-center gap-2 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
           onClick={handleGithubLogin}
         >
-          <FaGithub className="w-5 h-5" /> 
+          <FaGithub className="w-5 h-5" />
           <span className="text-sm font-medium text-gray-700">Sign in with GitHub</span>
         </button>
       </div>

@@ -45,7 +45,7 @@ const StartInterviewContainer = () => {
     ) {
       const timeout = setTimeout(() => {
         navigate(`/start-interview/${interviewDetails.id}/feedback`);
-      }, 2000);
+      }, 1000);
 
       return () => clearTimeout(timeout); 
     }
