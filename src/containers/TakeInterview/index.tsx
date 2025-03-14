@@ -53,11 +53,14 @@ const useTakeInterview = () => {
       try{
         const response = await client.mutate({
           mutation: gql`
-            mutation GetInterview($jobTitle: String!, $topic: String!){
-              get_interview(input: { jobTitle: $jobTitle, topic: $topic }) {
-                questions
-              }
-            }
+            mutation GetInterview($jobTitle: String!, $topic: String!) {
+    get_interview(input: { jobTitle: $jobTitle, topic: $topic }) {
+      questions {
+        question
+        answer
+      }
+    }
+  }
           `,
           variables: {
             jobTitle: jobTitle,
