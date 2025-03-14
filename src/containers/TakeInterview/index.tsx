@@ -33,7 +33,6 @@ const useTakeInterview = () => {
     }
   }, [interviewId, navigate]);
 
-
   const handleGenerateQuestions = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -50,25 +49,26 @@ const useTakeInterview = () => {
       const cleanedJson = responseText.replace(/^```json|```$/g, "");
       const geminiQuestions = JSON.parse(cleanedJson);*/
 
-      try{
-        const response = await client.mutate({
-          mutation: gql`
-            mutation GetInterview($jobTitle: String!, $topic: String!) {
-    get_interview(input: { jobTitle: $jobTitle, topic: $topic }) {
-      questions {
-        question
-        answer
-      }
-    }
-  }
-          `,
-          variables: {
-            jobTitle: jobTitle,
-            topic: topic,
-          },
-        })
-        const geminiQuestions = response.data.get_interview;
-        
+    try {
+      const response = await client.mutate({
+        mutation: gql`
+          mutation GetInterview($jobTitle: String!, $topic: String!) {
+            get_interview(input: { jobTitle: $jobTitle, topic: $topic }) {
+              questions {
+                question
+                answer
+              }
+            }
+          }
+        `,
+        variables: {
+          jobTitle: jobTitle,
+          topic: topic,
+        },
+      });
+
+      const geminiQuestions = response.data.get_interview.questions;
+
       const { data } = await getUserQuestions({
         variables: { jobTitle: `%${jobTitle}%`, topic: `%${topic}%` },
       });
@@ -94,7 +94,7 @@ const useTakeInterview = () => {
         await updateUserPoints({
           variables: {
             id: userId,
-            points: -50, 
+            points: -50,
           },
         });
         toast.success("Interview created successfully. 50 points deducted.");
@@ -112,13 +112,13 @@ const useTakeInterview = () => {
       userId: isFirebaseAuthenticated ? user?.uid : user?.sub,
     },
   });
-  console.log(data)
+  console.log(data);
   const handleStartInterview = () => {
     if (!isFirebaseAuthenticated && !isOAuthAuthenticated) {
       toast.error("Please login to start an interview.");
       return;
     }
-   if (data?.users_by_pk?.points < 50) {
+    if (data?.users_by_pk?.points < 50) {
       toast.error("You don't have enough points to start an interview.");
       return;
     }
