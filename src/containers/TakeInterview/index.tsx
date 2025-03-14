@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { chatSession } from "@/utils/gemini";
+//import { chatSession } from "@/utils/gemini";
 import TakeInterviewComponent from "@/components/TakeInterview";
 import { useDispatch, useSelector } from "react-redux";
 import { createInterviewStart } from "@/redux/slices/TakeInterviewSlice";
