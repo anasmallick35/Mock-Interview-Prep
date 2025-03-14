@@ -6,10 +6,11 @@ import TakeInterviewComponent from "@/components/TakeInterview";
 import { useDispatch, useSelector } from "react-redux";
 import { createInterviewStart } from "@/redux/slices/TakeInterviewSlice";
 import { RootState } from "@/redux/store";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { GET_QUESTION, GET_USER } from "@/services/InterviewQuery";
 import useAuth from "@/hooks/useAuth";
 import { UPDATE_POINTS } from "@/services/InterviewMutation";
+import client from "@/utils/apolloClient";
 
 const useTakeInterview = () => {
   const [jobTitle, setJobTitle] = useState<string>("");
@@ -42,13 +43,29 @@ const useTakeInterview = () => {
       return;
     }
 
-    try {
+    /*try {
       const prompt = `Job position: ${jobTitle}, job responsibility: ${topic}. Depend on this information, give me 5 questions with answers in JSON format. Remember give only question and answer and not unnecessary text`;
       const result = await chatSession.sendMessage(prompt);
       const responseText = result.response.text().trim();
       const cleanedJson = responseText.replace(/^```json|```$/g, "");
-      const geminiQuestions = JSON.parse(cleanedJson);
+      const geminiQuestions = JSON.parse(cleanedJson);*/
 
+      try{
+        const response = await client.mutate({
+          mutation: gql`
+            mutation GetInterview($jobTitle: String!, $topic: String!){
+              get_interview(input: { jobTitle: $jobTitle, topic: $topic }) {
+                questions
+              }
+            }
+          `,
+          variables: {
+            jobTitle: jobTitle,
+            topic: topic,
+          },
+        })
+        const geminiQuestions = response.data.get_interview;
+        
       const { data } = await getUserQuestions({
         variables: { jobTitle: `%${jobTitle}%`, topic: `%${topic}%` },
       });

@@ -1,7 +1,7 @@
-// api/get-feedback.ts
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Access environment variable
+
 const geminiKey = process.env.GEMINI_API_KEY;
 if (!geminiKey) {
   throw new Error("GEMINI_API_KEY is not defined");
@@ -24,14 +24,14 @@ interface FeedbackResponse {
   feedback: string;
 }
 
-// Use `export default` for ES modules
+
 export default async function handler(req: { method: string; body: RequestBody }, res: { status: (code: number) => { json: (body: any) => void } }) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
   const { question, userAnswer } = req.body.input;
-  console.log("input",req.body.input);
+
   /*if (!question || !userAnswer) {
     return res.status(400).json({ message: "Question and user answer are required." });
   }*/
