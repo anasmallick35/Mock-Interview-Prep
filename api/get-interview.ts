@@ -28,41 +28,35 @@ interface InterviewResponse {
 
 export default async function handler(
   req: { method: string; body: RequestBody },
-  res: { status: (code: number) => { json: (body: any) => void } }
+  res: { status: (code: number) => { json: (body: InterviewResponse) => void } }
 ) {
-  console.log("Request received:", req.method, req.body); // Log the incoming request
-
-  if (req.method !== "POST") {
-    console.error("Method not allowed:", req.method); // Log the error
+  /*if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
-  }
+  }*/
 
   const { jobTitle, topic } = req.body.input;
 
-  if (!jobTitle || !topic) {
-    console.error("Missing jobTitle or topic:", { jobTitle, topic }); // Log the error
+  /*if (!jobTitle || !topic) {
     return res.status(400).json({ message: "Job title and topic are required." });
-  }
+  }*/
 
   const prompt = `Job position: ${jobTitle}, job responsibility: ${topic}. Depend on this information, give me 5 questions with answers in JSON format. Remember give only question and answer and not unnecessary text`;
 
-  console.log("Prompt sent to Gemini:", prompt); // Log the prompt
 
   try {
     const result = await model.generateContent(prompt);
     const responseText = result.response.text().trim();
-    console.log("Raw response from Gemini:", responseText); // Log the raw response
 
     const cleanedJson = responseText.replace(/^```json|```$/g, "");
-    console.log("Cleaned JSON response:", cleanedJson); // Log the cleaned JSON
+
 
     const geminiQuestions: Question[] = JSON.parse(cleanedJson);
-    console.log("Parsed questions:", geminiQuestions); // Log the parsed questions
-
-    // Return the response in the correct format
-    res.status(200).json({ questions: geminiQuestions });
+    
+    const response: InterviewResponse = { questions: geminiQuestions };
+    console.log(response)
+    res.status(200).json(response);
   } catch (error) {
-    console.error("Gemini API error:", error); // Log the error
-    res.status(500).json({ message: "Failed to generate interview from Gemini." });
+    console.error(error)
+    //res.status(500).json({ message: "Failed to generate interview from Gemini." });
   }
 }

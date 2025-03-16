@@ -47,27 +47,30 @@ const useTakeInterview = () => {
       const result = await chatSession.sendMessage(prompt);
       const responseText = result.response.text().trim();
       const cleanedJson = responseText.replace(/^```json|```$/g, "");
-      const geminiQuestions = JSON.parse(cleanedJson);*/
+      const geminiQuestions = JSON.parse(cleanedJson);
+      console.log(geminiQuestions)*/
 
-    try {
-      const response = await client.mutate({
-        mutation: gql`
-          mutation GetInterview($jobTitle: String!, $topic: String!) {
-            get_interview(input: { jobTitle: $jobTitle, topic: $topic }) {
-              questions {
-                question
-                answer
-              }
+   
+  try {
+    const response = await client.mutate({
+      mutation: gql`
+        mutation GetInterview($jobTitle: String!, $topic: String!) {
+          get_interview(input: { jobTitle: $jobTitle, topic: $topic }) {
+            questions {
+              question
+              answer
             }
           }
-        `,
-        variables: {
-          jobTitle: jobTitle,
-          topic: topic,
-        },
-      });
+        }
+      `,
+      variables: {
+        jobTitle: jobTitle,
+        topic: topic,
+      },
+    });
 
-      const geminiQuestions = response.data.get_interview.questions;
+    const geminiQuestions = response.data.get_interview.questions;
+
 
       const { data } = await getUserQuestions({
         variables: { jobTitle: `%${jobTitle}%`, topic: `%${topic}%` },
