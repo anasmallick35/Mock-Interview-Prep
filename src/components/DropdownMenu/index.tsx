@@ -7,7 +7,11 @@ import { useQuery } from "@apollo/client";
 import { GET_USER } from "@/services/InterviewQuery";
 import { Spinner } from "../Spinner";
 
-const Dropdown = () => {
+interface DropdownProps {
+  showContributionButton?: boolean;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ showContributionButton = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const {
@@ -62,15 +66,13 @@ const Dropdown = () => {
         className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white cursor-pointer transition-transform duration-200 hover:scale-105"
         src={data?.users_by_pk?.picture}
         onClick={() => setIsOpen((prev) => !prev)}
-        alt="Profile"
       />
-
 
       {isOpen && (
         <div
-        id="dropdownDivider"
-        className="absolute top-full right-2 mt-3 w-48 max-w-[95vw] bg-white dark:bg-gray-800 shadow-xl rounded-xl z-50 divide-y divide-gray-200 dark:divide-gray-700 animate-fade-in"
-      >
+          id="dropdownDivider"
+          className="absolute top-full right-2 mt-3 w-48 max-w-[95vw] bg-white dark:bg-gray-800 shadow-xl rounded-xl z-50 divide-y divide-gray-200 dark:divide-gray-700 animate-fade-in"
+        >
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
             <li>
               <Link
@@ -81,6 +83,17 @@ const Dropdown = () => {
                 Profile
               </Link>
             </li>
+            {showContributionButton && (
+              <li className="sm:hidden">
+                <Link
+                  to="/user-contributions"
+                  className="block px-4 py-2 text-[16px] hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Your Contribution
+                </Link>
+              </li>
+            )}
           </ul>
           <div
             className="px-4 py-2 text-[16px] text-black dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer"

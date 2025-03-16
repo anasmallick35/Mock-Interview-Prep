@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "react";
 import { Spinner } from "../Spinner";
 import Button from "../Button";
 import { Link } from "react-router-dom";
+import NoInterview from "@/assets/No Interviews.png"
 
 const PrevInterviewCard = lazy(() => import("../PrevInterviewCard"));
 
@@ -26,19 +27,16 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
   if (loading) return <Spinner />;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
-  // Filter interviews based on search term
   const filteredInterviews = interviews.filter((interview) =>
     interview.jobTitle.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Sort interviews based on the selected order
   const sortedInterviews = filteredInterviews.sort((a, b) => {
     const dateA = new Date(a.created_at).getTime();
     const dateB = new Date(b.created_at).getTime();
     return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
   });
 
-  // Calculate pagination indexes
   const indexOfLastInterview = currentPage * interviewsPerPage;
   const indexOfFirstInterview = indexOfLastInterview - interviewsPerPage;
   const currentInterviews = sortedInterviews.slice(
@@ -51,16 +49,15 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
   const hasInterviews = interviews.length > 0;
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       {hasInterviews ? (
         <>
-          <h2 className="font-medium text-xl mb-4 text-center mt-10">
+          <h2 className="font-medium text-xl sm:text-2xl mb-4 text-center mt-6 sm:mt-10">
             Previous Mock Interviews
           </h2>
 
-          {/* Search Box and Sorting Controls */}
-          <div className="mb-8 flex justify-around items-center">
-            <div className="relative w-96">
+          <div className="mb-8 flex flex-col sm:flex-row justify-around items-center gap-4 sm:gap-0">
+            <div className="relative w-full sm:w-96">
               <input
                 type="text"
                 placeholder="Search by Job Title"
@@ -84,16 +81,14 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
                 />
               </svg>
             </div>
-
-            {/* Sorting Dropdown */}
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <select
                 value={sortOrder}
                 onChange={(e) => {
                   setSortOrder(e.target.value as "newest" | "oldest");
                   setCurrentPage(1);
                 }}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -101,9 +96,8 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
             </div>
           </div>
 
-          {/* Interview Cards */}
           {currentInterviews.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ml-24">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <Suspense fallback={<Spinner />}>
                 {currentInterviews.map((interview) => (
                   <div
@@ -124,34 +118,33 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
             </div>
           )}
 
-          {/* Pagination */}
           {filteredInterviews.length > interviewsPerPage && (
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center mt-8 gap-2">
               <Button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="bg-gray-300 hover:bg-gray-400 text-white transition-colors disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Previous
               </Button>
               <Button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-4 py-2 mx-1 bg-slate-500 text-white rounded-lg hover:bg-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-slate-500 text-white rounded-lg hover:bg-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {currentPage}
               </Button>
               <Button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={indexOfLastInterview >= filteredInterviews.length}
-                className="px-4 py-2 mx-1 bg-slate-500 text-white rounded-lg hover:bg-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-slate-500 text-white rounded-lg hover:bg-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {currentPage + 1}
               </Button>
               <Button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={indexOfLastInterview >= filteredInterviews.length}
-                className="bg-gray-300 hover:bg-gray-400 text-white transition-colors disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
               </Button>
@@ -159,15 +152,21 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
           )}
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center mt-20 mb-20 text-center text-gray-600">
+        <div className="flex flex-col items-center justify-center mt-10 sm:mt-20 mb-10 sm:mb-20 text-center text-gray-600">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/4076/4076500.png"
+            src= {NoInterview}
             alt="No Interviews"
-            className="w-40 h-40 mb-6 opacity-80"
+            className="w-32 h-32 sm:w-40 sm:h-40 mb-4 sm:mb-6 opacity-80"
           />
-          <h3 className="text-2xl font-semibold mb-2">No Interviews Yet</h3>
-          <p className="text-lg">You don't have any previous interviews.</p>
-          <p className="text-lg">Please take an interview to get started!</p>
+          <h3 className="text-xl sm:text-2xl font-semibold mb-2">
+            No Interviews Yet
+          </h3>
+          <p className="text-base sm:text-lg">
+            You don't have any previous interviews.
+          </p>
+          <p className="text-base sm:text-lg">
+            Please take an interview to get started!
+          </p>
           <Link to="/">
             <Button className="mt-4 px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">
               Take Interview Now

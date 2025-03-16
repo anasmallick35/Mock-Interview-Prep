@@ -3,7 +3,6 @@ import { toast } from "sonner";
 import { useState, useRef } from "react";
 import useAuth from "@/hooks/useAuth";
 import { useParams } from "react-router-dom";
-//import { chatSession } from "@/utils/gemini";
 import { useDispatch, useSelector } from "react-redux";
 import Record from "@/components/RecordAnswerSection";
 import { RootState } from "@/redux/store";
@@ -93,18 +92,6 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
   const confirmRecording = async () => {
     setShowConfirmation(false);
     setLoading(true);
-
-    /*const feedbackPrompt = `
-      Question: ${questions[activeQuestionIndex]?.question}, 
-      User Answer: ${userRecording}. 
-      Please provide a rating (integer) and feedback (3-5 lines) in JSON format with "rating" and "feedback" fields.
-    `;
-
-    try {
-      const result = await chatSession.sendMessage(feedbackPrompt);
-      const responseText = result.response.text().trim();
-      const cleanedJson = responseText.replace(/^```json|```$/g, "");
-      const jsonFeedbackResp = JSON.parse(cleanedJson);*/
 
       try{
 

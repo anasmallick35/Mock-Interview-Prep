@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-//import { chatSession } from "@/utils/gemini";
 import TakeInterviewComponent from "@/components/TakeInterview";
 import { useDispatch, useSelector } from "react-redux";
 import { createInterviewStart } from "@/redux/slices/TakeInterviewSlice";
@@ -41,14 +40,6 @@ const useTakeInterview = () => {
       toast.error("Please log in to continue.");
       return;
     }
-
-    /*try {
-      const prompt = `Job position: ${jobTitle}, job responsibility: ${topic}. Depend on this information, give me 5 questions with answers in JSON format. Remember give only question and answer and not unnecessary text`;
-      const result = await chatSession.sendMessage(prompt);
-      const responseText = result.response.text().trim();
-      const cleanedJson = responseText.replace(/^```json|```$/g, "");
-      const geminiQuestions = JSON.parse(cleanedJson);
-      console.log(geminiQuestions)*/
 
    
   try {
