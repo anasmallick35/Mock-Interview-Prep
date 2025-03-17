@@ -49,7 +49,7 @@ const PastInterviews: React.FC<PastInterviewsProps> = ({
   const hasInterviews = interviews.length > 0;
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-lvh">
       {hasInterviews ? (
         <>
           <h2 className="font-medium text-xl sm:text-2xl mb-4 text-center mt-6 sm:mt-10">
