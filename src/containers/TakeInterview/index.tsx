@@ -63,17 +63,18 @@ const useTakeInterview = () => {
     const geminiQuestions = response.data.get_interview.questions;
 
 
-      const { data } = await getUserQuestions({
-        variables: { jobTitle: `%${jobTitle}%`, topic: `%${topic}%` },
-      });
+    const { data } = await getUserQuestions({
+      variables: { input_text: `${jobTitle} ${topic}` }, 
+    });
+    
 
-      let dbQuestion = null;
-      if (data && data.questions.length > 0) {
-        dbQuestion = {
-          question: data.questions[0].question,
-          answer: "",
-        };
-      }
+    let dbQuestion = null;
+    if (data && data.search_similar_questions.length > 0) {
+      dbQuestion = {
+        question: data.search_similar_questions[0].question,
+        answer: "",
+      };
+    }    
 
       const combinedQuestions = dbQuestion
         ? [...geminiQuestions, dbQuestion]

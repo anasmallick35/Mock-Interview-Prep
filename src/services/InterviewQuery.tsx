@@ -63,6 +63,7 @@ export const GET_FEEDBACK_FROM_USER_ANSWERS = gql`
 `
 
 
+
 export const GET_PENDING_QUESTIONS = gql`
   query GetPendingQuestions {
     questions(where: { status: { _eq: "pending" } }) {
@@ -76,19 +77,16 @@ export const GET_PENDING_QUESTIONS = gql`
 
 
 export const GET_QUESTION = gql`
-  query getUserUploadQuestions($jobTitle: String!, $topic: String!) {
-    questions(
-      where: {
-        jobTitle: { _ilike: $jobTitle }
-        topic: { _ilike: $topic }
-        status: { _eq: "approved" }
-      }
-    ) {
+  query GetSimilarQuestions($input_text: String!) {
+    search_similar_questions(args: { input_text: $input_text }) {
       id
       question
+      jobTitle
+      topic
     }
   }
 `;
+
 
 export const GET_USER_INTERVIEWS = gql`
 query GetUserInterviews(
