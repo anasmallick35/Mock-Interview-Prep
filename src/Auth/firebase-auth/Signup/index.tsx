@@ -20,13 +20,13 @@ const FirebaseSignup: React.FC = () => {
   const navigate = useNavigate();
   const [createUser, { loading }] = useMutation(CREATE_USER, {
     client: client,
-    refetchQueries: [
+    /*refetchQueries: [
       {
         query: GET_USER,
         variables: { userId: auth.currentUser?.uid }, 
         fetchPolicy: "network-only", 
       },
-    ],
+    ],*/
   });
   const [_firebaseUser, firebaseLoading, firebaseErrorState] =
     useAuthState(firebaseAuth);
@@ -99,10 +99,18 @@ const FirebaseSignup: React.FC = () => {
               name: user.email,
             },
           });
+
+          await client.query({
+            query: GET_USER,
+            variables: { userId: user.uid },
+            fetchPolicy: "network-only",
+          });
+         
           toast.success("Signup successful!");
           setEmail("");
           setPassword("");
           setConfirmPassword("");
+          //window.location.reload();
           navigate("/");
         } catch (hasuraError) {
           console.error("Hasura error:", hasuraError);
