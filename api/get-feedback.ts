@@ -12,8 +12,10 @@ const model = genAI.getGenerativeModel({
 
 interface RequestBody {
   input: {
-    question: string;
-    userAnswer: string;
+    input: {
+      question: string;
+      userAnswer: string;
+    };
   };
 }
 
@@ -29,9 +31,7 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
-
-  
-  const { question, userAnswer } = req.body.input;
+  const { question, userAnswer } = req.body.input.input;
 
   console.log("Received request body:", req.body);
   console.log("Extracted question:", question);
@@ -50,12 +50,13 @@ export default async function handler(
   try {
     const result = await model.generateContent(feedbackPrompt);
     const responseText = result.response.text().trim();
+
+   
     const cleanedJson = responseText.replace(/^```json|```$/g, "").trim();
 
-    
     const jsonFeedbackResp: FeedbackResponse = JSON.parse(cleanedJson);
 
-    
+
     res.status(200).json(jsonFeedbackResp);
   } catch (error) {
     console.error("Gemini API error:", error);
