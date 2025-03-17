@@ -53,13 +53,13 @@ export default async function handler(
     const result = await model.generateContent(prompt);
     const responseText = result.response.text().trim();
 
-    // Remove markdown code blocks (```json and ```)
+
     const cleanedJson = responseText.replace(/^```json|```$/g, "").trim();
 
-    // Parse the cleaned JSON
+ 
     const geminiQuestions: Question[] = JSON.parse(cleanedJson);
 
-    // Return the response in the expected format
+    
     const response: InterviewResponse = { questions: geminiQuestions };
     res.status(200).json(response);
   } catch (error) {

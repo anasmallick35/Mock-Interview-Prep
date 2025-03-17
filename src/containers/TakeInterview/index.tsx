@@ -59,12 +59,7 @@ const useTakeInterview = () => {
         topic: topic,
       },
     });
-
-    console.log(jobTitle)
-    console.log(topic)
     const geminiQuestions = response.data.get_interview.questions;
-
-
     const { data } = await getUserQuestions({
       variables: { input_text: `${topic}` }, 
     });
@@ -97,7 +92,6 @@ const useTakeInterview = () => {
         toast.success("Interview created successfully. 50 points deducted.");
       }
     } catch (error) {
-      console.error("Error generating questions:", error);
       toast.error("Error in generating questions");
     } finally {
       setLoading(false);
@@ -109,7 +103,6 @@ const useTakeInterview = () => {
       userId: isFirebaseAuthenticated ? user?.uid : user?.sub,
     },
   });
-  console.log(data);
   const handleStartInterview = () => {
     if (!isFirebaseAuthenticated && !isOAuthAuthenticated) {
       toast.error("Please login to start an interview.");

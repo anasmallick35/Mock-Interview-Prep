@@ -80,7 +80,7 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
           });
           setUserRecording(transcription.text || "");
         } catch (err) {
-          console.error("Transcription failed:", err);
+        
           toast.error("Speech to text failed. Please try again.");
         }
       };
@@ -110,10 +110,10 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
           },
           
         });
-        console.log("Res",response)
+     
 
         const jsonFeedbackResp = response.data.get_feedback;
-        console.log("jj",jsonFeedbackResp)
+       
       dispatch({
         type: "interviewPage/updateUserAnswer",
         payload: {
@@ -145,7 +145,7 @@ const useRecordContainer: React.FC<QuestionSectionProps> = ({
     setAudioURL("");
     setUserRecording("");
   };
-  console.log(isRecording);
+ 
 
   return (
     <Record
