@@ -26,10 +26,6 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const onStart = () => {
-    navigate("/start-interview/" + interview?.id);
-  };
-
   const onFeedbackPress = () => {
     navigate("/start-interview/" + interview?.id + "/feedback");
   };
