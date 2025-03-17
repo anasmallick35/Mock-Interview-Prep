@@ -60,6 +60,8 @@ const useTakeInterview = () => {
       },
     });
 
+    console.log(jobTitle)
+    console.log(topic)
     const geminiQuestions = response.data.get_interview.questions;
 
 

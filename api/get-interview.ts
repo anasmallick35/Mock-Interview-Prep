@@ -30,26 +30,34 @@ export default async function handler(
   req: { method: string; body: RequestBody },
   res: { status: (code: number) => { json: (body: InterviewResponse) => void } }
 ) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ questions: [] });
+  }
 
   const { jobTitle, topic } = req.body.input;
+
+  console.log("Received request body:", req.body);
+  console.log("Extracted jobTitle:", jobTitle);
+  console.log("Extracted topic:", topic);
+
+  if (!jobTitle || !topic) {
+    return res.status(400).json({ questions: [] });
+  }
+
   const prompt = `Job position: ${jobTitle}, job responsibility: ${topic}. Depend on this information, give me 5 questions with answers in JSON format. Remember give only question and answer and not unnecessary text`;
 
-  console.log(req.body.input);
-    if(!jobTitle || !topic){
-        return;
-    }
   try {
     const result = await model.generateContent(prompt);
     const responseText = result.response.text().trim();
 
     const cleanedJson = responseText.replace(/^```json|```$/g, "");
 
-
     const geminiQuestions: Question[] = JSON.parse(cleanedJson);
-    
+
     const response: InterviewResponse = { questions: geminiQuestions };
     res.status(200).json(response);
   } catch (error) {
-    console.error(error)
+    console.error("Error generating questions:", error);
+    res.status(500).json({ questions: [] });
   }
 }
