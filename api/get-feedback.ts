@@ -37,14 +37,14 @@ export default async function handler(
   console.log("Extracted question:", question);
   console.log("Extracted userAnswer:", userAnswer);
 
-  if (!question || !userAnswer) {
-    return res.status(400).json({ message: "Question or userAnswer is missing" });
+  if (!question ) {
+    return res.status(400).json({ message: "Question is missing" });
   }
 
   const feedbackPrompt = `
     Question: ${question}, 
     User Answer: ${userAnswer}. 
-    Please provide a rating (integer) and feedback (3-5 lines) in JSON format with "rating" and "feedback" fields.
+    Please provide a rating out of 5 (integer) and feedback (2-3 lines) in JSON format with "rating" and "feedback" fields.
   `;
 
   try {
