@@ -56,7 +56,6 @@ const FirebaseLogin = () => {
       navigate("/");
       toast.success("Login successful");
     } catch (error) {
-      console.error("error", error);
       toast.error("Unable to login.");
     }
   };
@@ -81,7 +80,6 @@ const FirebaseLogin = () => {
 
       navigate("/");
     } catch (error) {
-      console.error(error);
       toast.error("Unable to Login");
     }
   };

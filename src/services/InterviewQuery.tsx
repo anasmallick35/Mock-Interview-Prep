@@ -81,7 +81,6 @@ export const GET_QUESTION = gql`
     search_similar_questions(args: { input_text: $input_text }) {
       id
       question
-      jobTitle
       topic
     }
   }

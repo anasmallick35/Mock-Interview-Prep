@@ -64,7 +64,7 @@ const useTakeInterview = () => {
 
 
     const { data } = await getUserQuestions({
-      variables: { input_text: `${jobTitle} ${topic}` }, 
+      variables: { input_text: `${topic}` }, 
     });
     
 
