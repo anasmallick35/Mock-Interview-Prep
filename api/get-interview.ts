@@ -34,7 +34,10 @@ export default async function handler(
   const { jobTitle, topic } = req.body.input;
   const prompt = `Job position: ${jobTitle}, job responsibility: ${topic}. Depend on this information, give me 5 questions with answers in JSON format. Remember give only question and answer and not unnecessary text`;
 
-
+  console.log(req.body.input);
+    if(!jobTitle || !topic){
+        return;
+    }
   try {
     const result = await model.generateContent(prompt);
     const responseText = result.response.text().trim();
