@@ -12,8 +12,10 @@ const model = genAI.getGenerativeModel({
 
 interface RequestBody {
   input: {
-    jobTitle: string;
-    topic: string;
+    input: {
+      jobTitle: string;
+      topic: string;
+    };
   };
 }
 
@@ -34,7 +36,8 @@ export default async function handler(
     return res.status(405).json({ questions: [] });
   }
 
-  const { jobTitle, topic } = req.body.input;
+
+  const { jobTitle, topic } = req.body.input.input;
 
   console.log("Received request body:", req.body);
   console.log("Extracted jobTitle:", jobTitle);
@@ -50,10 +53,13 @@ export default async function handler(
     const result = await model.generateContent(prompt);
     const responseText = result.response.text().trim();
 
-    const cleanedJson = responseText.replace(/^```json|```$/g, "");
+    // Remove markdown code blocks (```json and ```)
+    const cleanedJson = responseText.replace(/^```json|```$/g, "").trim();
 
+    // Parse the cleaned JSON
     const geminiQuestions: Question[] = JSON.parse(cleanedJson);
 
+    // Return the response in the expected format
     const response: InterviewResponse = { questions: geminiQuestions };
     res.status(200).json(response);
   } catch (error) {
