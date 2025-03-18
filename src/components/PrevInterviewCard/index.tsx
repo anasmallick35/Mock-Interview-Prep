@@ -46,7 +46,6 @@ const PrevInterviewCard: React.FC<InterviewCardProps> = ({
   return (
     <>
       <div className="w-full max-w-[20rem] shadow-lg rounded-lg bg-white p-6 hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-        {/* Card Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <h5 className="text-xl font-semibold text-gray-800 truncate">

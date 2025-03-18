@@ -6,14 +6,15 @@ import StartInterviewComponent from '@/pages/StartInterviewPage';
 import {
   setActiveQuestionIndex,
 } from '@/redux/slices/InterviewPageSlices';
-import { RootState } from '@/redux/store'; // Adjust the import path as needed
+import { RootState } from '@/redux/store'; 
+import { Spinner } from '@/components/Spinner';
 
 const StartInterviewContainer = () => {
   const { interviewId } = useParams<{ interviewId: string }>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Access Redux state
+
   const {
     loading,
     error,
@@ -22,7 +23,7 @@ const StartInterviewContainer = () => {
     interviewDetails,
   } = useSelector((state: RootState) => state.interviewPage);
 
-  // Dispatch action to fetch interview data
+
   useEffect(() => {
     if (interviewId) {
       dispatch({ type: 'interview/fetchInterview', payload: interviewId });
@@ -31,7 +32,7 @@ const StartInterviewContainer = () => {
     
   }, [interviewId, dispatch]);
 
-  // Function to handle setting the active question index
+  
   const handleSetActiveQuestionIndex = (index: number) => {
     dispatch(setActiveQuestionIndex(index));
   };
@@ -43,6 +44,7 @@ const StartInterviewContainer = () => {
       activeQuestionIndex === mockInterviewQuestions.length && 
       mockInterviewQuestions.length > 0
     ) {
+      <Spinner/>
       const timeout = setTimeout(() => {
         navigate(`/start-interview/${interviewDetails.id}/feedback`);
       }, 1000);

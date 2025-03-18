@@ -45,8 +45,8 @@ const useTakeInterview = () => {
   try {
     const response = await client.mutate({
       mutation: gql`
-        mutation GetInterview($jobTitle: String!, $topic: String!) {
-          get_interview(input: { jobTitle: $jobTitle, topic: $topic }) {
+        mutation GetInterview( $topic: String!) {
+          get_interview(input: {  topic: $topic }) {
             questions {
               question
               answer
@@ -55,7 +55,6 @@ const useTakeInterview = () => {
         }
       `,
       variables: {
-        jobTitle: jobTitle,
         topic: topic,
       },
     });
@@ -92,6 +91,7 @@ const useTakeInterview = () => {
         toast.success("Interview created successfully. 50 points deducted.");
       }
     } catch (error) {
+      console.error(error)
       toast.error("Error in generating questions");
     } finally {
       setLoading(false);

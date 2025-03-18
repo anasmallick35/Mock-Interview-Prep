@@ -11,10 +11,13 @@ const StartInterviewComponent: React.FC<StartInterviewProps> = ({
   loading,
   error,
   setActiveQuestionIndex, 
+  activeQuestionIndex,
   interviewDetails,
+  mockInterviewQuestions
 }) => {
   if (loading) return <div><Spinner/></div>;
   if (error) return <div>Error loading interview details</div>;
+  console.log(mockInterviewQuestions.length);
 
   return (
     <div>
@@ -31,12 +34,16 @@ const StartInterviewComponent: React.FC<StartInterviewProps> = ({
       </div>
 
       <div className="flex justify-end gap-6 mt-20 mr-3">
+      {activeQuestionIndex < mockInterviewQuestions.length -1 &&
+         (  <button className='mt-6 bg-purple-600 text-white rounded hover:bg-purple-700 transition duration-300' onClick={() => setActiveQuestionIndex(activeQuestionIndex + 1)}>Skip</button>)
+        }
 
         {interviewDetails && (
           <Link to={`/start-interview/${interviewDetails.id}/feedback`}>
             <button className='w-full mt-6 bg-purple-600 text-white rounded hover:bg-purple-700 transition duration-300'>End Interview</button>
           </Link>
         )}
+        
       </div>
     </div>
   );

@@ -13,7 +13,6 @@ const model = genAI.getGenerativeModel({
 interface RequestBody {
   input: {
     input: {
-      jobTitle: string;
       topic: string;
     };
   };
@@ -37,17 +36,12 @@ export default async function handler(
   }
 
 
-  const { jobTitle, topic } = req.body.input.input;
-
-  console.log("Received request body:", req.body);
-  console.log("Extracted jobTitle:", jobTitle);
-  console.log("Extracted topic:", topic);
-
-  if (!jobTitle || !topic) {
+  const {  topic } = req.body.input.input;
+  if ( !topic) {
     return res.status(400).json({ questions: [] });
   }
 
-  const prompt = `Job position: ${jobTitle}, job responsibility: ${topic}. Depend on this information, give me 5 questions with answers in JSON format. Remember give only question and answer and not unnecessary text`;
+  const prompt = `job responsibility: ${topic}. Depend on this information, give me 5 questions with answers in JSON format. Remember give only question and answer and not unnecessary text`;
 
   try {
     const result = await model.generateContent(prompt);
