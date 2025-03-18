@@ -43,9 +43,14 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
                   <p className="p-2 border rounded-lg bg-red-50 text-sm text-red-900">
                     <strong>Your Answer:</strong> {item.userAnswer}
                   </p>
-                  <p className="p-2 border rounded-lg bg-green-50 text-sm text-green-900">
+                  {item.correctAnswer && (
+                    <p className="p-2 border rounded-lg bg-green-50 text-sm text-green-900">
                     <strong>Correct Answer:</strong> {item.correctAnswer}
                   </p>
+                  )
+                     
+                  }
+                 
                   <p className="p-2 border rounded-lg bg-blue-50 text-sm text-blue-900">
                     <strong>Feedback:</strong> {item.feedback}
                   </p>
