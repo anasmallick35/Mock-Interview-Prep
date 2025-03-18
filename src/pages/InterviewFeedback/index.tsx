@@ -43,7 +43,7 @@ const FeedbackComponent: React.FC<FeedbackProps> = ({
                   <p className="p-2 border rounded-lg bg-red-50 text-sm text-red-900">
                     <strong>Your Answer:</strong> {item.userAnswer}
                   </p>
-                  {item.correctAnswer && (
+                  {item.correctAnswer.length > 0 && (
                     <p className="p-2 border rounded-lg bg-green-50 text-sm text-green-900">
                     <strong>Correct Answer:</strong> {item.correctAnswer}
                   </p>
